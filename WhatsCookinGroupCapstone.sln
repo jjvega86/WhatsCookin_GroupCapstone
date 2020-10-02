@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30523.141
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhatsCookinGroupCapstone", "WhatsCookinGroupCapstone\WhatsCookinGroupCapstone.csproj", "{F81BE8DE-F51E-4331-A053-F4441B73A291}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F81BE8DE-F51E-4331-A053-F4441B73A291}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F81BE8DE-F51E-4331-A053-F4441B73A291}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F81BE8DE-F51E-4331-A053-F4441B73A291}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F81BE8DE-F51E-4331-A053-F4441B73A291}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7E71289D-4E34-41DC-A583-97845C00EC96}
+	EndGlobalSection
+EndGlobal
