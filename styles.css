@@ -1,0 +1,30 @@
+/*nav styles*/
+.navcontainer{
+    display: flex;
+    justify-content: space-between;
+    padding: 25px;
+}
+
+.left-side{
+    text-transform: uppercase;
+    display: flex;
+}
+
+.branding-name{
+    font-size: 1.5em;
+    padding: 7px;  
+}
+
+.nav-links{
+    height: 32px;
+    font-size: 0.9em;
+    display: flex;
+    padding: 0px;
+    border-bottom: 6px solid transparent;
+    transition: border-bottom 0.5s;
+}
+
+.home-button{
+    padding: 13px;
+}
+
