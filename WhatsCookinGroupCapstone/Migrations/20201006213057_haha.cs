@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WhatsCookinGroupCapstone.Migrations
 {
-    public partial class daf : Migration
+    public partial class haha : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -44,20 +44,6 @@ namespace WhatsCookinGroupCapstone.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Cook",
-                columns: table => new
-                {
-                    CookId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserName = table.Column<string>(nullable: true),
-                    Bio = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Cook", x => x.CookId);
                 });
 
             migrationBuilder.CreateTable(
@@ -135,8 +121,8 @@ namespace WhatsCookinGroupCapstone.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    ProviderKey = table.Column<string>(nullable: false),
                     ProviderDisplayName = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: false)
                 },
@@ -180,8 +166,8 @@ namespace WhatsCookinGroupCapstone.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    Name = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -193,6 +179,27 @@ namespace WhatsCookinGroupCapstone.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Cook",
+                columns: table => new
+                {
+                    CookId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserName = table.Column<string>(nullable: true),
+                    Bio = table.Column<string>(nullable: true),
+                    IdentityUserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cook", x => x.CookId);
+                    table.ForeignKey(
+                        name: "FK_Cook_AspNetUsers_IdentityUserId",
+                        column: x => x.IdentityUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -265,6 +272,11 @@ namespace WhatsCookinGroupCapstone.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { "3c52a30e-8592-4521-8790-d54e7873643f", "52aeb18f-b104-48df-9edc-d12450dbaa3d", "Cook", "COOK" });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -303,6 +315,11 @@ namespace WhatsCookinGroupCapstone.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cook_IdentityUserId",
+                table: "Cook",
+                column: "IdentityUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Recipes_CookID",
@@ -350,9 +367,6 @@ namespace WhatsCookinGroupCapstone.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
                 name: "Tags");
 
             migrationBuilder.DropTable(
@@ -360,6 +374,9 @@ namespace WhatsCookinGroupCapstone.Migrations
 
             migrationBuilder.DropTable(
                 name: "Cook");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }

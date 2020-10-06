@@ -18,15 +18,28 @@ namespace WhatsCookinGroupCapstone.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
             builder.Entity<IdentityRole>()
-            .HasData(
-            new IdentityRole
-            {
-                Name = "User",
-                NormalizedName = "USER"
-            }
-            );
+           .HasData(
+           new IdentityRole
+           {
+               Name = "Cook",
+               NormalizedName = "COOK"
+           }
+           );
+
+            builder.Entity<RecipeTags>()
+                .HasKey(bc => new { bc.RecipeId, bc.TagsId });
+            builder.Entity<RecipeTags>()
+                .HasOne(bc => bc.Recipe)
+                .WithMany(b => b.RecipeTags)
+                .HasForeignKey(bc => bc.RecipeId);
+            builder.Entity<RecipeTags>()
+                .HasOne(bc => bc.Tags)
+                .WithMany(c => c.RecipeTags)
+                .HasForeignKey(bc => bc.TagsId);
         }
+        
 
         public DbSet<Cook> Cook { get; set; }
         public DbSet<Followers> Followers { get; set; }
@@ -35,21 +48,7 @@ namespace WhatsCookinGroupCapstone.Data
         public DbSet<Reviews> Reviews { get; set; }
         public DbSet<Tags> Tags { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<RecipeTags>()
-                .HasKey(bc => new { bc.RecipeId, bc.TagsId });
-            modelBuilder.Entity<RecipeTags>()
-                .HasOne(bc => bc.Recipe)
-                .WithMany(b => b.RecipeTags)
-                .HasForeignKey(bc => bc.RecipeId);
-            modelBuilder.Entity<RecipeTags>()
-                .HasOne(bc => bc.Tags)
-                .WithMany(c => c.RecipeTags)
-                .HasForeignKey(bc => bc.TagsId);
-        }
+        
     }
 
     

@@ -20,16 +20,18 @@ namespace WhatsCookinGroupCapstone.ActionFilters
             var controller = context.RouteData.Values["controller"];
             if (controller.Equals("Home"))
             {
-                if (_claimsPrincipal.IsInRole("Customer"))
+                if (_claimsPrincipal.IsInRole("User"))
                 {
                     context.Result = new RedirectToActionResult("Index",
-                    "Customers", null);
+                    "User", null);
                 }
-                else if (_claimsPrincipal.IsInRole("Employee"))
+                else if (_claimsPrincipal.IsInRole("Cook"))
                 {
                     context.Result = new RedirectToActionResult("Index",
-                    "Employees", null);
+                    "Cook", null);
                 }
+
+
             }
         }
         public void OnActionExecuted(ActionExecutedContext context)
