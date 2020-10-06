@@ -10,9 +10,9 @@ namespace WhatsCookinGroupCapstone.Controllers
 {
     public class CookController : Controller
     {
-        private IRepositoryWrapper _repo;
+        private ICookRepository _repo;
 
-        public CookController(IRepositoryWrapper repo)
+        public CookController(ICookRepository repo)
         {
             _repo = repo;
 
@@ -21,7 +21,9 @@ namespace WhatsCookinGroupCapstone.Controllers
         // GET: CookController
         public ActionResult Index()
         {
-            return View();
+            var selectedCook = _repo.GetCook(1);
+
+            return View(selectedCook);
         }
 
         // GET: CookController/Details/5

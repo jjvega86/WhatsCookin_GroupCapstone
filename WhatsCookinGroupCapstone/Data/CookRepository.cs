@@ -15,5 +15,16 @@ namespace WhatsCookinGroupCapstone.Data
         {
         }
 
+        public Cook GetCook (int cookId)
+        {
+            return ApplicationDbContext.Cook.Find(cookId);
+            //return selectedCook;
+        }
+
+        public void CreateCook(Cook cook)
+        {
+            Create(cook);
+
+        }
     }
 }
