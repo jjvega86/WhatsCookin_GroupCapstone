@@ -12,6 +12,7 @@ using WhatsCookinGroupCapstone.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace WhatsCookinGroupCapstone
 {
@@ -27,6 +28,21 @@ namespace WhatsCookinGroupCapstone
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            })
+            .AddCookie(options =>
+             {
+                 options.LoginPath = "/account/google-login"; // Must be lowercase
+             })
+            .AddGoogle(options =>
+            {
+                options.ClientId = "164158722967-sbnv6641u9k0ihn8lh9il1qa04na0q72.apps.googleusercontent.com";
+                options.ClientSecret = "VFDSd64Z7qxZ_5Fq8cak0rbI";
+            });
+
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
