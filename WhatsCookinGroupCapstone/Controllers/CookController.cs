@@ -4,11 +4,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WhatsCookinGroupCapstone.Contracts;
 
 namespace WhatsCookinGroupCapstone.Controllers
 {
     public class CookController : Controller
     {
+        private IRepositoryWrapper _repo;
+
+        public CookController(IRepositoryWrapper repo)
+        {
+            _repo = repo;
+
+        }
+
         // GET: CookController
         public ActionResult Index()
         {
@@ -52,27 +61,6 @@ namespace WhatsCookinGroupCapstone.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: CookController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: CookController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
         {
             try
             {
