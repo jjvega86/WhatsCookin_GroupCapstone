@@ -20,7 +20,6 @@ namespace WhatsCookinGroupCapstone.Data
         public DbSet<RecipeTags> RecipeTags { get; set; }
         public DbSet<Reviews> Reviews { get; set; }
         public DbSet<Tags> Tags { get; set; }
-        //public DbSet<User> User { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

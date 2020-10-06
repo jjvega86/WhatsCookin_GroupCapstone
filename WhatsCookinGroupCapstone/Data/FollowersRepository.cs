@@ -8,12 +8,12 @@ using static WhatsCookinGroupCapstone.Contracts.IRepositoryBase;
 
 namespace WhatsCookinGroupCapstone.Data
 {
-    //public class FollowersRepository : RepositoryBase<Followers>, IFollowersRepository
-    //{
-    //    public FollowersRepository(ApplicationDbContext applicationDbContext)
-    //        : base(applicationDbContext)
-    //    {
-    //    }
+    public class FollowersRepository : RepositoryBase<Followers>, IFollowersRepository
+    {
+        public FollowersRepository(ApplicationDbContext applicationDbContext)
+            : base(applicationDbContext)
+        {
+        }
 
-    //}
+    }
 }

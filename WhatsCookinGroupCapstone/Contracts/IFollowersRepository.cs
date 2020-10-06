@@ -7,8 +7,8 @@ using static WhatsCookinGroupCapstone.Contracts.IRepositoryBase;
 
 namespace WhatsCookinGroupCapstone.Contracts
 {
-    //public interface IFollowersRepository : IRepositoryBase<Followers>
-    //{
+    public interface IFollowersRepository : IRepositoryBase<Followers>
+    {
 
-    //}
+    }
 }

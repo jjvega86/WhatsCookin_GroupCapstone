@@ -7,7 +7,7 @@ using WhatsCookinGroupCapstone.Models;
 
 namespace WhatsCookinGroupCapstone.Contracts
 {
-    interface IRepositoryBase
+    public interface IRepositoryBase
     {
         public interface IRepositoryBase<T>
         {
@@ -20,26 +20,7 @@ namespace WhatsCookinGroupCapstone.Contracts
         }
         
 
-        //public interface IRecipeRepository : IRepositoryBase<Recipe>
-        //{
-
-        //}
-        //public interface IRecipeTagsRepository : IRepositoryBase<RecipeTags>
-        //{
-
-        //}
-        //public interface IReviewsRepository : IRepositoryBase<Reviews>
-        //{
-
-        //}
-        //public interface ITagsRepository : IRepositoryBase<Tags>
-        //{
-
-        //}
-        //public interface IUserRepository : IRepositoryBase<User>
-        //{
-
-        //}
+      
 
     }
 }
