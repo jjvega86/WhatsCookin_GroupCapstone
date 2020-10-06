@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,7 +9,8 @@ namespace WhatsCookinGroupCapstone.Models
 {
     public class Recipe
     {
-        public int RecipeID { get; set; }
+        [Key]
+        public int RecipeId { get; set; }
         public string RecipeName { get; set; }
         public string IMGUrl { get; set; }
         public string Ingredients { get; set; }
@@ -18,6 +20,8 @@ namespace WhatsCookinGroupCapstone.Models
         [ForeignKey("Cook")]
         public int CookID { get; set; }
         public Cook Cook { get; set; }
-        
+
+        public ICollection<RecipeTags> RecipeTags { get; set; }
+
     }
 }
