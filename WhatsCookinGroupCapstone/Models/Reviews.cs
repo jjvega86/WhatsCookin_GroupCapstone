@@ -8,6 +8,8 @@ namespace WhatsCookinGroupCapstone.Models
 {
     public class Reviews
     {
+        //All subject to change depending on the API we will be adding later
+        public int Id { get; set; }
         public int Rating { get; set; }
         public string ReviewForRecipe { get; set; }
         public bool Validation { get; set; }

@@ -8,12 +8,12 @@ namespace WhatsCookinGroupCapstone.Models
 {
     public class Cook
     {
-        public int UserID { get; set; }
+        public int CookId { get; set; }
         public string UserName { get; set; }
         public string Bio { get; set; }
 
-        [ForeignKey("User")]
-        public int CookID { get; set; }
-        public User User { get; set; }
+        //[ForeignKey("User")]
+        //public int UserId { get; set; }
+        //public User User { get; set; }
     }
 }
