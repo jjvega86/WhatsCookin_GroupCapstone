@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WhatsCookinGroupCapstone.Contracts;
+using WhatsCookinGroupCapstone.Models;
 
 namespace WhatsCookinGroupCapstone.Controllers
 {
@@ -29,13 +30,15 @@ namespace WhatsCookinGroupCapstone.Controllers
         // GET: CookController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var selectedCook = _repo.GetCook(id);
+            return View(selectedCook);
         }
 
         // GET: CookController/Create
         public ActionResult Create()
         {
-            return View();
+            Cook cook = new Cook();            
+            return View(cook);
         }
 
         // POST: CookController/Create
