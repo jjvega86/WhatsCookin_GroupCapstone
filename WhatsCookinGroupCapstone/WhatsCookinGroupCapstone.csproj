@@ -21,18 +21,9 @@
   </ItemGroup>
 
   <ItemGroup>
-<<<<<<< HEAD
-    <Folder Include="styles\" />
-=======
     <Folder Include="Data\Migrations\" />
->>>>>>> ab8e8722f65ed0dc980277038e927ce5af1b4e03
     <Folder Include="Views\Cooks\" />
     <Folder Include="Views\Recipes\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="wwwroot\css\StyleSheet.css" />
-    <None Include="wwwroot\lib\Imgs\cooking %281%29.png" />
   </ItemGroup>
 
 </Project>
