@@ -67,24 +67,30 @@ namespace WhatsCookinGroupCapstone.Controllers
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             cook.IdentityUserId = userId;
             _repo.Cook.Create(cook);
+            _repo.Save();
+
+            
 
             if (ModelState.IsValid)
             {
-                var tags = string.Join(",", cook.SelectedTags);
-                _repo.Cook.Update(tags);
+                var selectedCook = _repo.Cook.FindByCondition(c => c.IdentityUserId == userId).SingleOrDefault();
+                var selectedCookId = selectedCook.CookId;
+
+                foreach (string tag in cook.SelectedTags)
+                {
+                    var selectedTag = _repo.Tags.FindByCondition(r => r.Name == tag).SingleOrDefault();
+
+                    CookTag cookTag = new CookTag();
+                    cookTag.CookId = selectedCookId;
+                    cookTag.TagsId = selectedTag.TagsId;
+                    _repo.CookTag.Create(cookTag);
+                    _repo.Save();
+                }
             }
-            //try
-            //{
-                //var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                //cook.IdentityUserId = userId;
-                //_repo.Cook.Create(cook);
-                _repo.Save();
+            
+                
                 return RedirectToAction(nameof(Index));
-            //} 
-            //catch
-            //{
-            //    return View();
-            //}
+           
         }
 
         // GET: CookController/Edit/5
