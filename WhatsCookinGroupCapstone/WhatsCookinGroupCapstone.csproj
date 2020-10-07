@@ -6,8 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20201006165300_asdfasf.cs" />
-    <Compile Remove="Migrations\20201006165300_asdfasf.Designer.cs" />
+    <Compile Remove="Data\Migrations\**" />
+    <Content Remove="Data\Migrations\**" />
+    <EmbeddedResource Remove="Data\Migrations\**" />
+    <None Remove="Data\Migrations\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,7 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Migrations\" />
     <Folder Include="Views\Cooks\" />
   </ItemGroup>
 

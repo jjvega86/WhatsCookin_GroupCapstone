@@ -19,6 +19,9 @@ namespace WhatsCookinGroupCapstone.Models
         public string IdentityUserId { get; set; }
         public IdentityUser IdentityUser { get; set; }
 
+       
+        
+
         //[ForeignKey("User")]
         //public int UserId { get; set; }
         //public User User { get; set; }

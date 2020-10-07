@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WhatsCookinGroupCapstone.Migrations
 {
-    public partial class haha : Migration
+    public partial class innit : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -62,13 +62,32 @@ namespace WhatsCookinGroupCapstone.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Preferences",
+                columns: table => new
+                {
+                    PreferencesId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    isAPreference = table.Column<bool>(nullable: false),
+                    PreferencesId1 = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Preferences", x => x.PreferencesId);
+                    table.ForeignKey(
+                        name: "FK_Preferences_Preferences_PreferencesId1",
+                        column: x => x.PreferencesId1,
+                        principalTable: "Preferences",
+                        principalColumn: "PreferencesId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Tags",
                 columns: table => new
                 {
                     TagsId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true),
-                    Preference = table.Column<bool>(nullable: false)
+                    Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -189,7 +208,8 @@ namespace WhatsCookinGroupCapstone.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserName = table.Column<string>(nullable: true),
                     Bio = table.Column<string>(nullable: true),
-                    IdentityUserId = table.Column<string>(nullable: true)
+                    IdentityUserId = table.Column<string>(nullable: true),
+                    PreferencesId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -275,7 +295,19 @@ namespace WhatsCookinGroupCapstone.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "3c52a30e-8592-4521-8790-d54e7873643f", "52aeb18f-b104-48df-9edc-d12450dbaa3d", "Cook", "COOK" });
+                values: new object[] { "98adf513-8232-4875-afee-64cd6c7834f9", "186a317c-19e5-48db-91bc-b36d9bb85995", "Cook", "COOK" });
+
+            migrationBuilder.InsertData(
+                table: "Tags",
+                columns: new[] { "TagsId", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Vegan" },
+                    { 2, "Nut-Free" },
+                    { 3, "Dairy" },
+                    { 4, "Paleo" },
+                    { 5, "Pescatarian" }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -322,6 +354,11 @@ namespace WhatsCookinGroupCapstone.Migrations
                 column: "IdentityUserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Preferences_PreferencesId1",
+                table: "Preferences",
+                column: "PreferencesId1");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Recipes_CookID",
                 table: "Recipes",
                 column: "CookID");
@@ -356,6 +393,9 @@ namespace WhatsCookinGroupCapstone.Migrations
 
             migrationBuilder.DropTable(
                 name: "Followers");
+
+            migrationBuilder.DropTable(
+                name: "Preferences");
 
             migrationBuilder.DropTable(
                 name: "RecipeTags");
