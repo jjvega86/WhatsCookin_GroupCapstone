@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using WhatsCookinGroupCapstone.Contracts;
 using WhatsCookinGroupCapstone.Models;
 
@@ -64,15 +65,14 @@ namespace WhatsCookinGroupCapstone.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Cook cook)
         {
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            cook.IdentityUserId = userId;
-            _repo.Cook.Create(cook);
-            _repo.Save();
-
-            
-
+ 
             if (ModelState.IsValid)
             {
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                cook.IdentityUserId = userId;
+                _repo.Cook.Create(cook);
+                _repo.Save();
+
                 var selectedCook = _repo.Cook.FindByCondition(c => c.IdentityUserId == userId).SingleOrDefault();
                 var selectedCookId = selectedCook.CookId;
 
@@ -86,12 +86,11 @@ namespace WhatsCookinGroupCapstone.Controllers
                     _repo.CookTag.Create(cookTag);
                     _repo.Save();
                 }
-            }
-            
-                
                 return RedirectToAction(nameof(Index));
-           
+            }
+            return View(cook);
         }
+        
 
         // GET: CookController/Edit/5
         public ActionResult Edit(int id)
