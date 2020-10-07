@@ -44,6 +44,15 @@ namespace WhatsCookinGroupCapstone.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "98adf513-8232-4875-afee-64cd6c7834f9",
+                            ConcurrencyStamp = "186a317c-19e5-48db-91bc-b36d9bb85995",
+                            Name = "Cook",
+                            NormalizedName = "COOK"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -162,12 +171,10 @@ namespace WhatsCookinGroupCapstone.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -204,12 +211,10 @@ namespace WhatsCookinGroupCapstone.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -229,10 +234,18 @@ namespace WhatsCookinGroupCapstone.Migrations
                     b.Property<string>("Bio")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("IdentityUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("PreferencesId")
+                        .HasColumnType("int");
+
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CookId");
+
+                    b.HasIndex("IdentityUserId");
 
                     b.ToTable("Cook");
                 });
@@ -256,6 +269,26 @@ namespace WhatsCookinGroupCapstone.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Followers");
+                });
+
+            modelBuilder.Entity("WhatsCookinGroupCapstone.Models.Preferences", b =>
+                {
+                    b.Property<int>("PreferencesId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("PreferencesId1")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("isAPreference")
+                        .HasColumnType("bit");
+
+                    b.HasKey("PreferencesId");
+
+                    b.HasIndex("PreferencesId1");
+
+                    b.ToTable("Preferences");
                 });
 
             modelBuilder.Entity("WhatsCookinGroupCapstone.Models.Recipe", b =>
@@ -341,12 +374,36 @@ namespace WhatsCookinGroupCapstone.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Preference")
-                        .HasColumnType("bit");
-
                     b.HasKey("TagsId");
 
                     b.ToTable("Tags");
+
+                    b.HasData(
+                        new
+                        {
+                            TagsId = 1,
+                            Name = "Vegan"
+                        },
+                        new
+                        {
+                            TagsId = 2,
+                            Name = "Nut-Free"
+                        },
+                        new
+                        {
+                            TagsId = 3,
+                            Name = "Dairy"
+                        },
+                        new
+                        {
+                            TagsId = 4,
+                            Name = "Paleo"
+                        },
+                        new
+                        {
+                            TagsId = 5,
+                            Name = "Pescatarian"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -398,6 +455,20 @@ namespace WhatsCookinGroupCapstone.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("WhatsCookinGroupCapstone.Models.Cook", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUser")
+                        .WithMany()
+                        .HasForeignKey("IdentityUserId");
+                });
+
+            modelBuilder.Entity("WhatsCookinGroupCapstone.Models.Preferences", b =>
+                {
+                    b.HasOne("WhatsCookinGroupCapstone.Models.Preferences", null)
+                        .WithMany("Preference")
+                        .HasForeignKey("PreferencesId1");
                 });
 
             modelBuilder.Entity("WhatsCookinGroupCapstone.Models.Recipe", b =>

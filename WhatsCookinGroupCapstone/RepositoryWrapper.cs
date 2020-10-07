@@ -17,6 +17,7 @@ namespace WhatsCookinGroupCapstone
         private IRecipeTagsRepository _recipeTags;
         private IReviewsRepository _reviews;
         private ITagsRepository _tags;
+       
         public ICookRepository Cook
         {
             get
@@ -84,6 +85,7 @@ namespace WhatsCookinGroupCapstone
             }
         }
        
+
         public RepositoryWrapper(ApplicationDbContext context)
         {
             _context = context;

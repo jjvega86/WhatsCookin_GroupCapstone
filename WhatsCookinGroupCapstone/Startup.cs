@@ -14,6 +14,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using WhatsCookinGroupCapstone.Contracts;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
+using WhatsCookinGroupCapstone.ActionFilters;
 
 namespace WhatsCookinGroupCapstone
 {
@@ -51,8 +54,18 @@ namespace WhatsCookinGroupCapstone
             services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
             services.AddScoped<ICookRepository, CookRepository>();
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultUI()
+                .AddDefaultTokenProviders();
+
+            services.AddScoped<ClaimsPrincipal>(s =>
+            s.GetService<IHttpContextAccessor>().HttpContext.User);
+            services.AddControllers(config =>
+            {
+                config.Filters.Add(typeof(GlobalRouting));
+            });
+
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
