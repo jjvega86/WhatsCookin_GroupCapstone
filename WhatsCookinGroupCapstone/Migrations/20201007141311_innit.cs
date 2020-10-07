@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WhatsCookinGroupCapstone.Migrations
 {
-    public partial class daf : Migration
+    public partial class innit : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -47,20 +47,6 @@ namespace WhatsCookinGroupCapstone.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Cook",
-                columns: table => new
-                {
-                    CookId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserName = table.Column<string>(nullable: true),
-                    Bio = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Cook", x => x.CookId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Followers",
                 columns: table => new
                 {
@@ -76,13 +62,32 @@ namespace WhatsCookinGroupCapstone.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Preferences",
+                columns: table => new
+                {
+                    PreferencesId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    isAPreference = table.Column<bool>(nullable: false),
+                    PreferencesId1 = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Preferences", x => x.PreferencesId);
+                    table.ForeignKey(
+                        name: "FK_Preferences_Preferences_PreferencesId1",
+                        column: x => x.PreferencesId1,
+                        principalTable: "Preferences",
+                        principalColumn: "PreferencesId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Tags",
                 columns: table => new
                 {
                     TagsId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true),
-                    Preference = table.Column<bool>(nullable: false)
+                    Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -135,8 +140,8 @@ namespace WhatsCookinGroupCapstone.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    ProviderKey = table.Column<string>(nullable: false),
                     ProviderDisplayName = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: false)
                 },
@@ -180,8 +185,8 @@ namespace WhatsCookinGroupCapstone.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    Name = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -193,6 +198,28 @@ namespace WhatsCookinGroupCapstone.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Cook",
+                columns: table => new
+                {
+                    CookId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserName = table.Column<string>(nullable: true),
+                    Bio = table.Column<string>(nullable: true),
+                    IdentityUserId = table.Column<string>(nullable: true),
+                    PreferencesId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cook", x => x.CookId);
+                    table.ForeignKey(
+                        name: "FK_Cook_AspNetUsers_IdentityUserId",
+                        column: x => x.IdentityUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -265,6 +292,23 @@ namespace WhatsCookinGroupCapstone.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { "98adf513-8232-4875-afee-64cd6c7834f9", "186a317c-19e5-48db-91bc-b36d9bb85995", "Cook", "COOK" });
+
+            migrationBuilder.InsertData(
+                table: "Tags",
+                columns: new[] { "TagsId", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Vegan" },
+                    { 2, "Nut-Free" },
+                    { 3, "Dairy" },
+                    { 4, "Paleo" },
+                    { 5, "Pescatarian" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -305,6 +349,16 @@ namespace WhatsCookinGroupCapstone.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Cook_IdentityUserId",
+                table: "Cook",
+                column: "IdentityUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Preferences_PreferencesId1",
+                table: "Preferences",
+                column: "PreferencesId1");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Recipes_CookID",
                 table: "Recipes",
                 column: "CookID");
@@ -341,6 +395,9 @@ namespace WhatsCookinGroupCapstone.Migrations
                 name: "Followers");
 
             migrationBuilder.DropTable(
+                name: "Preferences");
+
+            migrationBuilder.DropTable(
                 name: "RecipeTags");
 
             migrationBuilder.DropTable(
@@ -350,9 +407,6 @@ namespace WhatsCookinGroupCapstone.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
                 name: "Tags");
 
             migrationBuilder.DropTable(
@@ -360,6 +414,9 @@ namespace WhatsCookinGroupCapstone.Migrations
 
             migrationBuilder.DropTable(
                 name: "Cook");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }
