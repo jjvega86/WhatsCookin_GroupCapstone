@@ -50,6 +50,7 @@ namespace WhatsCookinGroupCapstone.Migrations
                         {
                             Id = "2a0d8ca8-de30-4f07-acba-e24d2ecfb6a2",
                             ConcurrencyStamp = "2acff12e-bfa3-4c31-9053-846b5bd71654",
+                            
                             Name = "Cook",
                             NormalizedName = "COOK"
                         });
@@ -262,6 +263,7 @@ namespace WhatsCookinGroupCapstone.Migrations
                     b.ToTable("CookTags");
                 });
 
+
             modelBuilder.Entity("WhatsCookinGroupCapstone.Models.Followers", b =>
                 {
                     b.Property<int>("Id")
@@ -455,6 +457,7 @@ namespace WhatsCookinGroupCapstone.Migrations
                         .WithMany()
                         .HasForeignKey("IdentityUserId");
                 });
+
 
             modelBuilder.Entity("WhatsCookinGroupCapstone.Models.CookTag", b =>
                 {

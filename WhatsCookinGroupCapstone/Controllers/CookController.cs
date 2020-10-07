@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,9 +24,19 @@ namespace WhatsCookinGroupCapstone.Controllers
         // Default view: will show a grid of multiple recipes and cooks you are following
         public ActionResult Index()
         {
-            var selectedCook = _repo.Cook.FindByCondition(r => r.CookId == 1).SingleOrDefault();
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var selectedCook = _repo.Cook.FindByCondition(r => r.IdentityUserId == userId).SingleOrDefault();
 
-            return View(selectedCook);
+            if (selectedCook == null)
+            {
+                return RedirectToAction("Create");
+
+            }
+            else
+            {
+                return View(selectedCook);
+            }
+
         }
 
         // GET: CookController/Details/5
@@ -47,16 +58,18 @@ namespace WhatsCookinGroupCapstone.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Cook cook)
         {
-            try
-            {
+            //try
+            //{
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                cook.IdentityUserId = userId;
                 _repo.Cook.Create(cook);
                 _repo.Save();
                 return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            //} 
+            //catch
+            //{
+            //    return View();
+            //}
         }
 
         // GET: CookController/Edit/5
