@@ -58,6 +58,9 @@ namespace WhatsCookinGroupCapstone.Controllers
         public IActionResult Create()
         {
             Recipe recipe = new Recipe();
+            {
+                recipe.AllTags = GetTags();
+            }
             return View(recipe);
         }
 
@@ -77,6 +80,25 @@ namespace WhatsCookinGroupCapstone.Controllers
                 recipe.CookID = loggedInCookID ;
                 _repo.Recipe.Create(recipe);
                 _repo.Save();
+
+                //This is where the tags are bound to the recipe by the cook.
+                var selectedRecipe = _repo.Recipe.FindByCondition(r => r.RecipeId == recipe.RecipeId).SingleOrDefault();
+                var selectedRecipeId = selectedRecipe.RecipeId;
+
+                foreach(string tags in recipe.SelectedTags)
+                {
+                    var selectedTags = _repo.Tags.FindByCondition(r => r.Name == tags).SingleOrDefault();
+
+                    RecipeTags recipeTags = new RecipeTags();
+                    recipeTags.RecipeId = selectedRecipeId;
+                    recipeTags.TagsId = selectedTags.TagsId;
+                    _repo.RecipeTags.Create(recipeTags);
+                    _repo.Save();
+                }
+
+
+
+
                 return RedirectToAction(nameof(Index));
             }
             return View(recipe);
@@ -174,6 +196,19 @@ namespace WhatsCookinGroupCapstone.Controllers
             {
                 return true;
             }
+        }
+
+        private IList<SelectListItem> GetTags()
+        {
+            return new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Vegan", Value = "Vegan" },
+                new SelectListItem { Text = "Paleo", Value = "Paleo" },
+                new SelectListItem { Text = "Pescatarian", Value = "Pescatarian" },
+                new SelectListItem { Text = "Nut-Free", Value = "Nut-Free" },
+                new SelectListItem { Text = "Dairy", Value = "Dairy" }
+            };
+
         }
     }
 }
