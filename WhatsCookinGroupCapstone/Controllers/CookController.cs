@@ -11,18 +11,19 @@ namespace WhatsCookinGroupCapstone.Controllers
 {
     public class CookController : Controller
     {
-        private ICookRepository _repo;
+        private IRepositoryWrapper _repo;
 
-        public CookController(ICookRepository repo)
+        public CookController(IRepositoryWrapper repo)
         {
             _repo = repo;
 
         }
 
         // GET: CookController
+        // Default view: will show a grid of multiple recipes and cooks you are following
         public ActionResult Index()
         {
-            var selectedCook = _repo.GetCook(1);
+            var selectedCook = _repo.Cook.FindByCondition(r => r.CookId == 1).SingleOrDefault();
 
             return View(selectedCook);
         }
@@ -30,7 +31,7 @@ namespace WhatsCookinGroupCapstone.Controllers
         // GET: CookController/Details/5
         public ActionResult Details(int id)
         {
-            var selectedCook = _repo.GetCook(id);
+            var selectedCook = _repo.Cook.FindByCondition(r => r.CookId == 1).SingleOrDefault();
             return View(selectedCook);
         }
 
@@ -48,7 +49,7 @@ namespace WhatsCookinGroupCapstone.Controllers
         {
             try
             {
-                _repo.AddCook(cook);
+                _repo.Cook.Create(cook);
                 _repo.Save();
                 return RedirectToAction(nameof(Index));
             }
@@ -61,7 +62,8 @@ namespace WhatsCookinGroupCapstone.Controllers
         // GET: CookController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var selectedCook = _repo.Cook.FindByCondition(r => r.CookId == id).SingleOrDefault();
+            return View(selectedCook);
         }
 
         // POST: CookController/Edit/5

@@ -16,19 +16,6 @@ namespace WhatsCookinGroupCapstone.Data
         }
 
 
-        public Cook GetCook (int cookId)
-        {
-            return ApplicationDbContext.Cook.Find(cookId);
-        }
-
-        public void AddCook (Cook cook)
-        {
-            ApplicationDbContext.Cook.Add(cook);
-        }
-
-        public void Save()
-        {
-            ApplicationDbContext.SaveChanges();
-        }
+       
     }
 }
