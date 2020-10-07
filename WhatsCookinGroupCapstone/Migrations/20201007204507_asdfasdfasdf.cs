@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WhatsCookinGroupCapstone.Migrations
 {
-    public partial class Init : Migration
+    public partial class asdfasdfasdf : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -44,6 +44,20 @@ namespace WhatsCookinGroupCapstone.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CookSavedRecipes",
+                columns: table => new
+                {
+                    CookSavedRecipesId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CookId = table.Column<int>(nullable: false),
+                    RecipeId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CookSavedRecipes", x => x.CookSavedRecipesId);
                 });
 
             migrationBuilder.CreateTable(
@@ -226,7 +240,7 @@ namespace WhatsCookinGroupCapstone.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Recipes",
+                name: "Recipe",
                 columns: table => new
                 {
                     RecipeId = table.Column<int>(nullable: false)
@@ -240,9 +254,9 @@ namespace WhatsCookinGroupCapstone.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Recipes", x => x.RecipeId);
+                    table.PrimaryKey("PK_Recipe", x => x.RecipeId);
                     table.ForeignKey(
-                        name: "FK_Recipes_Cook_CookID",
+                        name: "FK_Recipe_Cook_CookID",
                         column: x => x.CookID,
                         principalTable: "Cook",
                         principalColumn: "CookId",
@@ -260,9 +274,9 @@ namespace WhatsCookinGroupCapstone.Migrations
                 {
                     table.PrimaryKey("PK_RecipeTags", x => new { x.RecipeId, x.TagsId });
                     table.ForeignKey(
-                        name: "FK_RecipeTags_Recipes_RecipeId",
+                        name: "FK_RecipeTags_Recipe_RecipeId",
                         column: x => x.RecipeId,
-                        principalTable: "Recipes",
+                        principalTable: "Recipe",
                         principalColumn: "RecipeId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -288,9 +302,9 @@ namespace WhatsCookinGroupCapstone.Migrations
                 {
                     table.PrimaryKey("PK_Reviews", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Reviews_Recipes_RecipeID",
+                        name: "FK_Reviews_Recipe_RecipeID",
                         column: x => x.RecipeID,
-                        principalTable: "Recipes",
+                        principalTable: "Recipe",
                         principalColumn: "RecipeId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -298,7 +312,7 @@ namespace WhatsCookinGroupCapstone.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "c2b09a4d-d114-4e4a-a17b-9efdd9c69d41", "87f08260-308c-48f7-91c6-3522a0ad857b", "Cook", "COOK" });
+                values: new object[] { "e9fc7ff5-785e-4c0a-b920-f9cd614630f3", "77e1acf9-5503-410b-a865-947d9a793b82", "Cook", "COOK" });
 
             migrationBuilder.InsertData(
                 table: "Tags",
@@ -362,8 +376,8 @@ namespace WhatsCookinGroupCapstone.Migrations
                 column: "TagsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Recipes_CookID",
-                table: "Recipes",
+                name: "IX_Recipe_CookID",
+                table: "Recipe",
                 column: "CookID");
 
             migrationBuilder.CreateIndex(
@@ -395,6 +409,9 @@ namespace WhatsCookinGroupCapstone.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "CookSavedRecipes");
+
+            migrationBuilder.DropTable(
                 name: "CookTags");
 
             migrationBuilder.DropTable(
@@ -413,7 +430,7 @@ namespace WhatsCookinGroupCapstone.Migrations
                 name: "Tags");
 
             migrationBuilder.DropTable(
-                name: "Recipes");
+                name: "Recipe");
 
             migrationBuilder.DropTable(
                 name: "Cook");
