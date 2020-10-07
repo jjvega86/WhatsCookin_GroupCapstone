@@ -74,6 +74,7 @@ namespace WhatsCookinGroupCapstone.Data
         public DbSet<RecipeTags> RecipeTags { get; set; }
         public DbSet<Reviews> Reviews { get; set; }
         public DbSet<Tags> Tags { get; set; }
+        public DbSet<Preferences> Preferences { get; set; }
 
         
     }

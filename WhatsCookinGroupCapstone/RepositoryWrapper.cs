@@ -17,6 +17,7 @@ namespace WhatsCookinGroupCapstone
         private IRecipeTagsRepository _recipeTags;
         private IReviewsRepository _reviews;
         private ITagsRepository _tags;
+        private IPreferencesRepository _preferences;
         public ICookRepository Cook
         {
             get
@@ -83,7 +84,18 @@ namespace WhatsCookinGroupCapstone
                 return _tags;
             }
         }
-       
+        public IPreferencesRepository Preferences
+        {
+            get
+            {
+                if (_preferences == null)
+                {
+                    _preferences = new PreferencesRepository(_context);
+                }
+                return _preferences;
+            }
+        }
+
         public RepositoryWrapper(ApplicationDbContext context)
         {
             _context = context;
