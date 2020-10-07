@@ -9,6 +9,7 @@ namespace WhatsCookinGroupCapstone.Contracts
 {
     public interface ICookRepository : IRepositoryBase<Cook>
     {
+      
 
     }
 }

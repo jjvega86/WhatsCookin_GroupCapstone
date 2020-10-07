@@ -52,6 +52,7 @@ namespace WhatsCookinGroupCapstone
                     Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+            services.AddScoped<ICookRepository, CookRepository>();
 
             services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>()
