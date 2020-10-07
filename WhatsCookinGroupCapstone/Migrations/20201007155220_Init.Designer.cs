@@ -10,8 +10,8 @@ using WhatsCookinGroupCapstone.Data;
 namespace WhatsCookinGroupCapstone.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201007141311_innit")]
-    partial class innit
+    [Migration("20201007155220_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,8 +50,8 @@ namespace WhatsCookinGroupCapstone.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "98adf513-8232-4875-afee-64cd6c7834f9",
-                            ConcurrencyStamp = "186a317c-19e5-48db-91bc-b36d9bb85995",
+                            Id = "b0ad780a-7e9a-47ea-8468-b55eb109a04b",
+                            ConcurrencyStamp = "c5324c90-859a-41dd-990b-9f9d556154f0",
                             Name = "Cook",
                             NormalizedName = "COOK"
                         });
@@ -239,9 +239,6 @@ namespace WhatsCookinGroupCapstone.Migrations
                     b.Property<string>("IdentityUserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("PreferencesId")
-                        .HasColumnType("int");
-
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(max)");
 
@@ -271,26 +268,6 @@ namespace WhatsCookinGroupCapstone.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Followers");
-                });
-
-            modelBuilder.Entity("WhatsCookinGroupCapstone.Models.Preferences", b =>
-                {
-                    b.Property<int>("PreferencesId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("PreferencesId1")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("isAPreference")
-                        .HasColumnType("bit");
-
-                    b.HasKey("PreferencesId");
-
-                    b.HasIndex("PreferencesId1");
-
-                    b.ToTable("Preferences");
                 });
 
             modelBuilder.Entity("WhatsCookinGroupCapstone.Models.Recipe", b =>
@@ -464,13 +441,6 @@ namespace WhatsCookinGroupCapstone.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUser")
                         .WithMany()
                         .HasForeignKey("IdentityUserId");
-                });
-
-            modelBuilder.Entity("WhatsCookinGroupCapstone.Models.Preferences", b =>
-                {
-                    b.HasOne("WhatsCookinGroupCapstone.Models.Preferences", null)
-                        .WithMany("Preference")
-                        .HasForeignKey("PreferencesId1");
                 });
 
             modelBuilder.Entity("WhatsCookinGroupCapstone.Models.Recipe", b =>

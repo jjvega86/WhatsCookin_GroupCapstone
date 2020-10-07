@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WhatsCookinGroupCapstone.Migrations
 {
-    public partial class innit : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -59,26 +59,6 @@ namespace WhatsCookinGroupCapstone.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Followers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Preferences",
-                columns: table => new
-                {
-                    PreferencesId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    isAPreference = table.Column<bool>(nullable: false),
-                    PreferencesId1 = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Preferences", x => x.PreferencesId);
-                    table.ForeignKey(
-                        name: "FK_Preferences_Preferences_PreferencesId1",
-                        column: x => x.PreferencesId1,
-                        principalTable: "Preferences",
-                        principalColumn: "PreferencesId",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -208,8 +188,7 @@ namespace WhatsCookinGroupCapstone.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserName = table.Column<string>(nullable: true),
                     Bio = table.Column<string>(nullable: true),
-                    IdentityUserId = table.Column<string>(nullable: true),
-                    PreferencesId = table.Column<int>(nullable: false)
+                    IdentityUserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -295,7 +274,7 @@ namespace WhatsCookinGroupCapstone.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "98adf513-8232-4875-afee-64cd6c7834f9", "186a317c-19e5-48db-91bc-b36d9bb85995", "Cook", "COOK" });
+                values: new object[] { "b0ad780a-7e9a-47ea-8468-b55eb109a04b", "c5324c90-859a-41dd-990b-9f9d556154f0", "Cook", "COOK" });
 
             migrationBuilder.InsertData(
                 table: "Tags",
@@ -354,11 +333,6 @@ namespace WhatsCookinGroupCapstone.Migrations
                 column: "IdentityUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Preferences_PreferencesId1",
-                table: "Preferences",
-                column: "PreferencesId1");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Recipes_CookID",
                 table: "Recipes",
                 column: "CookID");
@@ -393,9 +367,6 @@ namespace WhatsCookinGroupCapstone.Migrations
 
             migrationBuilder.DropTable(
                 name: "Followers");
-
-            migrationBuilder.DropTable(
-                name: "Preferences");
 
             migrationBuilder.DropTable(
                 name: "RecipeTags");
