@@ -58,6 +58,9 @@ namespace WhatsCookinGroupCapstone.Controllers
         public IActionResult Create()
         {
             Recipe recipe = new Recipe();
+            {
+                recipe.AllTags = GetTags();
+            }
             return View(recipe);
         }
 
@@ -174,6 +177,19 @@ namespace WhatsCookinGroupCapstone.Controllers
             {
                 return true;
             }
+        }
+
+        private IList<SelectListItem> GetTags()
+        {
+            return new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Vegan", Value = "Vegan" },
+                new SelectListItem { Text = "Paleo", Value = "Paleo" },
+                new SelectListItem { Text = "Pescatarian", Value = "Pescatarian" },
+                new SelectListItem { Text = "Nut-Free", Value = "Nut-Free" },
+                new SelectListItem { Text = "Dairy", Value = "Dairy" }
+            };
+
         }
     }
 }
