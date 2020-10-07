@@ -51,25 +51,21 @@ namespace WhatsCookinGroupCapstone.Controllers
         {
             Cook cook = new Cook();            
             return View(cook);
-        }   
+        }
 
         // POST: CookController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Cook cook)
         {
-            //try
-            //{
-                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                cook.IdentityUserId = userId;
-                _repo.Cook.Create(cook);
-                _repo.Save();
-                return RedirectToAction(nameof(Index));
-            //} 
-            //catch
-            //{
-            //    return View();
-            //}
+
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            cook.IdentityUserId = userId;
+            _repo.Cook.Create(cook);
+            _repo.Save();
+
+            return RedirectToAction(nameof(Index));
+            
         }
 
         // GET: CookController/Edit/5
