@@ -50,12 +50,12 @@ namespace WhatsCookinGroupCapstone.Controllers
         // GET: CookController/Create
         public ActionResult Create()
         {
-            var cook1 = new Cook();
+            Cook cook = new Cook();
             {
-                cook1.AllTags = GetTags();
+                cook.AllTags = GetTags();
             }
 
-            Cook cook = new Cook();            
+                    
             return View(cook);
         }   
 
