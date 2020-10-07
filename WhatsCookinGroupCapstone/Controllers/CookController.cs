@@ -64,11 +64,20 @@ namespace WhatsCookinGroupCapstone.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Cook cook)
         {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            cook.IdentityUserId = userId;
+            _repo.Cook.Create(cook);
+
+            if (ModelState.IsValid)
+            {
+                var tags = string.Join(",", cook.SelectedTags);
+                _repo.Cook.Update(tags);
+            }
             //try
             //{
-                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                cook.IdentityUserId = userId;
-                _repo.Cook.Create(cook);
+                //var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                //cook.IdentityUserId = userId;
+                //_repo.Cook.Create(cook);
                 _repo.Save();
                 return RedirectToAction(nameof(Index));
             //} 
