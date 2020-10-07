@@ -58,7 +58,7 @@ namespace WhatsCookinGroupCapstone.Controllers
 
                     
             return View(cook);
-        }   
+        }
 
         // POST: CookController/Create
         [HttpPost]
