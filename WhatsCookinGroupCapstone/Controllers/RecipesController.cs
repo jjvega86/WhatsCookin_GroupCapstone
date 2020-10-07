@@ -175,5 +175,13 @@ namespace WhatsCookinGroupCapstone.Controllers
                 return true;
             }
         }
+
+        // GET: All Recipes
+        public IActionResult Search()
+        {
+            var allRecipes = _repo.Recipe.FindAll();
+
+            return View(allRecipes);
+        }
     }
 }
