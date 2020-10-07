@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WhatsCookinGroupCapstone.Data;
 
 namespace WhatsCookinGroupCapstone.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201007150250_cookintaggin")]
+    partial class cookintaggin
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,7 +52,6 @@ namespace WhatsCookinGroupCapstone.Migrations
                         {
                             Id = "2a0d8ca8-de30-4f07-acba-e24d2ecfb6a2",
                             ConcurrencyStamp = "2acff12e-bfa3-4c31-9053-846b5bd71654",
-                            
                             Name = "Cook",
                             NormalizedName = "COOK"
                         });
@@ -263,7 +264,6 @@ namespace WhatsCookinGroupCapstone.Migrations
                     b.ToTable("CookTags");
                 });
 
-
             modelBuilder.Entity("WhatsCookinGroupCapstone.Models.Followers", b =>
                 {
                     b.Property<int>("Id")
@@ -457,7 +457,6 @@ namespace WhatsCookinGroupCapstone.Migrations
                         .WithMany()
                         .HasForeignKey("IdentityUserId");
                 });
-
 
             modelBuilder.Entity("WhatsCookinGroupCapstone.Models.CookTag", b =>
                 {

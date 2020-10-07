@@ -14,6 +14,7 @@ namespace WhatsCookinGroupCapstone.Models
         //public bool Preference { get; set; }
 
         public ICollection<RecipeTags> RecipeTags { get; set; }
+        public ICollection<CookTag> CookTag { get; set; }
 
     }
 }
