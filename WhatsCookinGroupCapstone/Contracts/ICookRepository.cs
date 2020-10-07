@@ -10,7 +10,9 @@ namespace WhatsCookinGroupCapstone.Contracts
     public interface ICookRepository : IRepositoryBase<Cook>
     {
         Cook GetCook(int cookId);
-        void CreateCook(Cook cook);
+        void AddCook(Cook cook);
+
+        void Save();
 
     }
 }

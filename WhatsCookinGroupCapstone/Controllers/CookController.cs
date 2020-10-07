@@ -39,15 +39,17 @@ namespace WhatsCookinGroupCapstone.Controllers
         {
             Cook cook = new Cook();            
             return View(cook);
-        }
+        }   
 
         // POST: CookController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Cook cook)
         {
             try
             {
+                _repo.AddCook(cook);
+                _repo.Save();
                 return RedirectToAction(nameof(Index));
             }
             catch

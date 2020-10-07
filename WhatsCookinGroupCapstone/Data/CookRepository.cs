@@ -21,10 +21,14 @@ namespace WhatsCookinGroupCapstone.Data
             return ApplicationDbContext.Cook.Find(cookId);
         }
 
-        public void CreateCook(Cook cook)
+        public void AddCook (Cook cook)
         {
-            Create(cook);
+            ApplicationDbContext.Cook.Add(cook);
+        }
 
+        public void Save()
+        {
+            ApplicationDbContext.SaveChanges();
         }
     }
 }
