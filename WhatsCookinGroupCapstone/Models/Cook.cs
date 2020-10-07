@@ -19,8 +19,10 @@ namespace WhatsCookinGroupCapstone.Models
         public string IdentityUserId { get; set; }
         public IdentityUser IdentityUser { get; set; }
 
-       
-        
+        public ICollection<CookTag> CookTag { get; set; }
+
+
+
 
         //[ForeignKey("User")]
         //public int UserId { get; set; }
