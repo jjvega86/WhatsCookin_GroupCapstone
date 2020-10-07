@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using WhatsCookinGroupCapstone.Contracts;
 using WhatsCookinGroupCapstone.Models;
 
@@ -49,6 +50,11 @@ namespace WhatsCookinGroupCapstone.Controllers
         // GET: CookController/Create
         public ActionResult Create()
         {
+            var cook1 = new Cook();
+            {
+                cook1.AllTags = GetTags();
+            }
+
             Cook cook = new Cook();            
             return View(cook);
         }   
@@ -92,6 +98,19 @@ namespace WhatsCookinGroupCapstone.Controllers
             {
                 return View();
             }
+        }
+
+        private IList<SelectListItem> GetTags()
+        {
+            return new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Vegan", Value = "Vegan" },
+                new SelectListItem { Text = "Paleo", Value = "Paleo" },
+                new SelectListItem { Text = "Pescatarian", Value = "Pescatarian" },
+                new SelectListItem { Text = "Nut-Free", Value = "Nut-Free" },
+                new SelectListItem { Text = "Dairy", Value = "Dairy" }
+            };
+
         }
     }
 }
