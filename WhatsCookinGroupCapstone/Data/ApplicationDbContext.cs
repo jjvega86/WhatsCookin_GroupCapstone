@@ -28,6 +28,33 @@ namespace WhatsCookinGroupCapstone.Data
            }
            );
 
+            builder.Entity<Tags>().HasData(
+                new Models.Tags
+                {
+                    TagsId = 1,
+                    Name = "Vegan"
+                },
+                new Tags
+                {
+                    TagsId = 2,
+                    Name = "Nut-Free"
+                },
+                new Tags
+                {
+                    TagsId = 3,
+                    Name = "Dairy"
+                },
+                new Tags
+                {
+                    TagsId = 4,
+                    Name = "Paleo"
+                },
+                new Tags
+                {
+                    TagsId = 5,
+                    Name = "Pescatarian"
+                });
+
             builder.Entity<RecipeTags>()
                 .HasKey(bc => new { bc.RecipeId, bc.TagsId });
             builder.Entity<RecipeTags>()
