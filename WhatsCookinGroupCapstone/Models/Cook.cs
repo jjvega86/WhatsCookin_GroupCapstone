@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -14,6 +15,15 @@ namespace WhatsCookinGroupCapstone.Models
         public int CookId { get; set; }
         public string UserName { get; set; }
         public string Bio { get; set; }
+        [NotMapped]
+        public IList<string> SelectedTags { get; set; }
+        [NotMapped]
+        public IList<SelectListItem> AllTags { get; set; }
+        public Cook()
+        {
+            SelectedTags = new List<string>();
+            AllTags = new List<SelectListItem>();
+        }
 
         [ForeignKey("IdentityUser")]
         public string IdentityUserId { get; set; }
