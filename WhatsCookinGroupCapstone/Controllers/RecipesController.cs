@@ -28,15 +28,9 @@ namespace WhatsCookinGroupCapstone.Controllers
 
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            //   var loggedInCook = _repo.Cook.FindByCondition(e => e.IdentityUserId == userId).SingleOrDefault();
-      
-            //   myRecipeList = _repo.Recipe.FindByCondition(r => r.CookID == loggedInCook).ToList();
-
-            var loggedInForNow = _repo.Cook.FindByCondition(c => c.CookId == 1).FirstOrDefault();
-            var loggedInId = loggedInForNow.CookId;
-
-            myRecipeList = _repo.Recipe.FindByCondition(r => r.CookID == loggedInId).ToList();
-            //var recipes = _repo.Recipe.FindAll().ToList();
+            var loggedInCook = _repo.Cook.FindByCondition(e => e.IdentityUserId == userId).SingleOrDefault();
+            var loggedInCookID = loggedInCook.CookId;
+            myRecipeList = _repo.Recipe.FindByCondition(r => r.CookID == loggedInCookID).ToList();
 
             return View(myRecipeList);
         }
@@ -64,7 +58,6 @@ namespace WhatsCookinGroupCapstone.Controllers
         public IActionResult Create()
         {
             Recipe recipe = new Recipe();
-            recipe.CookID = 1;
             return View(recipe);
         }
 
@@ -78,10 +71,10 @@ namespace WhatsCookinGroupCapstone.Controllers
             if (ModelState.IsValid)
             {
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                //var stringingCookID = (string)recipe.CookID;
-                //  recipe.CookID = userId;
 
-                recipe.CookID = 1;
+                var loggedInCook = _repo.Cook.FindByCondition(e => e.IdentityUserId == userId).SingleOrDefault();
+                var loggedInCookID = loggedInCook.CookId;
+                recipe.CookID = loggedInCookID ;
                 _repo.Recipe.Create(recipe);
                 _repo.Save();
                 return RedirectToAction(nameof(Index));

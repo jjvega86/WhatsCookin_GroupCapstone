@@ -10,8 +10,8 @@ using WhatsCookinGroupCapstone.Data;
 namespace WhatsCookinGroupCapstone.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201007150250_cookintaggin")]
-    partial class cookintaggin
+    [Migration("20201007164157_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,8 +50,8 @@ namespace WhatsCookinGroupCapstone.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "2a0d8ca8-de30-4f07-acba-e24d2ecfb6a2",
-                            ConcurrencyStamp = "2acff12e-bfa3-4c31-9053-846b5bd71654",
+                            Id = "c2b09a4d-d114-4e4a-a17b-9efdd9c69d41",
+                            ConcurrencyStamp = "87f08260-308c-48f7-91c6-3522a0ad857b",
                             Name = "Cook",
                             NormalizedName = "COOK"
                         });
