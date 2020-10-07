@@ -5,6 +5,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using WhatsCookinGroupCapstone.Contracts;
 using WhatsCookinGroupCapstone.Models;
 
@@ -49,7 +51,12 @@ namespace WhatsCookinGroupCapstone.Controllers
         // GET: CookController/Create
         public ActionResult Create()
         {
-            Cook cook = new Cook();            
+            Cook cook = new Cook();
+            {
+                cook.AllTags = GetTags();
+            }
+
+                    
             return View(cook);
         }
 
@@ -58,15 +65,32 @@ namespace WhatsCookinGroupCapstone.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Cook cook)
         {
+ 
+            if (ModelState.IsValid)
+            {
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                cook.IdentityUserId = userId;
+                _repo.Cook.Create(cook);
+                _repo.Save();
 
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            cook.IdentityUserId = userId;
-            _repo.Cook.Create(cook);
-            _repo.Save();
+                var selectedCook = _repo.Cook.FindByCondition(c => c.IdentityUserId == userId).SingleOrDefault();
+                var selectedCookId = selectedCook.CookId;
 
-            return RedirectToAction(nameof(Index));
-            
+                foreach (string tag in cook.SelectedTags)
+                {
+                    var selectedTag = _repo.Tags.FindByCondition(r => r.Name == tag).SingleOrDefault();
+
+                    CookTag cookTag = new CookTag();
+                    cookTag.CookId = selectedCookId;
+                    cookTag.TagsId = selectedTag.TagsId;
+                    _repo.CookTag.Create(cookTag);
+                    _repo.Save();
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(cook);
         }
+        
 
         // GET: CookController/Edit/5
         public ActionResult Edit(int id)
@@ -88,6 +112,19 @@ namespace WhatsCookinGroupCapstone.Controllers
             {
                 return View();
             }
+        }
+
+        private IList<SelectListItem> GetTags()
+        {
+            return new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Vegan", Value = "Vegan" },
+                new SelectListItem { Text = "Paleo", Value = "Paleo" },
+                new SelectListItem { Text = "Pescatarian", Value = "Pescatarian" },
+                new SelectListItem { Text = "Nut-Free", Value = "Nut-Free" },
+                new SelectListItem { Text = "Dairy", Value = "Dairy" }
+            };
+
         }
     }
 }
