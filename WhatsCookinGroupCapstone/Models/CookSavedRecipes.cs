@@ -9,13 +9,11 @@ namespace WhatsCookinGroupCapstone.Models
 {
     public class CookSavedRecipes
     {
-        [Key, Column(Order = 1)]
+        [Key]
+        public int CookSavedRecipesId { get; set; }
         public int CookId { get; set; }
-        public Cook Cook { get; set; }
-
-
-        [Key, Column(Order = 2)]
         public int RecipeId { get; set; }
-        public Recipe Recipe { get; set; }
+        [NotMapped]
+        List<Recipe> AllRecpes { get; set; }
     }
 }

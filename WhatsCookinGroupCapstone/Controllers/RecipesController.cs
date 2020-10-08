@@ -198,29 +198,64 @@ namespace WhatsCookinGroupCapstone.Controllers
             }
         }
 
-        // GET: All Recipes
-        //public IActionResult Search()
+      //  GET: All Recipes
+        public IActionResult Search()
+        {
+            var allRecipes = _repo.Recipe.FindAll();
+
+            return View(allRecipes);
+        }
+
+        public IActionResult CooksSaved()
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var foundCook = _repo.Cook.FindByCondition(r => r.IdentityUserId == userId).SingleOrDefault();
+         
+            if (foundCook == null)
+            {
+                return NotFound();
+
+            }
+
+            var cooksSavedRecipes = _repo.CookSavedRecipes.FindAll();
+            return View(cooksSavedRecipes);
+        }
+
+        public IActionResult Saved(int? id)
+        {
+
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var foundCook = _repo.Cook.FindByCondition(r => r.IdentityUserId == userId).SingleOrDefault();
+
+            if (foundCook == null)
+            {
+                return NotFound();
+
+            }
+            if (id == null)
+            {
+                return NotFound();
+
+            }
+
+            var recipe = _repo.Recipe.FindByCondition(r => r.RecipeId == id).FirstOrDefault();
+            CookSavedRecipes saveRecipe = new CookSavedRecipes();
+            saveRecipe.CookId = foundCook.CookId;
+            saveRecipe.RecipeId = recipe.RecipeId;
+            //if cookId and RecipeId are already linked in CookSaved Recipe throw an error
+
+            _repo.CookSavedRecipes.Create(saveRecipe);
+            _repo.Save();
+
+            return View(id);
+        }
+
+        //[HttpPost, ActionName("Saved")]
+        //[ValidateAntiForgeryToken]
+        //public IActionResult SavedResults(int id)
         //{
-        //    var allRecipes = _repo.Recipe.FindAll();
-
-        //    return View(allRecipes);
-        //}
-
-        //public IActionResult Saved(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var recipe = _repo.Recipe.FindByCondition(r => r.RecipeId == id).FirstOrDefault();
-        //    if (recipe == null)
-        //    {
-        //        return NotFound();
-        //    }
         //    return View();
         //}
-
         private IList<SelectListItem> GetTags()
         {
             return new List<SelectListItem>

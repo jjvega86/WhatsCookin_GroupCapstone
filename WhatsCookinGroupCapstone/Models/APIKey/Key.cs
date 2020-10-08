@@ -9,9 +9,10 @@ namespace WhatsCookinGroupCapstone.Models.APIKey
     {
         public static string clientId;
         public static string clientSecret;
-            static Key()
+        static Key()
         {
             clientId = "164158722967 - kklsl8kbp4mu212ldp0bmsm2b01d60c9.apps.googleusercontent.com";
+           
             clientSecret = "SRkHlB1E9P2zJIam37_wINg6";
         }
     }
