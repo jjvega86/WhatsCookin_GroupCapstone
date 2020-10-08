@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using WhatsCookinGroupCapstone.Contracts;
 using WhatsCookinGroupCapstone.Data;
 using WhatsCookinGroupCapstone.Models;
+using WhatsCookinGroupCapstone.Models.ViewModel;
 
 namespace WhatsCookinGroupCapstone.Controllers
 {
@@ -273,10 +274,33 @@ namespace WhatsCookinGroupCapstone.Controllers
             }
         }
 
-        //public IActionResult SeeReview(int id)
-        //{
+        // GET: Recipes/SeeReview/
+        public IActionResult SeeReview(int id)
+        {
+            if (id == 0)
+            {
+                return NotFound();
+            }
+            else
+            {
+                List<Reviews> reviews = new List<Reviews>();
 
-        //}
+                var allReviews = _repo.Reviews.FindAll().ToList();
+
+                foreach(Reviews review in allReviews)
+                {
+                    if(review.RecipeID == id)
+                    {
+                        reviews.Add(review);
+                    }
+                }
+
+                return View(reviews);
+
+            }
+
+
+        }
 
 
     }
