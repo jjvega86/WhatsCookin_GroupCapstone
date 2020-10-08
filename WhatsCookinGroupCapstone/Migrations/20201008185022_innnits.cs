@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WhatsCookinGroupCapstone.Migrations
 {
-    public partial class asdfasdfasdf : Migration
+    public partial class innnits : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -312,7 +312,7 @@ namespace WhatsCookinGroupCapstone.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "e9fc7ff5-785e-4c0a-b920-f9cd614630f3", "77e1acf9-5503-410b-a865-947d9a793b82", "Cook", "COOK" });
+                values: new object[] { "fa86f07a-c159-45be-868e-e0857cf42727", "62e4a07d-2c54-4f31-89d2-267d5f2459fb", "Cook", "COOK" });
 
             migrationBuilder.InsertData(
                 table: "Tags",
