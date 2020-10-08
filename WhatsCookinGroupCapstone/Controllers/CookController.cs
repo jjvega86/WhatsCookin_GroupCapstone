@@ -9,12 +9,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using WhatsCookinGroupCapstone.Contracts;
 using WhatsCookinGroupCapstone.Models;
+using WhatsCookinGroupCapstone.Models.View_Model;
 
 namespace WhatsCookinGroupCapstone.Controllers
 {
     public class CookController : Controller
     {
         private IRepositoryWrapper _repo;
+
 
         public CookController(IRepositoryWrapper repo)
         {
@@ -28,7 +30,7 @@ namespace WhatsCookinGroupCapstone.Controllers
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var selectedCook = _repo.Cook.FindByCondition(r => r.IdentityUserId == userId).SingleOrDefault();
-            
+
             if (selectedCook == null)
             {
                 return RedirectToAction("Create");
@@ -36,11 +38,14 @@ namespace WhatsCookinGroupCapstone.Controllers
             }
             else
             {
+                UserRandomRecipes userRandomRecipes1 = new UserRandomRecipes();
                 List<Recipe> recipeList = FindMatchingRecipes(FindRecipeTagsMatchingCookTags(FindCookTags(selectedCook)));
                 List<Recipe> finalRecipeList = RandomizeRecipes(recipeList);
+                var theActualFinalRecipeList = ConvertListToModelViewType(finalRecipeList);
+                
 
-                return View(finalRecipeList);
-                return View(selectedCook);
+                return View(theActualFinalRecipeList);
+
             }
 
         }
@@ -60,7 +65,7 @@ namespace WhatsCookinGroupCapstone.Controllers
                 cook.AllTags = GetTags();
             }
 
-                    
+
             return View(cook);
         }
 
@@ -69,7 +74,7 @@ namespace WhatsCookinGroupCapstone.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Cook cook)
         {
- 
+
             if (ModelState.IsValid)
             {
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -94,7 +99,7 @@ namespace WhatsCookinGroupCapstone.Controllers
             }
             return View(cook);
         }
-        
+
 
         // GET: CookController/Edit/5
         public ActionResult Edit(int id)
@@ -174,15 +179,15 @@ namespace WhatsCookinGroupCapstone.Controllers
             //Hashset stops two numbers repeating more than once from random
             HashSet<int> sixRandomNumbers = new HashSet<int>();
             //Excludes 0 from being available in hashset
-            
+
             Random random = new Random();
-            while(sixRandomNumbers.Count < 6)
+            while (sixRandomNumbers.Count < 6)
             {
-                sixRandomNumbers.Add(random.Next(1, recipeCount+1));
+                sixRandomNumbers.Add(random.Next(1, recipeCount + 1));
             }
             //for (int i = 0; numbers.Count > 0; i++)
             //{
-                
+
             //    sixRandomNumbers.Add(numbers[i]);
             //}
             return sixRandomNumbers;
@@ -192,15 +197,15 @@ namespace WhatsCookinGroupCapstone.Controllers
             // recipeList generated from FindMatchingRecipes
             // set int recipeCount parameter for GetSixRandomNumbers = to recipeList.Count-1
             int recipeCount = 0;
-            
+
             if (recipeList.Count < 6)
             {
                 var listOfAllRecipes = _repo.Recipe.FindAll().ToList();
-                foreach(Recipe recipe in listOfAllRecipes)
+                foreach (Recipe recipe in listOfAllRecipes)
                 {
                     recipeCount++;
                 }
-               
+
             }
             else
             {
@@ -227,28 +232,47 @@ namespace WhatsCookinGroupCapstone.Controllers
             }
             return finalRecipeList;
         }
+
+        private List<UserRandomRecipes> ConvertListToModelViewType(List<Recipe> finalRecipeList)
+        {
+            
+            UserRandomRecipes userRandomRecipes = new UserRandomRecipes();
+            List<UserRandomRecipes> rec = new List<UserRandomRecipes>();
+            foreach (Recipe recipe in finalRecipeList)
+            {
+                
+                userRandomRecipes.Recipes.Add(recipe);
+                rec.Add(userRandomRecipes);
+                
+            }
+            return rec;
+
+
+        }
+        //}
         //public ActionResult DefaultView(Cook cook)
         //{
         //    List<Recipe> recipeList = FindMatchingRecipes(FindRecipeTagsMatchingCookTags(FindCookTags(cook)));
         //    List<Recipe> finalRecipeList = RandomizeRecipes(recipeList);
         //    return View(finalRecipeList);
         //}
-        private void RandomizeRecipes(List<int> sixNumbers, Cook cook)
-        {
-            var selectedCook = _repo.Cook.FindByCondition(c => c.CookId == cook.CookId).SingleOrDefault();
-            var cookTags = _repo.CookTag.FindByCondition(c => c.CookId == selectedCook.CookId);
-        }
-        private List<int> GetSixRandomNumbers(RecipeTags recipeTags)
-        {
-            List<int> sixNumbers = new List<int>();
-            Random random = new Random();
-            var recipeListCount = _repo.RecipeTags.FindAll();
-            for (int i = 0; i < 6; i++)
-            {
-                sixNumbers.Add(random.Next(recipeListCount.Count()));
-            }
-            return sixNumbers;
-        }
+        //private void RandomizeRecipes(List<int> sixNumbers, Cook cook)
+        //{
+        //    var selectedCook = _repo.Cook.FindByCondition(c => c.CookId == cook.CookId).SingleOrDefault();
+        //    var cookTags = _repo.CookTag.FindByCondition(c => c.CookId == selectedCook.CookId);
+        //}
+        //private List<int> GetSixRandomNumbers(RecipeTags recipeTags)
+        //{
+        //    List<int> sixNumbers = new List<int>();
+        //    Random random = new Random();
+        //    var recipeListCount = _repo.RecipeTags.FindAll();
+        //    for (int i = 0; i < 6; i++)
+        //    {
+        //        sixNumbers.Add(random.Next(recipeListCount.Count()));
+        //    }
+        //    return sixNumbers;
+        //}
+
     }
 }
 

@@ -1,4 +1,4 @@
-﻿@model WhatsCookinGroupCapstone.Models.Cook
+﻿@model WhatsCookinGroupCapstone.Models.View_Model.UserRandomRecipes
 
 @{
     ViewData["Title"] = "Index";
@@ -8,6 +8,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    UserRandomRecipes.recipes;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=1.0, initial-scale=1.0">
     BOOTSTRAP
@@ -54,7 +55,7 @@
 <div>
     <h4>Cook</h4>
     <hr />
-    <dl class="row">
+    <@*dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.UserName)
         </dt>
@@ -66,7 +67,7 @@
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Bio)
-        </dd>
+        </dd>*@
     </dl>
 </div>
 @*<div>
