@@ -127,7 +127,7 @@ namespace WhatsCookinGroupCapstone.Controllers
 
         }
 
-        private void RandomizeRecipes(List<int> sixNumbers, CookTag cookTag)
+        private void RandomizeRecipes(List<int> sixNumbers, CookTag cookTags)
         {
             
         }
