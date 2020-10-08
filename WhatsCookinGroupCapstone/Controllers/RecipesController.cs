@@ -177,26 +177,26 @@ namespace WhatsCookinGroupCapstone.Controllers
         }
 
         // GET: All Recipes
-        public IActionResult Search()
-        {
-            var allRecipes = _repo.Recipe.FindAll();
+        //public IActionResult Search()
+        //{
+        //    var allRecipes = _repo.Recipe.FindAll();
 
-            return View(allRecipes);
-        }
+        //    return View(allRecipes);
+        //}
 
-        public IActionResult Saved(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public IActionResult Saved(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var recipe = _repo.Recipe.FindByCondition(r => r.RecipeId == id).FirstOrDefault();
-            if (recipe == null)
-            {
-                return NotFound();
-            }
-            return View();
-        }
+        //    var recipe = _repo.Recipe.FindByCondition(r => r.RecipeId == id).FirstOrDefault();
+        //    if (recipe == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return View();
+        //}
     }
 }
