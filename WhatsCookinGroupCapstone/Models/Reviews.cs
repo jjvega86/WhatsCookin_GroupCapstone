@@ -17,6 +17,7 @@ namespace WhatsCookinGroupCapstone.Models
         public bool Validation { get; set; }
 
         public int RecipeID { get; set; }
+        public int CookId { get; set; }
 
     }
 }

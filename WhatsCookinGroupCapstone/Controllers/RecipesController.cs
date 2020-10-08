@@ -273,6 +273,11 @@ namespace WhatsCookinGroupCapstone.Controllers
             }
         }
 
+        //public IActionResult SeeReview(int id)
+        //{
+
+        //}
+
 
     }
 }
