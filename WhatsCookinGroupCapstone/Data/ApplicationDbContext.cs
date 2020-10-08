@@ -76,6 +76,17 @@ namespace WhatsCookinGroupCapstone.Data
                 .HasOne(bc => bc.Tag)
                 .WithMany(c => c.CookTag)
                 .HasForeignKey(bc => bc.TagsId);
+
+            builder.Entity<CookSavedRecipes>()
+                .HasKey(bc => new { bc.CookId, bc.RecipeId });
+            builder.Entity<CookSavedRecipes>()
+                .HasOne(bc => bc.Cook)
+                .WithMany(b => b.CookSavedRecipes)
+                .HasForeignKey(bc => bc.CookId);
+            builder.Entity<CookSavedRecipes>()
+                .HasOne(bc => bc.Recipe)
+                .WithMany(c => c.CookSavedRecipes)
+                .HasForeignKey(bc => bc.RecipeId);
         }
         
 
@@ -86,6 +97,7 @@ namespace WhatsCookinGroupCapstone.Data
         public DbSet<Reviews> Reviews { get; set; }
         public DbSet<Tags> Tags { get; set; }
         public DbSet<CookTag> CookTags { get; set; }
+        public DbSet<CookSavedRecipes> CookSavedRecipes { get; set; }
        
 
         

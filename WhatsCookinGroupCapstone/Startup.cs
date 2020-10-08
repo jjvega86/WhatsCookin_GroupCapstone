@@ -17,6 +17,7 @@ using WhatsCookinGroupCapstone.Contracts;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using WhatsCookinGroupCapstone.ActionFilters;
+using Microsoft.AspNetCore.Authentication.OAuth;
 
 namespace WhatsCookinGroupCapstone
 {
@@ -44,7 +45,12 @@ namespace WhatsCookinGroupCapstone
             {
                 options.ClientId = "164158722967-sbnv6641u9k0ihn8lh9il1qa04na0q72.apps.googleusercontent.com";
                 options.ClientSecret = "VFDSd64Z7qxZ_5Fq8cak0rbI";
+                options.SignInScheme = IdentityConstants.ExternalScheme;
+
+
             });
+
+            
 
 
             services.AddDbContext<ApplicationDbContext>(options =>

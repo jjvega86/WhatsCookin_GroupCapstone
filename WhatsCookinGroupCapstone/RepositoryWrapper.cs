@@ -18,7 +18,7 @@ namespace WhatsCookinGroupCapstone
         private IReviewsRepository _reviews;
         private ITagsRepository _tags;
         private ICookTagRepository _cookTag;
-       
+        private ICookSavedRecipesRepository _cookSavedRecipes;
         public ICookRepository Cook
         {
             get
@@ -94,6 +94,17 @@ namespace WhatsCookinGroupCapstone
                     _cookTag = new CookTagRepository(_context);
                 }
                 return _cookTag;
+            }
+        }
+        public ICookSavedRecipesRepository CookSavedRecipes
+        {
+            get
+            {
+                if (_cookSavedRecipes == null)
+                {
+                    _cookSavedRecipes = new CookSavedRecipesRepository(_context);
+                }
+                return _cookSavedRecipes;
             }
         }
 
