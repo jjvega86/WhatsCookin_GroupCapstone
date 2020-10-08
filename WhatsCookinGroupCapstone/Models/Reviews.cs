@@ -14,9 +14,7 @@ namespace WhatsCookinGroupCapstone.Models
         public string ReviewForRecipe { get; set; }
         public bool Validation { get; set; }
 
-        [ForeignKey("Recipe")]
         public int RecipeID { get; set; }
-        public Recipe Recipe { get; set; }
 
     }
 }
