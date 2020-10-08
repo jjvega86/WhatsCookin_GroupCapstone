@@ -232,6 +232,47 @@ namespace WhatsCookinGroupCapstone.Controllers
                 new SelectListItem { Text = "Dairy", Value = "Dairy" }
             };
 
-       }
+        }
+
+        // GET: Recipes/Review/5
+        public IActionResult Review(int id)
+        {
+            //validate passed in RecipeId
+            if (id == 0)
+            {
+                return NotFound();
+            }
+            else
+            {
+                Reviews review = new Reviews();
+                review.RecipeID = id;
+
+                return View(review);
+
+            }
+            
+        }
+
+        // POST: Recipes/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Review(Reviews review)
+        {
+            if (ModelState.IsValid)
+            {
+                _repo.Reviews.Create(review);
+                _repo.Save();
+               
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+
     }
 }
