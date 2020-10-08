@@ -126,5 +126,37 @@ namespace WhatsCookinGroupCapstone.Controllers
             };
 
         }
+
+        private void RandomizeRecipes()
+        {
+            Random random = new Random();
+            //Recipe[] recipeArray;
+            List<Recipe> randomRecipes = new List<Recipe>();
+
+            var recipeList = _repo.Recipe.FindAll();
+            var recipeIndex = _repo.Recipe.FindByCondition(r => r.RecipeId == r)
+            int index = random.Next(recipeList);
+            randomRecipes.Add(recipeList[index]);
+
+            for (int i = 0; i < 6; i++)
+            {
+                
+
+
+                recipeArray[i] = random.
+            }
+        }
+
+        private List<int> GetSixRandomNumbers(RecipeTags recipeTags)
+        {
+            List<int> sixNumbers = new List<int>();
+            Random random = new Random();
+            var recipeListCount = _repo.RecipeTags.FindAll();
+            for(int i = 0; i < 6; i++)
+            {
+                sixNumbers.Add(random.Next(recipeListCount.Count()));
+            }
+            return sixNumbers;
+        }
     }
 }

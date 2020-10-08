@@ -24,7 +24,7 @@ namespace WhatsCookinGroupCapstone.Models
         //public int CookSavedRecipesId { get; set; }
 
         [NotMapped]
-        public IList<string> SelectedTags { get; set; }
+        public IList<string>? SelectedTags { get; set; }
         [NotMapped]
         public IList<SelectListItem> AllTags { get; set; }
         public Cook()
