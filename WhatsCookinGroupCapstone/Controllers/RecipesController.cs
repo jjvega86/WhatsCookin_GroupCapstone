@@ -239,7 +239,8 @@ namespace WhatsCookinGroupCapstone.Controllers
         public IActionResult Review(int id)
         {
             //validate passed in RecipeId
-            if (id == 0)
+            bool cookValidated = ValidateReviewSubmission(id);
+            if (cookValidated == false)
             {
                 return NotFound();
             }
@@ -251,6 +252,26 @@ namespace WhatsCookinGroupCapstone.Controllers
                 return View(review);
 
             }
+            
+        }
+
+        private bool ValidateReviewSubmission(int id)
+        {
+            bool canSubmit = true;
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var loggedInCook = _repo.Cook.FindByCondition(e => e.IdentityUserId == userId).SingleOrDefault();
+            var reviewedRecipes = _repo.Reviews.FindByCondition(r => r.RecipeID == id);
+
+            foreach(Reviews review in reviewedRecipes)
+            {
+                if (review.CookId == loggedInCook.CookId)
+                {
+                    canSubmit = false;
+                    break;
+                }
+            }
+
+            return canSubmit;
             
         }
 
