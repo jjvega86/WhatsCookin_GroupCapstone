@@ -171,6 +171,7 @@ namespace WhatsCookinGroupCapstone.Controllers
         }
         private List<int> GetSixRandomNumbers(int recipeCount)
         {
+            //Need to remember to make a check so that it doesn't create the same random number twice
             List<int> sixRandomNumbers = new List<int>();
             Random random = new Random();
             for (int i = 0; i < 6; i++)
@@ -214,7 +215,7 @@ namespace WhatsCookinGroupCapstone.Controllers
                 foreach (int randomNumber in randomNumbers)
                 {
                     var recipe = _repo.Recipe.FindByCondition(r => r.RecipeId == randomNumber).SingleOrDefault();
-                    recipeList.Add(recipe);
+                    finalRecipeList.Add(recipe);
                 }
             }
             return finalRecipeList;
