@@ -18,6 +18,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using WhatsCookinGroupCapstone.ActionFilters;
 using Microsoft.AspNetCore.Authentication.OAuth;
+using WhatsCookinGroupCapstone.Models.APIKey;
 
 namespace WhatsCookinGroupCapstone
 {
@@ -43,11 +44,9 @@ namespace WhatsCookinGroupCapstone
              })
             .AddGoogle(options =>
             {
-                options.ClientId = "164158722967-sbnv6641u9k0ihn8lh9il1qa04na0q72.apps.googleusercontent.com";
-                options.ClientSecret = "VFDSd64Z7qxZ_5Fq8cak0rbI";
+                options.ClientId = Key.clientId;
+                options.ClientSecret = Key.clientSecret;
                 options.SignInScheme = IdentityConstants.ExternalScheme;
-
-
             });
 
             
