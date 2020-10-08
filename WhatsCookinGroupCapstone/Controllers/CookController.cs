@@ -169,15 +169,22 @@ namespace WhatsCookinGroupCapstone.Controllers
             }
             return recipeList;
         }
-        private List<int> GetSixRandomNumbers(int recipeCount)
+        private HashSet<int> GetSixRandomNumbers(int recipeCount)
         {
-            //Need to remember to make a check so that it doesn't create the same random number twice
-            List<int> sixRandomNumbers = new List<int>();
+            //Hashset stops two numbers repeating more than once from random
+            HashSet<int> sixRandomNumbers = new HashSet<int>();
+            //Excludes 0 from being available in hashset
+            
             Random random = new Random();
-            for (int i = 0; i < 6; i++)
+            while(sixRandomNumbers.Count < 6)
             {
-                sixRandomNumbers.Add(random.Next(recipeCount));
+                sixRandomNumbers.Add(random.Next(1, recipeCount+1));
             }
+            //for (int i = 0; numbers.Count > 0; i++)
+            //{
+                
+            //    sixRandomNumbers.Add(numbers[i]);
+            //}
             return sixRandomNumbers;
         }
         private List<Recipe> RandomizeRecipes(List<Recipe> recipeList)
@@ -199,7 +206,7 @@ namespace WhatsCookinGroupCapstone.Controllers
             {
                 recipeCount = recipeList.Count();
             }
-            List<int> randomNumbers = GetSixRandomNumbers(recipeCount);
+            HashSet<int> randomNumbers = GetSixRandomNumbers(recipeCount);
 
             List<Recipe> finalRecipeList = new List<Recipe>();
             if (recipeList.Count > 6)
