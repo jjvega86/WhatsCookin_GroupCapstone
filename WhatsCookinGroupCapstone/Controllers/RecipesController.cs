@@ -275,7 +275,7 @@ namespace WhatsCookinGroupCapstone.Controllers
         }
 
         // GET: Recipes/SeeReview/
-        public IActionResult SeeReview(int id)
+        public IActionResult SeeReviews(int id)
         {
             if (id == 0)
             {
