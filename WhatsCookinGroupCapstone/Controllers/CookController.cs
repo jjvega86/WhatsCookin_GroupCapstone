@@ -192,12 +192,16 @@ namespace WhatsCookinGroupCapstone.Controllers
                 {
                     recipeCount++;
                 }
-                List<int> randomNumbers = GetSixRandomNumbers(recipeCount);
+               
             }
-            //int recipeCount = recipeList.Count();
-            
+            else
+            {
+                recipeCount = recipeList.Count();
+            }
+            List<int> randomNumbers = GetSixRandomNumbers(recipeCount);
+
             List<Recipe> finalRecipeList = new List<Recipe>();
-            if (recipeCount > 6)
+            if (recipeList.Count > 6)
             {
                 foreach (int randomNumber in randomNumbers)
                 {
