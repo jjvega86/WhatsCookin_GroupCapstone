@@ -250,6 +250,20 @@ namespace WhatsCookinGroupCapstone.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CookSavedRecipes",
+                columns: table => new
+                {
+                    CookSavedRecipesId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CookId = table.Column<int>(nullable: false),
+                    RecipeId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CookSavedRecipes", x => x.CookSavedRecipesId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "RecipeTags",
                 columns: table => new
                 {
@@ -298,7 +312,7 @@ namespace WhatsCookinGroupCapstone.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "c2b09a4d-d114-4e4a-a17b-9efdd9c69d41", "87f08260-308c-48f7-91c6-3522a0ad857b", "Cook", "COOK" });
+                values: new object[] { "eac96168-4903-43d3-8ee0-4d51355d9aac", "2fa98fc4-05d3-4a5b-8be3-c171a29fbd92", "Cook", "COOK" });
 
             migrationBuilder.InsertData(
                 table: "Tags",
@@ -357,6 +371,16 @@ namespace WhatsCookinGroupCapstone.Migrations
                 column: "IdentityUserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CookSavedRecipes_CookId",
+                table: "CookSavedRecipes",
+                column: "CookId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CookSavedRecipes_RecipeId",
+                table: "CookSavedRecipes",
+                column: "RecipeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CookTags_TagsId",
                 table: "CookTags",
                 column: "TagsId");
@@ -393,6 +417,9 @@ namespace WhatsCookinGroupCapstone.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "CookSavedRecipes");
 
             migrationBuilder.DropTable(
                 name: "CookTags");
