@@ -127,24 +127,9 @@ namespace WhatsCookinGroupCapstone.Controllers
 
         }
 
-        private void RandomizeRecipes()
+        private void RandomizeRecipes(List<int> sixNumbers, CookTag cookTag)
         {
-            Random random = new Random();
-            //Recipe[] recipeArray;
-            List<Recipe> randomRecipes = new List<Recipe>();
-
-            var recipeList = _repo.Recipe.FindAll();
-            var recipeIndex = _repo.Recipe.FindByCondition(r => r.RecipeId == r)
-            int index = random.Next(recipeList);
-            randomRecipes.Add(recipeList[index]);
-
-            for (int i = 0; i < 6; i++)
-            {
-                
-
-
-                recipeArray[i] = random.
-            }
+            
         }
 
         private List<int> GetSixRandomNumbers(RecipeTags recipeTags)
