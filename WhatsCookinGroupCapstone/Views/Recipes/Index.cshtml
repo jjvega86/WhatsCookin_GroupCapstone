@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<WhatsCookinGroupCapstone.Models.Recipe>
-
+@*The users Cookbook*@
 @{
     ViewData["Title"] = "Index";
 }
@@ -7,7 +7,8 @@
 <h1>Welcome to your Recipes!!</h1>
 <h4>To add a new Recipe click "create new" down below!</h4>
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Create New</a> |
+    <a asp-action="Saved Recipes"></a>
 </p>
 <table class="table">
     <thead>
