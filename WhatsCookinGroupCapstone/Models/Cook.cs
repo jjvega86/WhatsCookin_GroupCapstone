@@ -20,8 +20,11 @@ namespace WhatsCookinGroupCapstone.Models
         public string IdentityUserId { get; set; }
         public IdentityUser IdentityUser { get; set; }
 
+        //[ForeignKey("CookSavedRecipes")]
+        //public int CookSavedRecipesId { get; set; }
+
         [NotMapped]
-        public IList<string> SelectedTags { get; set; }
+        public IList<string>? SelectedTags { get; set; }
         [NotMapped]
         public IList<SelectListItem> AllTags { get; set; }
         public Cook()
@@ -31,7 +34,7 @@ namespace WhatsCookinGroupCapstone.Models
         }
 
         public ICollection<CookTag> CookTag { get; set; }
-        public ICollection<CookSavedRecipes> CookSavedRecipes { get; set; }
+     
 
 
 

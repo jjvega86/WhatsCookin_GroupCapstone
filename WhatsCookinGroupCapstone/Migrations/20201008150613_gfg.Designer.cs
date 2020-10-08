@@ -10,8 +10,8 @@ using WhatsCookinGroupCapstone.Data;
 namespace WhatsCookinGroupCapstone.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201007164157_Init")]
-    partial class Init
+    [Migration("20201008150613_gfg")]
+    partial class gfg
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,8 +50,8 @@ namespace WhatsCookinGroupCapstone.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "c2b09a4d-d114-4e4a-a17b-9efdd9c69d41",
-                            ConcurrencyStamp = "87f08260-308c-48f7-91c6-3522a0ad857b",
+                            Id = "a829f1ad-5e38-4177-8032-5fa1543016fd",
+                            ConcurrencyStamp = "5f62d4dd-7a4f-4246-ad79-e241a32a3f84",
                             Name = "Cook",
                             NormalizedName = "COOK"
                         });
@@ -249,6 +249,24 @@ namespace WhatsCookinGroupCapstone.Migrations
                     b.ToTable("Cook");
                 });
 
+            modelBuilder.Entity("WhatsCookinGroupCapstone.Models.CookSavedRecipes", b =>
+                {
+                    b.Property<int>("CookSavedRecipesId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CookId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CookSavedRecipesId");
+
+                    b.ToTable("CookSavedRecipes");
+                });
+
             modelBuilder.Entity("WhatsCookinGroupCapstone.Models.CookTag", b =>
                 {
                     b.Property<int>("CookId")
@@ -314,7 +332,7 @@ namespace WhatsCookinGroupCapstone.Migrations
 
                     b.HasIndex("CookID");
 
-                    b.ToTable("Recipes");
+                    b.ToTable("Recipe");
                 });
 
             modelBuilder.Entity("WhatsCookinGroupCapstone.Models.RecipeTags", b =>

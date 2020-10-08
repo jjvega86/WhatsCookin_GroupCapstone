@@ -19,7 +19,7 @@ namespace WhatsCookinGroupCapstone.Models
         public string Steps { get; set; }
 
         [NotMapped]
-        public IList<string> SelectedTags { get; set; }
+        public IList<string>? SelectedTags { get; set; }
         [NotMapped]
         public IList<SelectListItem> AllTags { get; set; }
         public Recipe()
@@ -33,7 +33,7 @@ namespace WhatsCookinGroupCapstone.Models
         public Cook Cook { get; set; }
 
         public ICollection<RecipeTags> RecipeTags { get; set; }
-        public ICollection<CookSavedRecipes> CookSavedRecipes { get; set; }
+        //public ICollection<CookSavedRecipes> CookSavedRecipes { get; set; }
 
     }
 }

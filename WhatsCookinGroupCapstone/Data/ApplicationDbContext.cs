@@ -65,6 +65,7 @@ namespace WhatsCookinGroupCapstone.Data
                 .HasOne(bc => bc.Tags)
                 .WithMany(c => c.RecipeTags)
                 .HasForeignKey(bc => bc.TagsId);
+            
 
             builder.Entity<CookTag>()
                 .HasKey(bc => new { bc.CookId, bc.TagsId });
@@ -77,22 +78,23 @@ namespace WhatsCookinGroupCapstone.Data
                 .WithMany(c => c.CookTag)
                 .HasForeignKey(bc => bc.TagsId);
 
-            builder.Entity<CookSavedRecipes>()
-                .HasKey(bc => new { bc.CookId, bc.RecipeId });
-            builder.Entity<CookSavedRecipes>()
-                .HasOne(bc => bc.Cook)
-                .WithMany(b => b.CookSavedRecipes)
-                .HasForeignKey(bc => bc.CookId);
-            builder.Entity<CookSavedRecipes>()
-                .HasOne(bc => bc.Recipe)
-                .WithMany(c => c.CookSavedRecipes)
-                .HasForeignKey(bc => bc.RecipeId);
+
+            //builder.Entity<CookSavedRecipes>()
+            //   .HasKey(bc => new { bc.CookId, bc.RecipeId });
+            //builder.Entity<CookSavedRecipes>()
+            //    .HasOne(bc => bc.Cook)
+            //    .WithMany(b => b.CookSavedRecipes)
+            //    .HasForeignKey(bc => bc.CookId);
+            //builder.Entity<CookSavedRecipes>()
+            //    .HasOne(bc => bc.Recipe)
+            //    .WithMany(c => c.CookSavedRecipes)
+            //    .HasForeignKey(bc => bc.RecipeId);
         }
         
 
         public DbSet<Cook> Cook { get; set; }
         public DbSet<Followers> Followers { get; set; }
-        public DbSet<Recipe> Recipes { get; set; }
+        public DbSet<Recipe> Recipe { get; set; }
         public DbSet<RecipeTags> RecipeTags { get; set; }
         public DbSet<Reviews> Reviews { get; set; }
         public DbSet<Tags> Tags { get; set; }

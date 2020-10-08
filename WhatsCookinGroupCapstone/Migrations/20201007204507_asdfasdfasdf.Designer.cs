@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WhatsCookinGroupCapstone.Data;
 
 namespace WhatsCookinGroupCapstone.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201007204507_asdfasdfasdf")]
+    partial class asdfasdfasdf
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,8 +50,8 @@ namespace WhatsCookinGroupCapstone.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "a829f1ad-5e38-4177-8032-5fa1543016fd",
-                            ConcurrencyStamp = "5f62d4dd-7a4f-4246-ad79-e241a32a3f84",
+                            Id = "e9fc7ff5-785e-4c0a-b920-f9cd614630f3",
+                            ConcurrencyStamp = "77e1acf9-5503-410b-a865-947d9a793b82",
                             Name = "Cook",
                             NormalizedName = "COOK"
                         });
