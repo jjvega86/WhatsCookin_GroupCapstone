@@ -127,21 +127,111 @@ namespace WhatsCookinGroupCapstone.Controllers
 
         }
 
-        private void RandomizeRecipes(List<int> sixNumbers, CookTag cookTags)
+        // I want to find all of the tags for my cook **
+        // then, I want to find all recpies tagged with the same tags related to my cook **
+        // i.e., cook only wants vegan recipes ("TagId = 1"), we then query the RecipeTags table and find all recipes with a 
+        // TagId == 1. I want to have a list of RecipeIds from this query **
+        // then, I want to query my recipes table for all of the recipes that match list of RecipeIds and add them to a list **
+        // Then, I want to pass six of those recipes to a view and display them as a grid that the cook can see 
+        // Ideally, I want to randomly select the six recipes
+​
+        private List<int> FindCookTags(Cook cook)
         {
-            
-        }
-
-        private List<int> GetSixRandomNumbers(RecipeTags recipeTags)
-        {
-            List<int> sixNumbers = new List<int>();
-            Random random = new Random();
-            var recipeListCount = _repo.RecipeTags.FindAll();
-            for(int i = 0; i < 6; i++)
+            var selectedCook = _repo.Cook.FindByCondition(c => c.CookId == cook.CookId).SingleOrDefault();
+            var cookTags = _repo.CookTag.FindByCondition(c => c.CookId == selectedCook.CookId);
+​
+            List<int> recipeTags = new List<int>();
+​
+            foreach (CookTag cookTag in cookTags)
             {
-                sixNumbers.Add(random.Next(recipeListCount.Count()));
+                recipeTags.Add(cookTag.TagsId);
+​
             }
-            return sixNumbers;
+​
+            return recipeTags;
+​
+        }
+​
+        private List<int> FindRecipeTagsMatchingCookTags(List<int> recipeTags)
+        {
+            List<int> recipeIds = new List<int>();
+            foreach (int tagId in recipeTags)
+            {
+                var selectedRecipe = _repo.RecipeTags.FindByCondition(c => c.TagsId == tagId).SingleOrDefault();
+                recipeIds.Add(selectedRecipe.RecipeId);
+​
+            }
+​
+            return recipeIds;
+        }
+​
+        private List<Recipe> FindMatchingRecipes(List<int> recipeIds)
+        {
+            List<Recipe> recipeList = new List<Recipe>();
+            foreach (int recipeId in recipeIds)
+            {
+                var selectedRecipe = _repo.Recipe.FindByCondition(c => c.RecipeId == recipeId).SingleOrDefault();
+                recipeList.Add(selectedRecipe);
+            }
+​
+            return recipeList;
+        }
+​
+        private List<int> GetSixRandomNumbers(int recipeCount)
+        {
+            List<int> sixRandomNumbers = new List<int>();
+            Random random = new Random();
+​
+            for (int i = 0; i < 6; i++)
+            {
+​
+                sixRandomNumbers.Add(random.Next(recipeCount));
+            }
+​
+            return sixRandomNumbers;
+​
+        }
+​
+        private List<Recipe> RandomizeRecipes(List<Recipe> recipeList)
+        {
+            // recipeList generated from FindMatchingRecipes
+            // set int recipeCount parameter for GetSixRandomNumbers = to recipeList.Count-1
+​
+           
+            int recipeCount = recipeList.Count();
+            List<int> randomNumbers = GetSixRandomNumbers(recipeCount);
+            List<Recipe> finalRecipeList = new List<Recipe>();
+​
+            if (recipeCount > 6)
+            {
+                foreach (int randomNumber in randomNumbers)
+                {
+                    var recipe = recipeList[randomNumber];
+                    finalRecipeList.Add(recipe);
+                }
+​
+​
+            }
+            else
+            {
+                foreach (int randomNumber in randomNumbers)
+                {
+                    var recipe = _repo.Recipe.FindByCondition(r => r.RecipeId == randomNumber).SingleOrDefault();
+                    recipeList.Add(recipe);
+                }
+            }
+​
+            return finalRecipeList;​
+​
+        }
+​
+        public ActionResult DefaultView(Cook cook)
+        {
+            List<Recipe> recipeList = FindMatchingRecipes(FindRecipeTagsMatchingCookTags(FindCookTags(cook)));
+            List<Recipe> finalRecipeList = RandomizeRecipes(recipeList);
+​
+            return View(finalRecipeList);
+​
         }
     }
 }
