@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WhatsCookinGroupCapstone.Data;
 
 namespace WhatsCookinGroupCapstone.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201008190319_AddedPrimaryKeyToReviews")]
+    partial class AddedPrimaryKeyToReviews
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,9 +50,8 @@ namespace WhatsCookinGroupCapstone.Migrations
                     b.HasData(
                         new
                         {
-
-                            Id = "a829f1ad-5e38-4177-8032-5fa1543016fd",
-                            ConcurrencyStamp = "5f62d4dd-7a4f-4246-ad79-e241a32a3f84",
+                            Id = "4b51bb81-40da-4b36-9337-cfeb2ea3e2a6",
+                            ConcurrencyStamp = "fa348ae8-0cb0-41bf-8832-3a2d75f35a65",
                             Name = "Cook",
                             NormalizedName = "COOK"
                         });
@@ -267,7 +268,6 @@ namespace WhatsCookinGroupCapstone.Migrations
 
                     b.HasIndex("RecipeId");
 
-
                     b.ToTable("CookSavedRecipes");
                 });
 
@@ -336,7 +336,7 @@ namespace WhatsCookinGroupCapstone.Migrations
 
                     b.HasIndex("CookID");
 
-                    b.ToTable("Recipe");
+                    b.ToTable("Recipes");
                 });
 
             modelBuilder.Entity("WhatsCookinGroupCapstone.Models.RecipeTags", b =>
@@ -360,9 +360,6 @@ namespace WhatsCookinGroupCapstone.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CookId")
-                        .HasColumnType("int");
 
                     b.Property<int>("Rating")
                         .HasColumnType("int");

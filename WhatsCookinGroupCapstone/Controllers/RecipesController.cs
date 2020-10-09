@@ -232,6 +232,99 @@ namespace WhatsCookinGroupCapstone.Controllers
                 new SelectListItem { Text = "Dairy", Value = "Dairy" }
             };
 
-       }
+        }
+
+        // GET: Recipes/Review/5
+        public IActionResult Review(int id)
+        {
+            //validate passed in RecipeId
+            bool cookValidated = ValidateReviewSubmission(id);
+            if (cookValidated == false)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var loggedInCook = _repo.Cook.FindByCondition(e => e.IdentityUserId == userId).SingleOrDefault();
+                Reviews review = new Reviews();
+                review.RecipeID = id;
+                review.CookId = loggedInCook.CookId;
+
+                return View(review);
+
+            }
+            
+        }
+
+        private bool ValidateReviewSubmission(int id)
+        {
+            bool canSubmit = true;
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var loggedInCook = _repo.Cook.FindByCondition(e => e.IdentityUserId == userId).SingleOrDefault();
+            var reviewedRecipes = _repo.Reviews.FindByCondition(r => r.RecipeID == id);
+
+            foreach(Reviews review in reviewedRecipes)
+            {
+                if (review.CookId == loggedInCook.CookId)
+                {
+                    canSubmit = false;
+                    break;
+                }
+            }
+
+            return canSubmit;
+            
+        }
+
+        // POST: Recipes/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Review(Reviews review)
+        {
+            if (ModelState.IsValid)
+            {
+                _repo.Reviews.Create(review);
+                _repo.Save();
+               
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        // GET: Recipes/SeeReview/
+        public IActionResult SeeReviews(int id)
+        {
+            if (id == 0)
+            {
+                return NotFound();
+            }
+            else
+            {
+                List<Reviews> reviews = new List<Reviews>();
+
+                var allReviews = _repo.Reviews.FindAll().ToList();
+
+                foreach(Reviews review in allReviews)
+                {
+                    if(review.RecipeID == id)
+                    {
+                        reviews.Add(review);
+                    }
+                }
+
+                return View(reviews);
+
+            }
+
+
+        }
+
+
     }
 }

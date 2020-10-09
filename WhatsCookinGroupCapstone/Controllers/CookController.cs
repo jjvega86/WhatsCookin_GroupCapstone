@@ -56,7 +56,7 @@ namespace WhatsCookinGroupCapstone.Controllers
                 cook.AllTags = GetTags();
             }
 
-                    
+
             return View(cook);
         }
 
@@ -65,7 +65,7 @@ namespace WhatsCookinGroupCapstone.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Cook cook)
         {
- 
+
             if (ModelState.IsValid)
             {
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -90,7 +90,7 @@ namespace WhatsCookinGroupCapstone.Controllers
             }
             return View(cook);
         }
-        
+
 
         // GET: CookController/Edit/5
         public ActionResult Edit(int id)

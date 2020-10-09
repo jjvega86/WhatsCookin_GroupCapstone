@@ -44,6 +44,7 @@ namespace WhatsCookinGroupCapstone
              })
             .AddGoogle(options =>
             {
+
                 options.ClientId = Key.clientId;
                 options.ClientSecret = Key.clientSecret;
                 options.SignInScheme = IdentityConstants.ExternalScheme;

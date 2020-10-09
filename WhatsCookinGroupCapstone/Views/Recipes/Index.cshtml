@@ -8,6 +8,7 @@
 <h4>To add a new Recipe click "create new" down below!</h4>
 <p>
     <a asp-action="Create">Create New</a> |
+    <a asp-action="Search">Search for Recipes</a>
     <a asp-action="Saved Recipes"></a>
 </p>
 <table class="table">
@@ -59,12 +60,13 @@
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.RecipeId">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.RecipeId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.RecipeId">Delete</a>
+                    <a asp-action="Delete" asp-route-id="@item.RecipeId">Delete</a> |
+                    <a asp-action="Review" asp-route-id="@item.RecipeId">Submit Review</a> |
+                    <a asp-action="SeeReviews" asp-route-id="@item.RecipeId">See Reviews</a> |
                 </td>
             </tr>
-            <div>
-                <button><a asp-action="Search">Search for Recipes</a></button>
-            </div>
         }
     </tbody>
+    
+
 </table>
