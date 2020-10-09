@@ -8,8 +8,15 @@
 <h4>To add a new Recipe click "create new" down below!</h4>
 <p>
     <a asp-action="Create">Create New</a> |
-    <a asp-action="Search">Search for Recipes</a>
-    <a asp-action="Saved Recipes"></a>
+    <a asp-action="Search">Search for Recipes</a>|
+    <a asp-action="Saved Recipes"></a>|
+    @Html.ActionLink(
+   linkText: "Cooks You Are Following",
+   actionName: "Followers",
+   controllerName: "Cook"
+ 
+)
+
 </p>
 <table class="table">
     <thead>
