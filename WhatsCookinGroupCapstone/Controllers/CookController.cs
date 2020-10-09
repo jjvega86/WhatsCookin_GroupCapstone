@@ -174,6 +174,15 @@ namespace WhatsCookinGroupCapstone.Controllers
             return View(followedCooks);
 
         }
+
+        public ActionResult FollowedCookbook(int id)
+        {
+            // I want to return a list of recipes that the passed in CookId has created from the Recipe database
+
+            var listOfRecipes = _repo.Recipe.FindByCondition(r => r.CookID == id).ToList();
+
+            return View(listOfRecipes);
+        }
     }
 
 
