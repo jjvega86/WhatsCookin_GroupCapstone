@@ -105,6 +105,7 @@ namespace WhatsCookinGroupCapstone.Data
         public DbSet<Tags> Tags { get; set; }
         public DbSet<CookTag> CookTags { get; set; }
         public DbSet<CookSavedRecipes> CookSavedRecipes { get; set; }
+        public DbSet<RecipeEdits> RecipeEdits { get; set; }
        
 
         

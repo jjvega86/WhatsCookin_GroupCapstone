@@ -10,8 +10,8 @@ using WhatsCookinGroupCapstone.Data;
 namespace WhatsCookinGroupCapstone.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201008185022_innnits")]
-    partial class innnits
+    [Migration("20201009180807_innit")]
+    partial class innit
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,8 +50,8 @@ namespace WhatsCookinGroupCapstone.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "fa86f07a-c159-45be-868e-e0857cf42727",
-                            ConcurrencyStamp = "62e4a07d-2c54-4f31-89d2-267d5f2459fb",
+                            Id = "b95f9d84-6345-422f-b28d-bb608b3efe10",
+                            ConcurrencyStamp = "0956f459-b00e-4bba-b42e-7c7cb224c3a3",
                             Name = "Cook",
                             NormalizedName = "COOK"
                         });
@@ -313,6 +313,9 @@ namespace WhatsCookinGroupCapstone.Migrations
                     b.Property<int>("CookID")
                         .HasColumnType("int");
 
+                    b.Property<string>("CookName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -352,10 +355,13 @@ namespace WhatsCookinGroupCapstone.Migrations
 
             modelBuilder.Entity("WhatsCookinGroupCapstone.Models.Reviews", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ReviewId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CookId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Rating")
                         .HasColumnType("int");
@@ -369,9 +375,7 @@ namespace WhatsCookinGroupCapstone.Migrations
                     b.Property<bool>("Validation")
                         .HasColumnType("bit");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("RecipeID");
+                    b.HasKey("ReviewId");
 
                     b.ToTable("Reviews");
                 });
@@ -511,15 +515,6 @@ namespace WhatsCookinGroupCapstone.Migrations
                     b.HasOne("WhatsCookinGroupCapstone.Models.Tags", "Tags")
                         .WithMany("RecipeTags")
                         .HasForeignKey("TagsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("WhatsCookinGroupCapstone.Models.Reviews", b =>
-                {
-                    b.HasOne("WhatsCookinGroupCapstone.Models.Recipe", "Recipe")
-                        .WithMany()
-                        .HasForeignKey("RecipeID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

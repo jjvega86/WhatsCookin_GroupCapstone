@@ -10,8 +10,8 @@ using WhatsCookinGroupCapstone.Data;
 namespace WhatsCookinGroupCapstone.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201009150755_init")]
-    partial class init
+    [Migration("20201009192357_recipeedits2")]
+    partial class recipeedits2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,8 +50,8 @@ namespace WhatsCookinGroupCapstone.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d1a60a2c-f518-49f6-91f7-453411e0068d",
-                            ConcurrencyStamp = "c465563c-e2af-4b7a-96b2-25f19ac56b83",
+                            Id = "6937b43f-b1eb-4b65-9379-11f9884ee4e9",
+                            ConcurrencyStamp = "8d326d33-cf6d-4921-85fa-04ad9a1d19ab",
                             Name = "Cook",
                             NormalizedName = "COOK"
                         });
@@ -336,6 +336,27 @@ namespace WhatsCookinGroupCapstone.Migrations
                     b.HasIndex("CookID");
 
                     b.ToTable("Recipe");
+                });
+
+            modelBuilder.Entity("WhatsCookinGroupCapstone.Models.RecipeEdits", b =>
+                {
+                    b.Property<int>("RecipeEditsId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CookId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RecipeID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SuggestedEdit")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("RecipeEditsId");
+
+                    b.ToTable("RecipeEdits");
                 });
 
             modelBuilder.Entity("WhatsCookinGroupCapstone.Models.RecipeTags", b =>

@@ -48,12 +48,8 @@ namespace WhatsCookinGroupCapstone.Migrations
                     b.HasData(
                         new
                         {
-
-
-
-                            Id = "453281b7-de06-4b28-af1d-15d04833f6c2",
-                            ConcurrencyStamp = "d53abd46-0468-40b6-9eba-bc02f04ac1b",
-
+                            Id = "6937b43f-b1eb-4b65-9379-11f9884ee4e9",
+                            ConcurrencyStamp = "8d326d33-cf6d-4921-85fa-04ad9a1d19ab",
                             Name = "Cook",
                             NormalizedName = "COOK"
                         });
@@ -338,6 +334,27 @@ namespace WhatsCookinGroupCapstone.Migrations
                     b.HasIndex("CookID");
 
                     b.ToTable("Recipe");
+                });
+
+            modelBuilder.Entity("WhatsCookinGroupCapstone.Models.RecipeEdits", b =>
+                {
+                    b.Property<int>("RecipeEditsId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CookId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RecipeID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SuggestedEdit")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("RecipeEditsId");
+
+                    b.ToTable("RecipeEdits");
                 });
 
             modelBuilder.Entity("WhatsCookinGroupCapstone.Models.RecipeTags", b =>

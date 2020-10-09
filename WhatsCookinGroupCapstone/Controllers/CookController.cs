@@ -38,6 +38,8 @@ namespace WhatsCookinGroupCapstone.Controllers
             }
             else
             {
+                //This only works if recipes are seeded in the database.  
+                //Maybe come back later and make new view for if in case no recipes exist.
                 UserRandomRecipes userRandomRecipes1 = new UserRandomRecipes();
                 List<Recipe> recipeList = FindMatchingRecipes(FindRecipeTagsMatchingCookTags(FindCookTags(selectedCook)));
                 List<Recipe> finalRecipeList = RandomizeRecipes(recipeList);
@@ -256,7 +258,7 @@ namespace WhatsCookinGroupCapstone.Controllers
 
         private HashSet<int> GetOneRandomNumber(int recipeCount)
         {
-            
+
             HashSet<int> getOneRandom = new HashSet<int>();
             Random random = new Random();
 
@@ -266,6 +268,7 @@ namespace WhatsCookinGroupCapstone.Controllers
             getOneRandom.Add(random.Next(1, numberofRecipes + 1));
 
             return getOneRandom;
+        }
 
         public ActionResult Follow(int id)
         {
