@@ -77,7 +77,8 @@ namespace WhatsCookinGroupCapstone.Controllers
 
                 var loggedInCook = _repo.Cook.FindByCondition(e => e.IdentityUserId == userId).SingleOrDefault();
                 var loggedInCookID = loggedInCook.CookId;
-                recipe.CookID = loggedInCookID ;
+                recipe.CookID = loggedInCookID;
+                recipe.CookName = loggedInCook.UserName;
                 _repo.Recipe.Create(recipe);
                 _repo.Save();
 
