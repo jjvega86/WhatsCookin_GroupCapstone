@@ -10,8 +10,15 @@
     <a asp-action="Create">Create New</a> 
 
     <a asp-action="Create">Create New</a> |
-    <a asp-action="Search">Search for Recipes</a>
-    <a asp-action="Saved Recipes"></a>
+    <a asp-action="Search">Search for Recipes</a>|
+    <a asp-action="Saved Recipes"></a>|
+    @Html.ActionLink(
+   linkText: "Cooks You Are Following",
+   actionName: "Followers",
+   controllerName: "Cook"
+ 
+)
+
 </p>
 <table class="table">
     <thead>
@@ -57,7 +64,7 @@
                     @Html.DisplayFor(modelItem => item.Steps)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Cook.UserName)
+                    @Html.DisplayFor(modelItem => item.CookName)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.RecipeId">Edit</a> |
