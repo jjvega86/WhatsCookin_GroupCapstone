@@ -12,16 +12,16 @@ using WhatsCookinGroupCapstone.Models;
 
 namespace WhatsCookinGroupCapstone.Controllers
 {
-    public class RecipesController : Controller
+    public class RecipeController : Controller
     {
         private IRepositoryWrapper _repo;
 
-        public RecipesController(IRepositoryWrapper repo)
+        public RecipeController(IRepositoryWrapper repo)
         {
             _repo = repo;
         }
 
-        // GET: Recipes
+        // GET: Recipe
         public IActionResult Index()
         {
             List<Recipe> myRecipeList = new List<Recipe>();
@@ -35,7 +35,7 @@ namespace WhatsCookinGroupCapstone.Controllers
             return View(myRecipeList);
         }
 
-        // GET: Recipes/Details/5
+        // GET: Recipe/Details/5
         public IActionResult Details(int? id)
         {
             if (id == null)
@@ -54,7 +54,7 @@ namespace WhatsCookinGroupCapstone.Controllers
             return View(recipe);
         }
 
-        // GET: Recipes/Create
+        // GET: Recipe/Create
         public IActionResult Create()
         {
             Recipe recipe = new Recipe();
@@ -64,7 +64,7 @@ namespace WhatsCookinGroupCapstone.Controllers
             return View(recipe);
         }
 
-        // POST: Recipes/Create
+        // POST: Recipe/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -104,7 +104,7 @@ namespace WhatsCookinGroupCapstone.Controllers
             return View(recipe);
         }
 
-        // GET: Recipes/Edit/5
+        // GET: Recipe/Edit/5
         public IActionResult Edit(int? id)
         {
             if (id == null)
@@ -120,7 +120,7 @@ namespace WhatsCookinGroupCapstone.Controllers
             return View(recipe);
         }
 
-        // POST: Recipes/Edit/5
+        // POST: Recipe/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -155,7 +155,7 @@ namespace WhatsCookinGroupCapstone.Controllers
             return View(recipe);
         }
 
-        // GET: Recipes/Delete/5
+        // GET: Recipe/Delete/5
         public IActionResult Delete(int? id)
         {
             if (id == null)
@@ -173,7 +173,7 @@ namespace WhatsCookinGroupCapstone.Controllers
             return View(recipe);
         }
 
-        // POST: Recipes/Delete/5
+        // POST: Recipe/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
