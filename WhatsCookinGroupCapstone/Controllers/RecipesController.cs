@@ -404,8 +404,9 @@ namespace WhatsCookinGroupCapstone.Controllers
                 return NotFound();
 
             }
-            var recipe = _repo.Recipe.FindByCondition(r => r.RecipeId == id).FirstOrDefault();
+            var recipe = _repo.RecipeEdits.FindByCondition(r => r.RecipeEditsId == id).FirstOrDefault();
 
+            //return RedirectToAction(nameof(SubmitEdit));
             return View(recipe);
         }
 
