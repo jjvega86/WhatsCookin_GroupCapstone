@@ -16,63 +16,65 @@
     <link rel=stylesheet href=styles.css>
 </head>
 <body>
+    <button onclick="location.href='https://localhost:44384/Recipes/Details/@Html.ViewData.Model.FeelinLucky.RecipeId'" type="button">
+        Feelin' Lucky</button>
     <div class="container projects" style="margin-top: 4rem;">
         <div class="row">
             <div class="spot-1 col cell">
                 <h3>@Html.ViewData.Model.Recipes[0].RecipeName</h3>
-                
+
                 <a href="https://localhost:44384/Recipes/Details/@Html.ViewData.Model.Recipes[0].RecipeId" target="_blank">
                     <img src=@Html.ViewData.Model.Recipes[0].IMGUrl>
                 </a>
-                   
-                
+
+
             </div>
             <div class="spot-2 col cell">
                 <h3>@Html.ViewData.Model.Recipes[1].RecipeName</h3>
-                
+
                 <a href="https://localhost:44384/Recipes/Details/@Html.ViewData.Model.Recipes[1].RecipeId" target="_blank">
                     <img src=@Html.ViewData.Model.Recipes[1].IMGUrl>
                 </a>
-                   
+
 
             </div>
             <div class="spot-3 col cell">
                 <h3>@Html.ViewData.Model.Recipes[2].RecipeName</h3>
-                
+
                 <a href="https://localhost:44384/Recipes/Details/@Html.ViewData.Model.Recipes[2].RecipeId" target="_blank">
                     <img src=@Html.ViewData.Model.Recipes[2].IMGUrl>
                 </a>
-                
+
             </div>
         </div>
         <div class="row">
             <div class="spot-4 col cell">
                 <h3>@Html.ViewData.Model.Recipes[3].RecipeName</h3>
-                
+
                 <a href="https://localhost:44384/Recipes/Details/@Html.ViewData.Model.Recipes[3].RecipeId" target="_blank">
                     <img src=@Html.ViewData.Model.Recipes[3].IMGUrl>
                 </a>
-                    
+
             </div>
             <div class="spot-5 col cell">
                 <h3>@Html.ViewData.Model.Recipes[4].RecipeName</h3>
-                
+
                 <a href="https://localhost:44384/Recipes/Details/@Html.ViewData.Model.Recipes[4].RecipeId" target="_blank">
                     <img src=@Html.ViewData.Model.Recipes[4].IMGUrl>
                 </a>
-                  
+
             </div>
             <div class="spot-6 col cell">
                 <h3>@Html.ViewData.Model.Recipes[5].RecipeName</h3>
-                
+
                 <a href="https://localhost:44384/Recipes/Details/@Html.ViewData.Model.Recipes[5].RecipeId" target="_blank">
                     <img src=@Html.ViewData.Model.Recipes[5].IMGUrl>
                 </a>
-                 
+
             </div>
         </div>
     </div>
-    
+
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
