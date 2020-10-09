@@ -28,6 +28,8 @@ namespace WhatsCookinGroupCapstone.Data
            }
            );
 
+           
+
             builder.Entity<Tags>().HasData(
                 new Models.Tags
                 {
