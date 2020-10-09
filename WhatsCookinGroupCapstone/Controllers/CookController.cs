@@ -161,8 +161,19 @@ namespace WhatsCookinGroupCapstone.Controllers
             List<int> recipeIds = new List<int>();
             foreach (int tagId in recipeTags)
             {
-                var selectedRecipe = _repo.RecipeTags.FindByCondition(c => c.TagsId == tagId).FirstOrDefault();
-                recipeIds.Add(selectedRecipe.RecipeId);
+                var selectedRecipe = _repo.RecipeTags.FindByCondition(c => c.TagsId == tagId).SingleOrDefault();
+
+                if(selectedRecipe == null)
+                {
+                    var firstRecipe = _repo.Recipe.FindByCondition(r => r.RecipeId == 1).SingleOrDefault();
+                    recipeIds.Add(firstRecipe.RecipeId);
+                  
+                }
+                else
+                {
+                    recipeIds.Add(selectedRecipe.RecipeId);
+
+                }
             }
             return recipeIds;
         }
@@ -243,20 +254,20 @@ namespace WhatsCookinGroupCapstone.Controllers
                 Recipes = new List<Recipe>()
             };
             List<UserRandomRecipes> rec = new List<UserRandomRecipes>();
-            
+
             foreach (Recipe recipe in finalRecipeList)
             {
-                
+
                 userRandomRecipes.Recipes.Add(recipe);
                 rec.Add(userRandomRecipes);
-                
+
             }
             return userRandomRecipes;
         }
 
         private HashSet<int> GetOneRandomNumber(int recipeCount)
         {
-            
+
             HashSet<int> getOneRandom = new HashSet<int>();
             Random random = new Random();
 
@@ -266,6 +277,7 @@ namespace WhatsCookinGroupCapstone.Controllers
             getOneRandom.Add(random.Next(1, numberofRecipes + 1));
 
             return getOneRandom;
+        }
 
         public ActionResult Follow(int id)
         {
@@ -333,7 +345,7 @@ namespace WhatsCookinGroupCapstone.Controllers
 
         private UserRandomRecipes AddFeelinLuckyToViewObject(UserRandomRecipes finalList, Recipe feelinLucky)
         {
-            
+
             var helperObject = _repo.Recipe.FindByCondition(f => f.RecipeId == feelinLucky.RecipeId).SingleOrDefault();
             finalList.FeelinLucky = helperObject;
             return finalList;
@@ -347,9 +359,9 @@ namespace WhatsCookinGroupCapstone.Controllers
 
             return View(listOfRecipes);
         }
-
     }
-
-
 }
+
+
+
 
