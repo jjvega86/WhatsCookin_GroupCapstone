@@ -7,11 +7,9 @@
 <h1>Welcome to your Recipes!!</h1>
 <h4>To add a new Recipe click "create new" down below!</h4>
 <p>
-    <a asp-action="Create">Create New</a> 
-
     <a asp-action="Create">Create New</a> |
     <a asp-action="Search">Search for Recipes</a>|
-    <a asp-action="Saved Recipes"></a>|
+    <a asp-action="CooksSaved">Saved Recipes</a>|
     @Html.ActionLink(
    linkText: "Cooks You Are Following",
    actionName: "Followers",
@@ -74,7 +72,6 @@
                     <a asp-action="SeeReviews" asp-route-id="@item.RecipeId">See Reviews</a> |
                 </td>
             </tr>
-      
         }
     </tbody>
     
