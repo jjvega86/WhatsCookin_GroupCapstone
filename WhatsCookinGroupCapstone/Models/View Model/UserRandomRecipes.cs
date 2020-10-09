@@ -9,7 +9,7 @@ namespace WhatsCookinGroupCapstone.Models.View_Model
     {
         public List<Recipe> Recipes { get; set; } 
         public List<Cook> Cooks { get; set; }
-        public List<Recipe> FeelinLucky { get; set; }
+        public Recipe FeelinLucky { get; set; }
 
 
    

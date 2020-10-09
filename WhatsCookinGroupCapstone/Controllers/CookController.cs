@@ -41,10 +41,11 @@ namespace WhatsCookinGroupCapstone.Controllers
                 UserRandomRecipes userRandomRecipes1 = new UserRandomRecipes();
                 List<Recipe> recipeList = FindMatchingRecipes(FindRecipeTagsMatchingCookTags(FindCookTags(selectedCook)));
                 List<Recipe> finalRecipeList = RandomizeRecipes(recipeList);
-                var theActualFinalRecipeList = ConvertListToModelViewType(finalRecipeList);
-                
-
-                return View(theActualFinalRecipeList);
+                ConvertListToModelViewType(finalRecipeList);
+                var theActualFinalList = ConvertListToModelViewType(finalRecipeList);
+                var feelinLuckyRecipe = (FindRecipeForFeelinLuckyButton(1));
+                var theViewObject = AddFeelinLuckyToViewObject(theActualFinalList, feelinLuckyRecipe);
+                return View(theViewObject);
 
             }
 
@@ -254,30 +255,36 @@ namespace WhatsCookinGroupCapstone.Controllers
 
         private HashSet<int> GetOneRandomNumber(int recipeCount)
         {
-            //Hashset stops two numbers repeating more than once from random
-            HashSet<int> sixRandomNumbers = new HashSet<int>();
-            //Excludes 0 from being available in hashset
-
+            
+            HashSet<int> getOneRandom = new HashSet<int>();
             Random random = new Random();
             
-            sixRandomNumbers.Add(random.Next(1, recipeCount + 1));
+            getOneRandom.Add(random.Next(1, recipeCount + 1));
 
-            return sixRandomNumbers;
+            return getOneRandom;
         }
 
-        private List<Recipe> FindRecipeForFeelinLuckyButton(int recipeCount)
+        private Recipe FindRecipeForFeelinLuckyButton(int recipeCount)
         {
             HashSet<int> oneRandomNumber = GetOneRandomNumber(recipeCount);
 
-            List<Recipe> finalRecipeList = new List<Recipe>();
+            Recipe feelinLuckyObject = new Recipe();
 
             foreach (int randomNumber in oneRandomNumber)
             {
-                var recipe = _repo.Recipe.FindByCondition(r => r.RecipeId == randomNumber).SingleOrDefault();
-                finalRecipeList.Add(recipe);
+                feelinLuckyObject = _repo.Recipe.FindByCondition(r => r.RecipeId == randomNumber).SingleOrDefault();
+                //feelinLuckyObject.Add(recipe);
             }
 
-            return finalRecipeList;
+            return feelinLuckyObject;
+        }
+
+        private UserRandomRecipes AddFeelinLuckyToViewObject(UserRandomRecipes finalList, Recipe feelinLucky)
+        {
+            
+            var helperObject = _repo.Recipe.FindByCondition(f => f.RecipeId == feelinLucky.RecipeId).SingleOrDefault();
+            finalList.FeelinLucky = helperObject;
+            return finalList;
         }
 
 
