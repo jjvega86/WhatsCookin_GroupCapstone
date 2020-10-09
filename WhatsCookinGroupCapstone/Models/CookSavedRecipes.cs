@@ -14,6 +14,6 @@ namespace WhatsCookinGroupCapstone.Models
         public int CookId { get; set; }
         public int RecipeId { get; set; }
         [NotMapped]
-        List<Recipe> AllRecpes { get; set; }
+        public List<Recipe> AllRecipes { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WhatsCookinGroupCapstone.Models.CookSavedRecipes>
+﻿@model IEnumerable<WhatsCookinGroupCapstone.Models.Recipe>
 
 @{
     ViewData["Title"] = "CooksSaved";
@@ -12,6 +12,24 @@
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RecipeName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IMGUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ingredients)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Steps)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cook)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -34,12 +52,12 @@
                 @Html.DisplayFor(modelItem => item.Steps)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Cook.UserName)
+                @Html.DisplayFor(modelItem => item.Cook.CookId)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.CookSavedRecipesId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CookSavedRecipesId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CookSavedRecipesId">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.RecipeId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.RecipeId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.RecipeId">Delete</a>
             </td>
         </tr>
 }
