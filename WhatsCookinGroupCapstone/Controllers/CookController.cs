@@ -258,8 +258,11 @@ namespace WhatsCookinGroupCapstone.Controllers
             
             HashSet<int> getOneRandom = new HashSet<int>();
             Random random = new Random();
-            
-            getOneRandom.Add(random.Next(1, recipeCount + 1));
+
+            var allRecipeCount = _repo.Recipe.FindAll();
+            int numberofRecipes = allRecipeCount.Count();
+
+            getOneRandom.Add(random.Next(1, numberofRecipes + 1));
 
             return getOneRandom;
         }
