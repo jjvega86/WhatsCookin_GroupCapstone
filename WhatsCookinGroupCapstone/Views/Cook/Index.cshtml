@@ -21,10 +21,16 @@
             <div class="spot-1 col cell">
                 <h3>Project 1</h3>
                 <button type="button" class="btn btn-outline-light view-button">View</button>
+               
+                   <img src=@Html.ViewData.Model.Recipes[5].IMGUrl>
+                
             </div>
             <div class="spot-2 col cell">
                 <h3>Project 2</h3>
                 <button type="button" class="btn btn-outline-light view-button">View</button>
+                
+                    @Html.HiddenFor(m => Model.Recipes[1].IMGUrl)
+                
             </div>
             <div class="spot-3 col cell">
                 <h3>Project 3</h3>
