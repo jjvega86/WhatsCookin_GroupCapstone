@@ -10,7 +10,7 @@ namespace WhatsCookinGroupCapstone.Models
         public int RecipeEditsId { get; set; }
         public int RecipeID { get; set; }
         public int CookId { get; set; }
-        public string SuggestedEdit { get; set; }
+        public List<string> SuggestedEdit { get; set; }
 
     }
 }

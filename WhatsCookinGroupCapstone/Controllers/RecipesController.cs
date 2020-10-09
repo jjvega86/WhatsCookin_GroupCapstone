@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Runtime.ConstrainedExecution;
+using System.Runtime.InteropServices;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -381,7 +382,19 @@ namespace WhatsCookinGroupCapstone.Controllers
 
         }
 
-        //public IActionResult GetEdits()
+        public IActionResult GetEdits()
+        {
+            RecipeEdits recipeEdits = new RecipeEdits();
+            List<string> listOfEdits = new List<string>();
+            recipeEdits = _repo.RecipeEdits.FindByCondition(r => r.RecipeID == recipeEdits.RecipeID).SingleOrDefault();
+
+            foreach(string edits in recipeEdits.SuggestedEdit)
+            {
+                listOfEdits.Add(edits);
+                
+            }
+            return View(listOfEdits);
+        }
 
 
     }
