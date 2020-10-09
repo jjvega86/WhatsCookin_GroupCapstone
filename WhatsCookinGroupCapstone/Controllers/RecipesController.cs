@@ -382,19 +382,33 @@ namespace WhatsCookinGroupCapstone.Controllers
 
         }
 
-        public IActionResult GetEdits()
+        public IActionResult GetEdits(int id)
         {
-            RecipeEdits recipeEdits = new RecipeEdits();
+            //RecipeEdits recipeEdits = new RecipeEdits();
             List<string> listOfEdits = new List<string>();
-            recipeEdits = _repo.RecipeEdits.FindByCondition(r => r.RecipeID == recipeEdits.RecipeID).SingleOrDefault();
+            var recipeEdits = _repo.RecipeEdits.FindByCondition(r => r.RecipeID == id).ToList();
 
-            foreach(string edits in recipeEdits.SuggestedEdit)
+            foreach (RecipeEdits edits in recipeEdits)
             {
-                listOfEdits.Add(edits);
+                listOfEdits.Add(edits.SuggestedEdit);
                 
             }
             return View(listOfEdits);
         }
+
+
+        public IActionResult SubmitEdit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+
+            }
+            var recipe = _repo.Recipe.FindByCondition(r => r.RecipeId == id).FirstOrDefault();
+
+            return View(recipe);
+        }
+
 
 
     }
