@@ -147,7 +147,7 @@ namespace WhatsCookinGroupCapstone.Controllers
             _repo.Followers.Create(follower);
             _repo.Save();
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Followers));
 
         }
 
