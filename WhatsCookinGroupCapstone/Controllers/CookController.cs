@@ -162,7 +162,18 @@ namespace WhatsCookinGroupCapstone.Controllers
             foreach (int tagId in recipeTags)
             {
                 var selectedRecipe = _repo.RecipeTags.FindByCondition(c => c.TagsId == tagId).FirstOrDefault();
-                recipeIds.Add(selectedRecipe.RecipeId);
+
+                if(selectedRecipe == null)
+                {
+                    var firstRecipe = _repo.Recipe.FindByCondition(r => r.RecipeId == 1).SingleOrDefault();
+                    recipeIds.Add(firstRecipe.RecipeId);
+                  
+                }
+                else
+                {
+                    recipeIds.Add(selectedRecipe.RecipeId);
+
+                }
             }
             return recipeIds;
         }
@@ -185,53 +196,38 @@ namespace WhatsCookinGroupCapstone.Controllers
             Random random = new Random();
             while (sixRandomNumbers.Count < 6)
             {
-                sixRandomNumbers.Add(random.Next(1, recipeCount + 1));
+                sixRandomNumbers.Add(random.Next(0, recipeCount));
             }
-            //for (int i = 0; numbers.Count > 0; i++)
-            //{
-
-            //    sixRandomNumbers.Add(numbers[i]);
-            //}
+           
             return sixRandomNumbers;
         }
         private List<Recipe> RandomizeRecipes(List<Recipe> recipeList)
         {
             // recipeList generated from FindMatchingRecipes
             // set int recipeCount parameter for GetSixRandomNumbers = to recipeList.Count-1
-            int recipeCount = 0;
+            int recipeCount = 1;
 
-            if (recipeList.Count < 6)
-            {
-                var listOfAllRecipes = _repo.Recipe.FindAll().ToList();
-                foreach (Recipe recipe in listOfAllRecipes)
-                {
-                    recipeCount++;
-                }
+            // if there are less than six recipes in the list, add the first several recipes from the database until there are six in the list
 
+            var listOfAllRecipes = _repo.Recipe.FindAll().ToList();
+
+            while (recipeList.Count < 6)
+            {             
+                recipeList.Add(listOfAllRecipes[recipeCount]);
+                recipeCount++;              
             }
-            else
-            {
-                recipeCount = recipeList.Count();
-            }
-            HashSet<int> randomNumbers = GetSixRandomNumbers(recipeCount);
-
+          
+            recipeCount = recipeList.Count();
+            
+            var randomNumbers = GetSixRandomNumbers(recipeCount);
             List<Recipe> finalRecipeList = new List<Recipe>();
-            if (recipeList.Count > 6)
+
+            foreach (int randomNumber in randomNumbers)
             {
-                foreach (int randomNumber in randomNumbers)
-                {
-                    var recipe = recipeList[randomNumber];
-                    finalRecipeList.Add(recipe);
-                }
+                var recipe = recipeList[randomNumber];
+                finalRecipeList.Add(recipe);
             }
-            else
-            {
-                foreach (int randomNumber in randomNumbers)
-                {
-                    var recipe = _repo.Recipe.FindByCondition(r => r.RecipeId == randomNumber).SingleOrDefault();
-                    finalRecipeList.Add(recipe);
-                }
-            }
+
             return finalRecipeList;
         }
 
@@ -243,20 +239,20 @@ namespace WhatsCookinGroupCapstone.Controllers
                 Recipes = new List<Recipe>()
             };
             List<UserRandomRecipes> rec = new List<UserRandomRecipes>();
-            
+
             foreach (Recipe recipe in finalRecipeList)
             {
-                
+
                 userRandomRecipes.Recipes.Add(recipe);
                 rec.Add(userRandomRecipes);
-                
+
             }
             return userRandomRecipes;
         }
 
         private HashSet<int> GetOneRandomNumber(int recipeCount)
         {
-            
+
             HashSet<int> getOneRandom = new HashSet<int>();
             Random random = new Random();
 
@@ -266,6 +262,7 @@ namespace WhatsCookinGroupCapstone.Controllers
             getOneRandom.Add(random.Next(1, numberofRecipes + 1));
 
             return getOneRandom;
+        }
 
         public ActionResult Follow(int id)
         {
@@ -333,7 +330,7 @@ namespace WhatsCookinGroupCapstone.Controllers
 
         private UserRandomRecipes AddFeelinLuckyToViewObject(UserRandomRecipes finalList, Recipe feelinLucky)
         {
-            
+
             var helperObject = _repo.Recipe.FindByCondition(f => f.RecipeId == feelinLucky.RecipeId).SingleOrDefault();
             finalList.FeelinLucky = helperObject;
             return finalList;
@@ -347,9 +344,9 @@ namespace WhatsCookinGroupCapstone.Controllers
 
             return View(listOfRecipes);
         }
-
     }
-
-
 }
+
+
+
 
