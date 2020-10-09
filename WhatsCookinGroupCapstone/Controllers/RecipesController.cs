@@ -9,7 +9,6 @@ using Microsoft.EntityFrameworkCore;
 using WhatsCookinGroupCapstone.Contracts;
 using WhatsCookinGroupCapstone.Data;
 using WhatsCookinGroupCapstone.Models;
-using WhatsCookinGroupCapstone.Models.ViewModel;
 
 namespace WhatsCookinGroupCapstone.Controllers
 {
@@ -242,12 +241,15 @@ namespace WhatsCookinGroupCapstone.Controllers
             bool cookValidated = ValidateReviewSubmission(id);
             if (cookValidated == false)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Index));
             }
             else
             {
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var loggedInCook = _repo.Cook.FindByCondition(e => e.IdentityUserId == userId).SingleOrDefault();
                 Reviews review = new Reviews();
                 review.RecipeID = id;
+                review.CookId = loggedInCook.CookId;
 
                 return View(review);
 
