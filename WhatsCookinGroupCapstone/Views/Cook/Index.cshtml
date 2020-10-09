@@ -8,23 +8,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    
+
+    <link href="~/css/site.css" rel="stylesheet" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=1.0, initial-scale=1.0">
-    
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel=stylesheet href=styles.css>
+    @*<link rel="stylesheet" href=/css/site.css>
+    <link rel="stylesheet" href=/css/StyleSheet.css>*@
+
 </head>
 <body>
     <button onclick="location.href='https://localhost:44384/Recipes/Details/@Html.ViewData.Model.FeelinLucky.RecipeId'" type="button">
         Feelin' Lucky</button>
+    <div class="content-wrapper">
+        <div class="recipe-items-wrapper">
+            <div class="recipe-item-wrapper">
+                <div class="recipe-img-background" style="background-image:url(@Html.ViewData.Model.Recipes[0].IMGUrl)"></div>
+                <div class="img-text-wrapper">
+                    @Html.ViewData.Model.Recipes[0].RecipeName
+                </div>
+
+            </div>
+            <div class="recipe-item-wrapper">
+                <div class="recipe-img-background" style="background-image:url(@Html.ViewData.Model.Recipes[1].IMGUrl)"></div>
+                <div class="img-text-wrapper">
+                    @Html.ViewData.Model.Recipes[1].RecipeName
+                </div>
+
+            </div>
+            <div class="recipe-item-wrapper">
+                <div class="recipe-img-background" style="background-image:url(@Html.ViewData.Model.Recipes[2].IMGUrl)"></div>
+                <div class="img-text-wrapper">
+                    @Html.ViewData.Model.Recipes[2].RecipeName
+                </div>
+
+            </div>
+            <div class="recipe-item-wrapper">
+                <div class="recipe-img-background" style="background-image:url(@Html.ViewData.Model.Recipes[2].IMGUrl)"></div>
+                <div class="img-text-wrapper">
+                    @Html.ViewData.Model.Recipes[2].RecipeName
+                </div>
+
+            </div>
+            <div class="recipe-item-wrapper">
+                <div class="recipe-img-background" style="background-image:url(@Html.ViewData.Model.Recipes[0].IMGUrl)"></div>
+                <div class="img-text-wrapper">
+                    @Html.ViewData.Model.Recipes[0].RecipeName
+                </div>
+
+            </div>
+            <div class="recipe-item-wrapper">
+                <div class="recipe-img-background" style="background-image:url(@Html.ViewData.Model.Recipes[0].IMGUrl)"></div>
+                <div class="img-text-wrapper">
+                    @Html.ViewData.Model.Recipes[0].RecipeName
+                </div>
+
+            </div>
+        </div>
+    </div>
     <div class="container projects" style="margin-top: 4rem;">
         <div class="row">
             <div class="spot-1 col cell">
                 <h3>@Html.ViewData.Model.Recipes[0].RecipeName</h3>
 
                 <a href="https://localhost:44384/Recipes/Details/@Html.ViewData.Model.Recipes[0].RecipeId" target="_blank">
-                    <img src=@Html.ViewData.Model.Recipes[0].IMGUrl>
+                    <img src=@Html.ViewData.Model.Recipes[0].IMGUrl style="height=200px; width=200px" >
                 </a>
 
 
@@ -33,7 +82,7 @@
                 <h3>@Html.ViewData.Model.Recipes[1].RecipeName</h3>
 
                 <a href="https://localhost:44384/Recipes/Details/@Html.ViewData.Model.Recipes[1].RecipeId" target="_blank">
-                    <img src=@Html.ViewData.Model.Recipes[1].IMGUrl>
+                    <img src=@Html.ViewData.Model.Recipes[1].IMGUrl style="height=200px; width=200px">
                 </a>
 
 
@@ -42,7 +91,7 @@
                 <h3>@Html.ViewData.Model.Recipes[2].RecipeName</h3>
 
                 <a href="https://localhost:44384/Recipes/Details/@Html.ViewData.Model.Recipes[2].RecipeId" target="_blank">
-                    <img src=@Html.ViewData.Model.Recipes[2].IMGUrl>
+                    <img src=@Html.ViewData.Model.Recipes[2].IMGUrl style="height=200px; width=200px">
                 </a>
 
             </div>
@@ -52,7 +101,7 @@
                 <h3>@Html.ViewData.Model.Recipes[3].RecipeName</h3>
 
                 <a href="https://localhost:44384/Recipes/Details/@Html.ViewData.Model.Recipes[3].RecipeId" target="_blank">
-                    <img src=@Html.ViewData.Model.Recipes[3].IMGUrl>
+                    <img src=@Html.ViewData.Model.Recipes[3].IMGUrl style="height=200px; width=200px">
                 </a>
 
             </div>
@@ -60,7 +109,7 @@
                 <h3>@Html.ViewData.Model.Recipes[4].RecipeName</h3>
 
                 <a href="https://localhost:44384/Recipes/Details/@Html.ViewData.Model.Recipes[4].RecipeId" target="_blank">
-                    <img src=@Html.ViewData.Model.Recipes[4].IMGUrl>
+                    <img src=@Html.ViewData.Model.Recipes[4].IMGUrl style="height=200px; width=200px">
                 </a>
 
             </div>
@@ -68,7 +117,7 @@
                 <h3>@Html.ViewData.Model.Recipes[5].RecipeName</h3>
 
                 <a href="https://localhost:44384/Recipes/Details/@Html.ViewData.Model.Recipes[5].RecipeId" target="_blank">
-                    <img src=@Html.ViewData.Model.Recipes[5].IMGUrl>
+                    <img src=@Html.ViewData.Model.Recipes[5].IMGUrl style="height=200px; width=200px">
                 </a>
 
             </div>
