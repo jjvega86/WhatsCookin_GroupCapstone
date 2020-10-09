@@ -1,0 +1,66 @@
+﻿@model IEnumerable<WhatsCookinGroupCapstone.Models.Recipe>
+
+@{
+    ViewData["Title"] = "Cookbook";
+}
+
+<h1>Cookbook</h1>
+
+<p>
+    @Html.ActionLink(
+   linkText: "Return to Your Recipe List",
+   actionName: "Index",
+   controllerName: "Recipes"
+)
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RecipeName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IMGUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ingredients)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Steps)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cook)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RecipeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IMGUrl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ingredients)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Steps)
+            </td>
+          
+            <td>
+                @Html.DisplayFor(modelItem => item.CookName)
+            </td>
+          
+        </tr>
+}
+    </tbody>
+</table>
