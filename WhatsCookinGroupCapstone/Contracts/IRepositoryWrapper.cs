@@ -16,8 +16,8 @@ namespace WhatsCookinGroupCapstone.Contracts
         ITagsRepository Tags { get; }
         ICookTagRepository CookTag { get; }
         ICookSavedRecipesRepository CookSavedRecipes { get; }
-       
-
+        MarkedAsCooked
+          
         void Save();
     }
 }
