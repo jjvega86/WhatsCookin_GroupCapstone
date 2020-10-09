@@ -48,9 +48,6 @@ namespace WhatsCookinGroupCapstone.Migrations
                     b.HasData(
                         new
                         {
-
-
-
                             Id = "453281b7-de06-4b28-af1d-15d04833f6c2",
                             ConcurrencyStamp = "d53abd46-0468-40b6-9eba-bc02f04ac1b",
 
