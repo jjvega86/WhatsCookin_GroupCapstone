@@ -10,8 +10,8 @@ using WhatsCookinGroupCapstone.Data;
 namespace WhatsCookinGroupCapstone.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201008185652_RemovedForeignKeyFromReviews")]
-    partial class RemovedForeignKeyFromReviews
+    [Migration("20201009122742_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,8 +50,8 @@ namespace WhatsCookinGroupCapstone.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "1e3e07c2-e9a7-40ff-9b12-2bfecfb0d3ce",
-                            ConcurrencyStamp = "6178daca-aefe-4ed8-adcf-00981345f92d",
+                            Id = "453281b7-de06-4b28-af1d-15d04833f6c2",
+                            ConcurrencyStamp = "d53abd46-0468-40b6-9eba-bc02f04ac1de",
                             Name = "Cook",
                             NormalizedName = "COOK"
                         });
@@ -264,10 +264,6 @@ namespace WhatsCookinGroupCapstone.Migrations
 
                     b.HasKey("CookSavedRecipesId");
 
-                    b.HasIndex("CookId");
-
-                    b.HasIndex("RecipeId");
-
                     b.ToTable("CookSavedRecipes");
                 });
 
@@ -317,6 +313,9 @@ namespace WhatsCookinGroupCapstone.Migrations
                     b.Property<int>("CookID")
                         .HasColumnType("int");
 
+                    b.Property<string>("CookName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -336,7 +335,7 @@ namespace WhatsCookinGroupCapstone.Migrations
 
                     b.HasIndex("CookID");
 
-                    b.ToTable("Recipes");
+                    b.ToTable("Recipe");
                 });
 
             modelBuilder.Entity("WhatsCookinGroupCapstone.Models.RecipeTags", b =>
@@ -356,10 +355,13 @@ namespace WhatsCookinGroupCapstone.Migrations
 
             modelBuilder.Entity("WhatsCookinGroupCapstone.Models.Reviews", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ReviewId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CookId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Rating")
                         .HasColumnType("int");
@@ -373,7 +375,7 @@ namespace WhatsCookinGroupCapstone.Migrations
                     b.Property<bool>("Validation")
                         .HasColumnType("bit");
 
-                    b.HasKey("Id");
+                    b.HasKey("ReviewId");
 
                     b.ToTable("Reviews");
                 });
@@ -476,21 +478,6 @@ namespace WhatsCookinGroupCapstone.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUser")
                         .WithMany()
                         .HasForeignKey("IdentityUserId");
-                });
-
-            modelBuilder.Entity("WhatsCookinGroupCapstone.Models.CookSavedRecipes", b =>
-                {
-                    b.HasOne("WhatsCookinGroupCapstone.Models.Cook", null)
-                        .WithMany("CookSavedRecipes")
-                        .HasForeignKey("CookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WhatsCookinGroupCapstone.Models.Recipe", null)
-                        .WithMany("CookSavedRecipes")
-                        .HasForeignKey("RecipeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("WhatsCookinGroupCapstone.Models.CookTag", b =>

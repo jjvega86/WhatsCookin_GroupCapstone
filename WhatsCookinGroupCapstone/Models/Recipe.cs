@@ -32,6 +32,9 @@ namespace WhatsCookinGroupCapstone.Models
         public int CookID { get; set; }
         public Cook Cook { get; set; }
 
+        public string CookName { get; set; }
+
+
         public ICollection<RecipeTags> RecipeTags { get; set; }
         //public ICollection<CookSavedRecipes> CookSavedRecipes { get; set; }
 

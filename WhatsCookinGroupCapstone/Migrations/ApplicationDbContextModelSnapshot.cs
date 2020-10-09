@@ -48,9 +48,8 @@ namespace WhatsCookinGroupCapstone.Migrations
                     b.HasData(
                         new
                         {
-
-                            Id = "a829f1ad-5e38-4177-8032-5fa1543016fd",
-                            ConcurrencyStamp = "5f62d4dd-7a4f-4246-ad79-e241a32a3f84",
+                            Id = "453281b7-de06-4b28-af1d-15d04833f6c2",
+                            ConcurrencyStamp = "d53abd46-0468-40b6-9eba-bc02f04ac1de",
                             Name = "Cook",
                             NormalizedName = "COOK"
                         });
@@ -263,11 +262,6 @@ namespace WhatsCookinGroupCapstone.Migrations
 
                     b.HasKey("CookSavedRecipesId");
 
-                    b.HasIndex("CookId");
-
-                    b.HasIndex("RecipeId");
-
-
                     b.ToTable("CookSavedRecipes");
                 });
 
@@ -316,6 +310,9 @@ namespace WhatsCookinGroupCapstone.Migrations
 
                     b.Property<int>("CookID")
                         .HasColumnType("int");
+
+                    b.Property<string>("CookName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -479,21 +476,6 @@ namespace WhatsCookinGroupCapstone.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUser")
                         .WithMany()
                         .HasForeignKey("IdentityUserId");
-                });
-
-            modelBuilder.Entity("WhatsCookinGroupCapstone.Models.CookSavedRecipes", b =>
-                {
-                    b.HasOne("WhatsCookinGroupCapstone.Models.Cook", null)
-                        .WithMany("CookSavedRecipes")
-                        .HasForeignKey("CookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WhatsCookinGroupCapstone.Models.Recipe", null)
-                        .WithMany("CookSavedRecipes")
-                        .HasForeignKey("RecipeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("WhatsCookinGroupCapstone.Models.CookTag", b =>
