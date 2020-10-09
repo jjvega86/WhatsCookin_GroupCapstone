@@ -9,12 +9,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using WhatsCookinGroupCapstone.Contracts;
 using WhatsCookinGroupCapstone.Models;
+using WhatsCookinGroupCapstone.Models.View_Model;
 
 namespace WhatsCookinGroupCapstone.Controllers
 {
     public class CookController : Controller
     {
         private IRepositoryWrapper _repo;
+
 
         public CookController(IRepositoryWrapper repo)
         {
@@ -36,7 +38,15 @@ namespace WhatsCookinGroupCapstone.Controllers
             }
             else
             {
-                return View(selectedCook);
+                UserRandomRecipes userRandomRecipes1 = new UserRandomRecipes();
+                List<Recipe> recipeList = FindMatchingRecipes(FindRecipeTagsMatchingCookTags(FindCookTags(selectedCook)));
+                List<Recipe> finalRecipeList = RandomizeRecipes(recipeList);
+                ConvertListToModelViewType(finalRecipeList);
+                var theActualFinalList = ConvertListToModelViewType(finalRecipeList);
+                var feelinLuckyRecipe = (FindRecipeForFeelinLuckyButton(1));
+                var theViewObject = AddFeelinLuckyToViewObject(theActualFinalList, feelinLuckyRecipe);
+                return View(theViewObject);
+
             }
 
         }
@@ -127,6 +137,136 @@ namespace WhatsCookinGroupCapstone.Controllers
 
         }
 
+
+        //I want to find all of the tags for my cook **
+        // then, I want to find all recpies tagged with the same tags related to my cook**
+        // i.e., cook only wants vegan recipes ("TagId = 1"), we then query the RecipeTags table and find all recipes with a
+        // TagId == 1. I want to have a list of RecipeIds from this query**
+        // then, I want to query my recipes table for all of the recipes that match list of RecipeIds and add them to a list**
+        // Then, I want to pass six of those recipes to a view and display them as a grid that the cook can see
+        // Ideally, I want to randomly select the six recipes
+        private List<int> FindCookTags(Cook cook)
+        {
+            var selectedCook = _repo.Cook.FindByCondition(c => c.CookId == cook.CookId).SingleOrDefault();
+            var cookTags = _repo.CookTag.FindByCondition(c => c.CookId == selectedCook.CookId);
+            List<int> recipeTags = new List<int>();
+            foreach (CookTag cookTag in cookTags)
+            {
+                recipeTags.Add(cookTag.TagsId);
+            }
+            return recipeTags;
+        }
+        private List<int> FindRecipeTagsMatchingCookTags(List<int> recipeTags)
+        {
+            List<int> recipeIds = new List<int>();
+            foreach (int tagId in recipeTags)
+            {
+                var selectedRecipe = _repo.RecipeTags.FindByCondition(c => c.TagsId == tagId).FirstOrDefault();
+                recipeIds.Add(selectedRecipe.RecipeId);
+            }
+            return recipeIds;
+        }
+        private List<Recipe> FindMatchingRecipes(List<int> recipeIds)
+        {
+            List<Recipe> recipeList = new List<Recipe>();
+            foreach (int recipeId in recipeIds)
+            {
+                var selectedRecipe = _repo.Recipe.FindByCondition(c => c.RecipeId == recipeId).SingleOrDefault();
+                recipeList.Add(selectedRecipe);
+            }
+            return recipeList;
+        }
+        private HashSet<int> GetSixRandomNumbers(int recipeCount)
+        {
+            //Hashset stops two numbers repeating more than once from random
+            HashSet<int> sixRandomNumbers = new HashSet<int>();
+            //Excludes 0 from being available in hashset
+
+            Random random = new Random();
+            while (sixRandomNumbers.Count < 6)
+            {
+                sixRandomNumbers.Add(random.Next(1, recipeCount + 1));
+            }
+            //for (int i = 0; numbers.Count > 0; i++)
+            //{
+
+            //    sixRandomNumbers.Add(numbers[i]);
+            //}
+            return sixRandomNumbers;
+        }
+        private List<Recipe> RandomizeRecipes(List<Recipe> recipeList)
+        {
+            // recipeList generated from FindMatchingRecipes
+            // set int recipeCount parameter for GetSixRandomNumbers = to recipeList.Count-1
+            int recipeCount = 0;
+
+            if (recipeList.Count < 6)
+            {
+                var listOfAllRecipes = _repo.Recipe.FindAll().ToList();
+                foreach (Recipe recipe in listOfAllRecipes)
+                {
+                    recipeCount++;
+                }
+
+            }
+            else
+            {
+                recipeCount = recipeList.Count();
+            }
+            HashSet<int> randomNumbers = GetSixRandomNumbers(recipeCount);
+
+            List<Recipe> finalRecipeList = new List<Recipe>();
+            if (recipeList.Count > 6)
+            {
+                foreach (int randomNumber in randomNumbers)
+                {
+                    var recipe = recipeList[randomNumber];
+                    finalRecipeList.Add(recipe);
+                }
+            }
+            else
+            {
+                foreach (int randomNumber in randomNumbers)
+                {
+                    var recipe = _repo.Recipe.FindByCondition(r => r.RecipeId == randomNumber).SingleOrDefault();
+                    finalRecipeList.Add(recipe);
+                }
+            }
+            return finalRecipeList;
+        }
+
+        private UserRandomRecipes ConvertListToModelViewType(List<Recipe> finalRecipeList)
+        {
+
+            UserRandomRecipes userRandomRecipes = new UserRandomRecipes()
+            {
+                Recipes = new List<Recipe>()
+            };
+            List<UserRandomRecipes> rec = new List<UserRandomRecipes>();
+            
+            foreach (Recipe recipe in finalRecipeList)
+            {
+                
+                userRandomRecipes.Recipes.Add(recipe);
+                rec.Add(userRandomRecipes);
+                
+            }
+            return userRandomRecipes;
+        }
+
+        private HashSet<int> GetOneRandomNumber(int recipeCount)
+        {
+            
+            HashSet<int> getOneRandom = new HashSet<int>();
+            Random random = new Random();
+
+            var allRecipeCount = _repo.Recipe.FindAll();
+            int numberofRecipes = allRecipeCount.Count();
+
+            getOneRandom.Add(random.Next(1, numberofRecipes + 1));
+
+            return getOneRandom;
+
         public ActionResult Follow(int id)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -173,6 +313,30 @@ namespace WhatsCookinGroupCapstone.Controllers
 
             return View(followedCooks);
 
+
+        }
+
+        private Recipe FindRecipeForFeelinLuckyButton(int recipeCount)
+        {
+            HashSet<int> oneRandomNumber = GetOneRandomNumber(recipeCount);
+
+            Recipe feelinLuckyObject = new Recipe();
+
+            foreach (int randomNumber in oneRandomNumber)
+            {
+                feelinLuckyObject = _repo.Recipe.FindByCondition(r => r.RecipeId == randomNumber).SingleOrDefault();
+                //feelinLuckyObject.Add(recipe);
+            }
+
+            return feelinLuckyObject;
+        }
+
+        private UserRandomRecipes AddFeelinLuckyToViewObject(UserRandomRecipes finalList, Recipe feelinLucky)
+        {
+            
+            var helperObject = _repo.Recipe.FindByCondition(f => f.RecipeId == feelinLucky.RecipeId).SingleOrDefault();
+            finalList.FeelinLucky = helperObject;
+            return finalList;
         }
 
         public ActionResult FollowedCookbook(int id)
@@ -183,7 +347,9 @@ namespace WhatsCookinGroupCapstone.Controllers
 
             return View(listOfRecipes);
         }
+
     }
 
 
 }
+

@@ -47,6 +47,20 @@ namespace WhatsCookinGroupCapstone.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CookSavedRecipes",
+                columns: table => new
+                {
+                    CookSavedRecipesId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CookId = table.Column<int>(nullable: false),
+                    RecipeId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CookSavedRecipes", x => x.CookSavedRecipesId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Followers",
                 columns: table => new
                 {
@@ -59,6 +73,23 @@ namespace WhatsCookinGroupCapstone.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Followers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Reviews",
+                columns: table => new
+                {
+                    ReviewId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Rating = table.Column<int>(nullable: false),
+                    ReviewForRecipe = table.Column<string>(nullable: true),
+                    Validation = table.Column<bool>(nullable: false),
+                    RecipeID = table.Column<int>(nullable: false),
+                    CookId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reviews", x => x.ReviewId);
                 });
 
             migrationBuilder.CreateTable(
@@ -226,7 +257,7 @@ namespace WhatsCookinGroupCapstone.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Recipes",
+                name: "Recipe",
                 columns: table => new
                 {
                     RecipeId = table.Column<int>(nullable: false)
@@ -236,27 +267,18 @@ namespace WhatsCookinGroupCapstone.Migrations
                     Ingredients = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     Steps = table.Column<string>(nullable: true),
-                    CookID = table.Column<int>(nullable: false)
+                    CookID = table.Column<int>(nullable: false),
+                    CookName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Recipes", x => x.RecipeId);
+                    table.PrimaryKey("PK_Recipe", x => x.RecipeId);
                     table.ForeignKey(
-                        name: "FK_Recipes_Cook_CookID",
+                        name: "FK_Recipe_Cook_CookID",
                         column: x => x.CookID,
                         principalTable: "Cook",
                         principalColumn: "CookId",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CookSavedRecipes",
-                columns: table => new
-                {
-                    CookSavedRecipesId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CookId = table.Column<int>(nullable: false),
-                    RecipeId = table.Column<int>(nullable: false)
                 });
 
             migrationBuilder.CreateTable(
@@ -270,9 +292,9 @@ namespace WhatsCookinGroupCapstone.Migrations
                 {
                     table.PrimaryKey("PK_RecipeTags", x => new { x.RecipeId, x.TagsId });
                     table.ForeignKey(
-                        name: "FK_RecipeTags_Recipes_RecipeId",
+                        name: "FK_RecipeTags_Recipe_RecipeId",
                         column: x => x.RecipeId,
-                        principalTable: "Recipes",
+                        principalTable: "Recipe",
                         principalColumn: "RecipeId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -283,32 +305,10 @@ namespace WhatsCookinGroupCapstone.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Reviews",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Rating = table.Column<int>(nullable: false),
-                    ReviewForRecipe = table.Column<string>(nullable: true),
-                    Validation = table.Column<bool>(nullable: false),
-                    RecipeID = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Reviews", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Reviews_Recipes_RecipeID",
-                        column: x => x.RecipeID,
-                        principalTable: "Recipes",
-                        principalColumn: "RecipeId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "51b5197c-139a-4a0d-98d0-e42eb6a0ba68", "188e22d9-f1ce-41b6-b9e0-b13e7076d9ff", "Cook", "COOK" });
+                values: new object[] { "d1a60a2c-f518-49f6-91f7-453411e0068d", "c465563c-e2af-4b7a-96b2-25f19ac56b83", "Cook", "COOK" });
 
             migrationBuilder.InsertData(
                 table: "Tags",
@@ -367,34 +367,19 @@ namespace WhatsCookinGroupCapstone.Migrations
                 column: "IdentityUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CookSavedRecipes_CookId",
-                table: "CookSavedRecipes",
-                column: "CookId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CookSavedRecipes_RecipeId",
-                table: "CookSavedRecipes",
-                column: "RecipeId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_CookTags_TagsId",
                 table: "CookTags",
                 column: "TagsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Recipes_CookID",
-                table: "Recipes",
+                name: "IX_Recipe_CookID",
+                table: "Recipe",
                 column: "CookID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RecipeTags_TagsId",
                 table: "RecipeTags",
                 column: "TagsId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Reviews_RecipeID",
-                table: "Reviews",
-                column: "RecipeID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -433,10 +418,10 @@ namespace WhatsCookinGroupCapstone.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Tags");
+                name: "Recipe");
 
             migrationBuilder.DropTable(
-                name: "Recipes");
+                name: "Tags");
 
             migrationBuilder.DropTable(
                 name: "Cook");

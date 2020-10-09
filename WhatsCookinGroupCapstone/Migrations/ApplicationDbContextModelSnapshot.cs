@@ -48,8 +48,12 @@ namespace WhatsCookinGroupCapstone.Migrations
                     b.HasData(
                         new
                         {
+
+
+
                             Id = "453281b7-de06-4b28-af1d-15d04833f6c2",
                             ConcurrencyStamp = "d53abd46-0468-40b6-9eba-bc02f04ac1b",
+
                             Name = "Cook",
                             NormalizedName = "COOK"
                         });
@@ -261,10 +265,6 @@ namespace WhatsCookinGroupCapstone.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("CookSavedRecipesId");
-
-                    b.HasIndex("CookId");
-
-                    b.HasIndex("RecipeId");
 
                     b.ToTable("CookSavedRecipes");
                 });
@@ -480,21 +480,6 @@ namespace WhatsCookinGroupCapstone.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUser")
                         .WithMany()
                         .HasForeignKey("IdentityUserId");
-                });
-
-            modelBuilder.Entity("WhatsCookinGroupCapstone.Models.CookSavedRecipes", b =>
-                {
-                    b.HasOne("WhatsCookinGroupCapstone.Models.Cook", null)
-                        .WithMany("CookSavedRecipes")
-                        .HasForeignKey("CookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WhatsCookinGroupCapstone.Models.Recipe", null)
-                        .WithMany("CookSavedRecipes")
-                        .HasForeignKey("RecipeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("WhatsCookinGroupCapstone.Models.CookTag", b =>

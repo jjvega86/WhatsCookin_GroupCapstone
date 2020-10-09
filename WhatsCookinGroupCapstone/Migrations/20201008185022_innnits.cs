@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WhatsCookinGroupCapstone.Migrations
 {
-    public partial class Init : Migration
+    public partial class innnits : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -73,23 +73,6 @@ namespace WhatsCookinGroupCapstone.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Followers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Reviews",
-                columns: table => new
-                {
-                    ReviewId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Rating = table.Column<int>(nullable: false),
-                    ReviewForRecipe = table.Column<string>(nullable: true),
-                    Validation = table.Column<bool>(nullable: false),
-                    RecipeID = table.Column<int>(nullable: false),
-                    CookId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Reviews", x => x.ReviewId);
                 });
 
             migrationBuilder.CreateTable(
@@ -267,8 +250,7 @@ namespace WhatsCookinGroupCapstone.Migrations
                     Ingredients = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     Steps = table.Column<string>(nullable: true),
-                    CookID = table.Column<int>(nullable: false),
-                    CookName = table.Column<string>(nullable: true)
+                    CookID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -305,10 +287,32 @@ namespace WhatsCookinGroupCapstone.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Reviews",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Rating = table.Column<int>(nullable: false),
+                    ReviewForRecipe = table.Column<string>(nullable: true),
+                    Validation = table.Column<bool>(nullable: false),
+                    RecipeID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reviews", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Reviews_Recipe_RecipeID",
+                        column: x => x.RecipeID,
+                        principalTable: "Recipe",
+                        principalColumn: "RecipeId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "453281b7-de06-4b28-af1d-15d04833f6c2", "d53abd46-0468-40b6-9eba-bc02f04ac1de", "Cook", "COOK" });
+                values: new object[] { "fa86f07a-c159-45be-868e-e0857cf42727", "62e4a07d-2c54-4f31-89d2-267d5f2459fb", "Cook", "COOK" });
 
             migrationBuilder.InsertData(
                 table: "Tags",
@@ -380,6 +384,11 @@ namespace WhatsCookinGroupCapstone.Migrations
                 name: "IX_RecipeTags_TagsId",
                 table: "RecipeTags",
                 column: "TagsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reviews_RecipeID",
+                table: "Reviews",
+                column: "RecipeID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -418,10 +427,10 @@ namespace WhatsCookinGroupCapstone.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Recipe");
+                name: "Tags");
 
             migrationBuilder.DropTable(
-                name: "Tags");
+                name: "Recipe");
 
             migrationBuilder.DropTable(
                 name: "Cook");
