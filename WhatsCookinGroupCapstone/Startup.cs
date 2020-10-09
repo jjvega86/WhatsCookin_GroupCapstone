@@ -44,13 +44,10 @@ namespace WhatsCookinGroupCapstone
              })
             .AddGoogle(options =>
             {
-                //options.ClientId = "164158722967-sbnv6641u9k0ihn8lh9il1qa04na0q72.apps.googleusercontent.com";
+
                 options.ClientId = Key.clientId;
-                //options.ClientSecret = "VFDSd64Z7qxZ_5Fq8cak0rbI";
                 options.ClientSecret = Key.clientSecret;
                 options.SignInScheme = IdentityConstants.ExternalScheme;
-
-
             });
 
             

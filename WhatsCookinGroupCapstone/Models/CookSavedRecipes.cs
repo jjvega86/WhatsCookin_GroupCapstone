@@ -14,5 +14,6 @@ namespace WhatsCookinGroupCapstone.Models
         public int CookId { get; set; }
 
         public int RecipeId { get; set; }
+
     }
 }
