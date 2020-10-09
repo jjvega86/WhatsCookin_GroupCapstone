@@ -48,8 +48,13 @@ namespace WhatsCookinGroupCapstone.Migrations
                     b.HasData(
                         new
                         {
+<<<<<<< HEAD
                             Id = "d1a60a2c-f518-49f6-91f7-453411e0068d",
                             ConcurrencyStamp = "c465563c-e2af-4b7a-96b2-25f19ac56b83",
+=======
+                            Id = "453281b7-de06-4b28-af1d-15d04833f6c2",
+                            ConcurrencyStamp = "d53abd46-0468-40b6-9eba-bc02f04ac1b",
+>>>>>>> 522e7b8bf8c36cefae011cad12685b85079daa80
                             Name = "Cook",
                             NormalizedName = "COOK"
                         });

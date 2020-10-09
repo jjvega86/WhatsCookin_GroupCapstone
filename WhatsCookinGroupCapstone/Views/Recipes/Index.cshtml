@@ -7,10 +7,23 @@
 <h1>Welcome to your Recipes!!</h1>
 <h4>To add a new Recipe click "create new" down below!</h4>
 <p>
+<<<<<<< HEAD
 
     <a asp-action="Create">Create New</a> |
     <a asp-action="Search">Search for Recipes</a>|
     <a asp-action="CooksSaved">Saved Recipes</a>
+=======
+    <a asp-action="Create">Create New</a> |
+    <a asp-action="Search">Search for Recipes</a>|
+    <a asp-action="CooksSaved">Saved Recipes</a>|
+    @Html.ActionLink(
+   linkText: "Cooks You Are Following",
+   actionName: "Followers",
+   controllerName: "Cook"
+ 
+)
+
+>>>>>>> 522e7b8bf8c36cefae011cad12685b85079daa80
 </p>
 <table class="table">
     <thead>
@@ -56,7 +69,7 @@
                     @Html.DisplayFor(modelItem => item.Steps)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Cook.UserName)
+                    @Html.DisplayFor(modelItem => item.CookName)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.RecipeId">Edit</a> |
@@ -66,7 +79,6 @@
                     <a asp-action="SeeReviews" asp-route-id="@item.RecipeId">See Reviews</a> |
                 </td>
             </tr>
-      
         }
     </tbody>
     

@@ -228,7 +228,7 @@ namespace WhatsCookinGroupCapstone.Controllers
            
             foreach (CookSavedRecipes savedRecipe in cookSavedRecipes)
             {
-                var recipe = _repo.Recipe.FindByCondition(r => r.RecipeId == savedRecipe.RecipeId).SingleOrDefault();
+                var recipe = _repo.Recipe.FindByCondition(r => r.RecipeId == savedRecipe.CookSavedRecipesId).SingleOrDefault();
                 saveRecipe.AllRecipes.Add(recipe);
             }
             return View(saveRecipe);
