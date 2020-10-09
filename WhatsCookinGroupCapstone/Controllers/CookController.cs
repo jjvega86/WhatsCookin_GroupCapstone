@@ -126,6 +126,28 @@ namespace WhatsCookinGroupCapstone.Controllers
             };
 
         }
+
+        public ActionResult Follow(int id)
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var loggedInCook = _repo.Cook.FindByCondition(r => r.IdentityUserId == userId).SingleOrDefault();
+            var selectedRecipe = _repo.Recipe.FindByCondition(r => r.RecipeId == id).SingleOrDefault();
+            var cookToFollow = _repo.Cook.FindByCondition(r => r.CookId == selectedRecipe.CookID).SingleOrDefault();
+
+            Followers follower = new Followers();
+
+            // The follower CookId is always the cook who cooked the recipe the logged in cook is viewing
+            // The FollowerId is always the loggedInCook doing the following
+
+            follower.CookID = cookToFollow.CookId;
+            follower.FollowerId = loggedInCook.CookId;
+
+            _repo.Followers.Create(follower);
+            _repo.Save();
+
+            return RedirectToAction(nameof(Index));
+
+        }
     }
 
 
