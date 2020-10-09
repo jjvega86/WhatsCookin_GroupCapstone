@@ -1,10 +1,32 @@
-﻿body {
-   
+﻿/*body {
+   margin: 0px;
 }
+
+.container projects {
+    display: grid;
+    grid-template-columns: 1fr;
+}*/
+
+
+
 /*.main_page {
     background-image: url('~/PeopleCooking.jpg');
     background-position: center;
     width: 30px;
     height: 20px;
-}
-*/
+}*/
+
+/*.cell {
+    border-radius: 10px;
+    margin: 3px 3px 3px 3px;
+    height: 16rem;*/
+    /*display: inline-flex;*/
+/*}
+
+.cell image{
+    height: 200px;
+    width: 200px;*/
+   /* display: flex;*/
+/*}*/
+
+
