@@ -137,15 +137,41 @@ namespace WhatsCookinGroupCapstone.Controllers
             Followers follower = new Followers();
 
             // The follower CookId is always the cook who cooked the recipe the logged in cook is viewing
+            // The UserName is always the cook who cooked the recipe
             // The FollowerId is always the loggedInCook doing the following
 
             follower.CookID = cookToFollow.CookId;
+            follower.UserName = cookToFollow.UserName;
             follower.FollowerId = loggedInCook.CookId;
 
             _repo.Followers.Create(follower);
             _repo.Save();
 
             return RedirectToAction(nameof(Index));
+
+        }
+
+        public ActionResult Followers()
+        {
+            // I want to show a list of all of the cooks the logged in cook is following
+            // Find the logged in cook
+            // Query the Followers table for the all entries with a FollowerId and store those objects to a list
+            // Query the Cook table for matching cooks
+            // Return a List<Cook> of followed cooks to a Followers View
+
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var loggedInCook = _repo.Cook.FindByCondition(r => r.IdentityUserId == userId).SingleOrDefault();
+
+            var listOfFollowers = _repo.Followers.FindByCondition(r => r.FollowerId == loggedInCook.CookId).ToList();
+            List<Cook> followedCooks = new List<Cook>();
+
+            foreach (Followers follower in listOfFollowers)
+            {
+                var followedCook = _repo.Cook.FindByCondition(c => c.CookId == follower.CookID).SingleOrDefault();
+                followedCooks.Add(followedCook);
+            }
+
+            return View(followedCooks);
 
         }
     }
