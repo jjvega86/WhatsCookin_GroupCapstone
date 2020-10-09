@@ -233,11 +233,15 @@ namespace WhatsCookinGroupCapstone.Controllers
             return finalRecipeList;
         }
 
-        private List<UserRandomRecipes> ConvertListToModelViewType(List<Recipe> finalRecipeList)
+        private UserRandomRecipes ConvertListToModelViewType(List<Recipe> finalRecipeList)
         {
-            
-            UserRandomRecipes userRandomRecipes = new UserRandomRecipes();
+
+            UserRandomRecipes userRandomRecipes = new UserRandomRecipes()
+            {
+                Recipes = new List<Recipe>()
+            };
             List<UserRandomRecipes> rec = new List<UserRandomRecipes>();
+            
             foreach (Recipe recipe in finalRecipeList)
             {
                 
@@ -245,7 +249,7 @@ namespace WhatsCookinGroupCapstone.Controllers
                 rec.Add(userRandomRecipes);
                 
             }
-            return rec;
+            return userRandomRecipes;
 
 
         }
