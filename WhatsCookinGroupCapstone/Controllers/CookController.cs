@@ -250,32 +250,37 @@ namespace WhatsCookinGroupCapstone.Controllers
                 
             }
             return userRandomRecipes;
-
-
         }
-        //}
-        //public ActionResult DefaultView(Cook cook)
-        //{
-        //    List<Recipe> recipeList = FindMatchingRecipes(FindRecipeTagsMatchingCookTags(FindCookTags(cook)));
-        //    List<Recipe> finalRecipeList = RandomizeRecipes(recipeList);
-        //    return View(finalRecipeList);
-        //}
-        //private void RandomizeRecipes(List<int> sixNumbers, Cook cook)
-        //{
-        //    var selectedCook = _repo.Cook.FindByCondition(c => c.CookId == cook.CookId).SingleOrDefault();
-        //    var cookTags = _repo.CookTag.FindByCondition(c => c.CookId == selectedCook.CookId);
-        //}
-        //private List<int> GetSixRandomNumbers(RecipeTags recipeTags)
-        //{
-        //    List<int> sixNumbers = new List<int>();
-        //    Random random = new Random();
-        //    var recipeListCount = _repo.RecipeTags.FindAll();
-        //    for (int i = 0; i < 6; i++)
-        //    {
-        //        sixNumbers.Add(random.Next(recipeListCount.Count()));
-        //    }
-        //    return sixNumbers;
-        //}
+
+        private HashSet<int> GetOneRandomNumber(int recipeCount)
+        {
+            //Hashset stops two numbers repeating more than once from random
+            HashSet<int> sixRandomNumbers = new HashSet<int>();
+            //Excludes 0 from being available in hashset
+
+            Random random = new Random();
+            
+            sixRandomNumbers.Add(random.Next(1, recipeCount + 1));
+
+            return sixRandomNumbers;
+        }
+
+        private List<Recipe> FindRecipeForFeelinLuckyButton(int recipeCount)
+        {
+            HashSet<int> oneRandomNumber = GetOneRandomNumber(recipeCount);
+
+            List<Recipe> finalRecipeList = new List<Recipe>();
+
+            foreach (int randomNumber in oneRandomNumber)
+            {
+                var recipe = _repo.Recipe.FindByCondition(r => r.RecipeId == randomNumber).SingleOrDefault();
+                finalRecipeList.Add(recipe);
+            }
+
+            return finalRecipeList;
+        }
+
+
 
     }
 }
