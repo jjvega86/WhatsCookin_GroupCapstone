@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -209,11 +210,10 @@ namespace WhatsCookinGroupCapstone.Controllers
 
         public IActionResult CooksSaved()
         {
-            CookSavedRecipes savedRecipes = new CookSavedRecipes()
+            CookSavedRecipes saveRecipe = new CookSavedRecipes()
             {
                 AllRecipes = new List<Recipe>()
             };
-            
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var foundCook = _repo.Cook.FindByCondition(r => r.IdentityUserId == userId).SingleOrDefault();
          
@@ -222,17 +222,17 @@ namespace WhatsCookinGroupCapstone.Controllers
                 return NotFound();
 
             }
-            List<Recipe> recipes = new List<Recipe>();
-            var cookSavedRecipes = _repo.CookSavedRecipes.FindByCondition(s => s.CookId == foundCook.CookId).ToList();
-            foreach(CookSavedRecipes savedRecipe in cookSavedRecipes)
-            {
-                recipes = _repo.Recipe.FindByCondition(r => r.RecipeId == savedRecipe.RecipeId).ToList();
-                //savedRecipes.AllRecipes.Add(recipes);
-            }
             
-
-            return View(recipes);
+            var cookSavedRecipes = _repo.CookSavedRecipes.FindByCondition(s => s.CookId == foundCook.CookId).ToList();
+           
+            foreach (CookSavedRecipes savedRecipe in cookSavedRecipes)
+            {
+                var recipe = _repo.Recipe.FindByCondition(r => r.RecipeId == savedRecipe.RecipeId).SingleOrDefault();
+                saveRecipe.AllRecipes.Add(recipe);
+            }
+            return View(saveRecipe);
         }
+
 
         public IActionResult Save(int? id)
         {
