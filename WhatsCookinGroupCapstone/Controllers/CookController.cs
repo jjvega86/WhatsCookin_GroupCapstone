@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore;
 using WhatsCookinGroupCapstone.Contracts;
 using WhatsCookinGroupCapstone.Models;
 using WhatsCookinGroupCapstone.Models.View_Model;
@@ -15,7 +16,7 @@ namespace WhatsCookinGroupCapstone.Controllers
 {
     public class CookController : Controller
     {
-        private IRepositoryWrapper _repo;
+        private readonly IRepositoryWrapper _repo;
 
 
         public CookController(IRepositoryWrapper repo)
@@ -26,10 +27,10 @@ namespace WhatsCookinGroupCapstone.Controllers
 
         // GET: CookController
         // Default view: will show a grid of multiple recipes and cooks you are following
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var selectedCook = _repo.Cook.FindByCondition(r => r.IdentityUserId == userId).SingleOrDefault();
+            var selectedCook = await _repo.Cook.FindByCondition(r => r.IdentityUserId == userId).SingleOrDefaultAsync();
 
             if (selectedCook == null)
             {
@@ -43,7 +44,7 @@ namespace WhatsCookinGroupCapstone.Controllers
                 List<Recipe> finalRecipeList = RandomizeRecipes(recipeList);
                 ConvertListToModelViewType(finalRecipeList);
                 var theActualFinalList = ConvertListToModelViewType(finalRecipeList);
-                var feelinLuckyRecipe = (FindRecipeForFeelinLuckyButton(1));
+                var feelinLuckyRecipe = (FindRecipeForFeelinLuckyButton());
                 var theViewObject = AddFeelinLuckyToViewObject(theActualFinalList, feelinLuckyRecipe);
                 return View(theViewObject);
 
@@ -51,15 +52,9 @@ namespace WhatsCookinGroupCapstone.Controllers
 
         }
 
-        // GET: CookController/Details/5
-        public ActionResult Details(int id)
-        {
-            var selectedCook = _repo.Cook.FindByCondition(r => r.CookId == 1).SingleOrDefault();
-            return View(selectedCook);
-        }
 
         // GET: CookController/Create
-        public ActionResult Create()
+        public IActionResult Create()
         {
             Cook cook = new Cook();
             {
@@ -73,7 +68,7 @@ namespace WhatsCookinGroupCapstone.Controllers
         // POST: CookController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Cook cook)
+        public async Task<ActionResult> Create(Cook cook)
         {
 
             if (ModelState.IsValid)
@@ -83,12 +78,12 @@ namespace WhatsCookinGroupCapstone.Controllers
                 _repo.Cook.Create(cook);
                 _repo.Save();
 
-                var selectedCook = _repo.Cook.FindByCondition(c => c.IdentityUserId == userId).SingleOrDefault();
+                var selectedCook = await _repo.Cook.FindByCondition(c => c.IdentityUserId == userId).SingleOrDefaultAsync();
                 var selectedCookId = selectedCook.CookId;
 
                 foreach (string tag in cook.SelectedTags)
                 {
-                    var selectedTag = _repo.Tags.FindByCondition(r => r.Name == tag).SingleOrDefault();
+                    var selectedTag = await _repo.Tags.FindByCondition(r => r.Name == tag).SingleOrDefaultAsync();
 
                     CookTag cookTag = new CookTag();
                     cookTag.CookId = selectedCookId;
@@ -99,29 +94,6 @@ namespace WhatsCookinGroupCapstone.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(cook);
-        }
-
-
-        // GET: CookController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            var selectedCook = _repo.Cook.FindByCondition(r => r.CookId == id).SingleOrDefault();
-            return View(selectedCook);
-        }
-
-        // POST: CookController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
 
         private IList<SelectListItem> GetTags()
@@ -137,18 +109,11 @@ namespace WhatsCookinGroupCapstone.Controllers
 
         }
 
-
-        //I want to find all of the tags for my cook **
-        // then, I want to find all recpies tagged with the same tags related to my cook**
-        // i.e., cook only wants vegan recipes ("TagId = 1"), we then query the RecipeTags table and find all recipes with a
-        // TagId == 1. I want to have a list of RecipeIds from this query**
-        // then, I want to query my recipes table for all of the recipes that match list of RecipeIds and add them to a list**
-        // Then, I want to pass six of those recipes to a view and display them as a grid that the cook can see
-        // Ideally, I want to randomly select the six recipes
-        private List<int> FindCookTags(Cook cook)
+        private List<int>  FindCookTags(Cook cook)
         {
-            var selectedCook = _repo.Cook.FindByCondition(c => c.CookId == cook.CookId).SingleOrDefault();
-            var cookTags = _repo.CookTag.FindByCondition(c => c.CookId == selectedCook.CookId);
+            var selectedCook =  _repo.Cook.FindByCondition(c => c.CookId == cook.CookId).SingleOrDefault();
+            var cookTags =  _repo.CookTag.FindByCondition(c => c.CookId == selectedCook.CookId).ToList();
+
             List<int> recipeTags = new List<int>();
             foreach (CookTag cookTag in cookTags)
             {
@@ -161,11 +126,11 @@ namespace WhatsCookinGroupCapstone.Controllers
             List<int> recipeIds = new List<int>();
             foreach (int tagId in recipeTags)
             {
-                var selectedRecipe = _repo.RecipeTags.FindByCondition(c => c.TagsId == tagId).FirstOrDefault();
+                var selectedRecipe =  _repo.RecipeTags.FindByCondition(c => c.TagsId == tagId).FirstOrDefault();
 
                 if(selectedRecipe == null)
                 {
-                    var firstRecipe = _repo.Recipe.FindByCondition(r => r.RecipeId == 1).SingleOrDefault();
+                    var firstRecipe =  _repo.Recipe.FindByCondition(r => r.RecipeId == 1).SingleOrDefault();
                     recipeIds.Add(firstRecipe.RecipeId);
                   
                 }
@@ -182,7 +147,7 @@ namespace WhatsCookinGroupCapstone.Controllers
             List<Recipe> recipeList = new List<Recipe>();
             foreach (int recipeId in recipeIds)
             {
-                var selectedRecipe = _repo.Recipe.FindByCondition(c => c.RecipeId == recipeId).SingleOrDefault();
+                var selectedRecipe =  _repo.Recipe.FindByCondition(c => c.RecipeId == recipeId).SingleOrDefault();
                 recipeList.Add(selectedRecipe);
             }
             return recipeList;
@@ -209,7 +174,7 @@ namespace WhatsCookinGroupCapstone.Controllers
 
             // if there are less than six recipes in the list, add the first several recipes from the database until there are six in the list
 
-            var listOfAllRecipes = _repo.Recipe.FindAll().ToList();
+            var listOfAllRecipes =  _repo.Recipe.FindAll().ToList();
 
             while (recipeList.Count < 6)
             {             
@@ -250,7 +215,7 @@ namespace WhatsCookinGroupCapstone.Controllers
             return userRandomRecipes;
         }
 
-        private HashSet<int> GetOneRandomNumber(int recipeCount)
+        private HashSet<int> GetOneRandomNumber()
         {
 
             HashSet<int> getOneRandom = new HashSet<int>();
@@ -264,12 +229,12 @@ namespace WhatsCookinGroupCapstone.Controllers
             return getOneRandom;
         }
 
-        public ActionResult Follow(int id)
+        public async Task<IActionResult> Follow(int id)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var loggedInCook = _repo.Cook.FindByCondition(r => r.IdentityUserId == userId).SingleOrDefault();
-            var selectedRecipe = _repo.Recipe.FindByCondition(r => r.RecipeId == id).SingleOrDefault();
-            var cookToFollow = _repo.Cook.FindByCondition(r => r.CookId == selectedRecipe.CookID).SingleOrDefault();
+            var loggedInCook = await _repo.Cook.FindByCondition(r => r.IdentityUserId == userId).SingleOrDefaultAsync();
+            var selectedRecipe = await _repo.Recipe.FindByCondition(r => r.RecipeId == id).SingleOrDefaultAsync();
+            var cookToFollow = await _repo.Cook.FindByCondition(r => r.CookId == selectedRecipe.CookID).SingleOrDefaultAsync();
 
             Followers follower = new Followers();
 
@@ -288,7 +253,7 @@ namespace WhatsCookinGroupCapstone.Controllers
 
         }
 
-        public ActionResult Followers()
+        public async Task<IActionResult> Followers()
         {
             // I want to show a list of all of the cooks the logged in cook is following
             // Find the logged in cook
@@ -297,14 +262,14 @@ namespace WhatsCookinGroupCapstone.Controllers
             // Return a List<Cook> of followed cooks to a Followers View
 
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var loggedInCook = _repo.Cook.FindByCondition(r => r.IdentityUserId == userId).SingleOrDefault();
+            var loggedInCook = await _repo.Cook.FindByCondition(r => r.IdentityUserId == userId).SingleOrDefaultAsync();
 
-            var listOfFollowers = _repo.Followers.FindByCondition(r => r.FollowerId == loggedInCook.CookId).ToList();
+            var listOfFollowers = await _repo.Followers.FindByCondition(r => r.FollowerId == loggedInCook.CookId).ToListAsync();
             List<Cook> followedCooks = new List<Cook>();
 
             foreach (Followers follower in listOfFollowers)
             {
-                var followedCook = _repo.Cook.FindByCondition(c => c.CookId == follower.CookID).SingleOrDefault();
+                var followedCook = await _repo.Cook.FindByCondition(c => c.CookId == follower.CookID).SingleOrDefaultAsync();
                 followedCooks.Add(followedCook);
             }
 
@@ -313,16 +278,15 @@ namespace WhatsCookinGroupCapstone.Controllers
 
         }
 
-        private Recipe FindRecipeForFeelinLuckyButton(int recipeCount)
+        private Recipe FindRecipeForFeelinLuckyButton()
         {
-            HashSet<int> oneRandomNumber = GetOneRandomNumber(recipeCount);
+            HashSet<int> oneRandomNumber = GetOneRandomNumber();
 
             Recipe feelinLuckyObject = new Recipe();
 
             foreach (int randomNumber in oneRandomNumber)
             {
-                feelinLuckyObject = _repo.Recipe.FindByCondition(r => r.RecipeId == randomNumber).SingleOrDefault();
-                //feelinLuckyObject.Add(recipe);
+                feelinLuckyObject =  _repo.Recipe.FindByCondition(r => r.RecipeId == randomNumber).SingleOrDefault();
             }
 
             return feelinLuckyObject;
@@ -331,16 +295,14 @@ namespace WhatsCookinGroupCapstone.Controllers
         private UserRandomRecipes AddFeelinLuckyToViewObject(UserRandomRecipes finalList, Recipe feelinLucky)
         {
 
-            var helperObject = _repo.Recipe.FindByCondition(f => f.RecipeId == feelinLucky.RecipeId).SingleOrDefault();
+            var helperObject =  _repo.Recipe.FindByCondition(f => f.RecipeId == feelinLucky.RecipeId).SingleOrDefault();
             finalList.FeelinLucky = helperObject;
             return finalList;
         }
 
-        public ActionResult FollowedCookbook(int id)
+        public async Task<IActionResult> FollowedCookbook(int id)
         {
-            // I want to return a list of recipes that the passed in CookId has created from the Recipe database
-
-            var listOfRecipes = _repo.Recipe.FindByCondition(r => r.CookID == id).ToList();
+            var listOfRecipes = await _repo.Recipe.FindByCondition(r => r.CookID == id).ToListAsync();
 
             return View(listOfRecipes);
         }
