@@ -206,6 +206,10 @@ namespace WhatsCookinGroupCapstone.Controllers
         {
             var allRecipes = _repo.Recipe.FindAll();
 
+
+          //  var AllRecipes = from r in _repo.Recipe.FindAll()
+            //             select r;
+
             if (!String.IsNullOrEmpty(searchString))
             {
                 allRecipes = allRecipes.Where(a => a.RecipeName.Contains(searchString));
@@ -238,7 +242,9 @@ namespace WhatsCookinGroupCapstone.Controllers
            
             foreach (CookSavedRecipes savedRecipe in cookSavedRecipes)
             {
+
                 var recipe = await _repo.Recipe.FindByCondition(r => r.RecipeId == savedRecipe.CookSavedRecipesId).SingleOrDefaultAsync();
+
 
                 saveRecipe.AllRecipes.Add(recipe);
             }
@@ -253,6 +259,7 @@ namespace WhatsCookinGroupCapstone.Controllers
                 return NotFound();
 
             }
+
             var recipe = await _repo.Recipe.FindByCondition(r => r.RecipeId == id).FirstOrDefaultAsync();
 
 
@@ -261,15 +268,19 @@ namespace WhatsCookinGroupCapstone.Controllers
 
         [HttpPost, ActionName("Save")]
         [ValidateAntiForgeryToken]
+
         public async Task<IActionResult> Saved(int id)
+
         {
             var recipe = _repo.Recipe.FindByCondition(r => r.RecipeId == id).FirstOrDefault();
 
             CookSavedRecipes saveRecipe = new CookSavedRecipes();
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             var foundCook = await _repo.Cook.FindByCondition(r => r.IdentityUserId == userId).SingleOrDefaultAsync();
             var foundRecipe = await _repo.Recipe.FindByCondition(r => r.RecipeId == recipe.RecipeId).FirstOrDefaultAsync();
             
+
             if (foundCook == null)
             {
                 return NotFound();
@@ -277,6 +288,7 @@ namespace WhatsCookinGroupCapstone.Controllers
             }
             saveRecipe.CookId = foundCook.CookId;
             saveRecipe.RecipeId = foundRecipe.RecipeId;
+
             var alreadySaved = _repo.CookSavedRecipes.FindByCondition(s => s.RecipeId == recipe.RecipeId).FirstOrDefault();
             try
             {
@@ -302,6 +314,7 @@ namespace WhatsCookinGroupCapstone.Controllers
             }
 
             return RedirectToAction(nameof(CooksSaved));
+
         }
         private void SaveToRepo(Recipe recipe, CookSavedRecipes savedRecipe)
         {
