@@ -128,9 +128,10 @@ img.landscape {
     font-size: 26px;
 }
 
-.img-darken{
+.img-darken {
     transition: 1s;
     filter: brightness(10%);
+    
 }
 
 .anchor {
