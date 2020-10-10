@@ -241,7 +241,7 @@ namespace WhatsCookinGroupCapstone.Controllers
            
             foreach (CookSavedRecipes savedRecipe in cookSavedRecipes)
             {
-                var recipe = _repo.Recipe.FindByCondition(r => r.RecipeId == savedRecipe.CookSavedRecipesId).SingleOrDefault();
+                var recipe = _repo.Recipe.FindByCondition(r => r.RecipeId == savedRecipe.RecipeId).SingleOrDefault();
                 saveRecipe.AllRecipes.Add(recipe);
             }
             return View(saveRecipe);
@@ -256,39 +256,55 @@ namespace WhatsCookinGroupCapstone.Controllers
 
             }
             var recipe = _repo.Recipe.FindByCondition(r => r.RecipeId == id).FirstOrDefault();
-
             return View(recipe);
         }
 
         [HttpPost, ActionName("Save")]
         [ValidateAntiForgeryToken]
-        public IActionResult Saved(Recipe recipe)
+        public IActionResult Saved(int id)
         {
+            var recipe = _repo.Recipe.FindByCondition(r => r.RecipeId == id).FirstOrDefault();
+
             CookSavedRecipes saveRecipe = new CookSavedRecipes();
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var foundCook = _repo.Cook.FindByCondition(r => r.IdentityUserId == userId).SingleOrDefault();
-
+            var foundCook = _repo.Cook.FindByCondition(c => c.IdentityUserId == userId).SingleOrDefault();
+            var foundRecipe = _repo.Recipe.FindByCondition(r => r.RecipeId == recipe.RecipeId).FirstOrDefault();
             if (foundCook == null)
             {
                 return NotFound();
 
-            }           
-
+            }
             saveRecipe.CookId = foundCook.CookId;
-            saveRecipe.RecipeId = recipe.RecipeId;
-            //if cookId and RecipeId are already linked in CookSaved Recipe throw an error
-
-
-            var loggedInCook = _repo.Cook.FindByCondition(e => e.IdentityUserId == userId).SingleOrDefault();
-            var loggedInCookID = loggedInCook.CookId;
-            recipe.CookID = loggedInCookID;
-
-            _repo.CookSavedRecipes.Create(saveRecipe);
-            _repo.Save();
+            saveRecipe.RecipeId = foundRecipe.RecipeId;
+            try
+            {
+                var alreadySaved = _repo.CookSavedRecipes.FindByCondition(s => s.RecipeId == recipe.RecipeId).FirstOrDefault();
+                if (foundCook.CookId == alreadySaved.CookId && foundRecipe.RecipeId == alreadySaved.RecipeId)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                SaveToRepo(recipe, saveRecipe);
+            }
+            catch
+            {
+                if (foundCook.CookId == saveRecipe.CookId)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                SaveToRepo(recipe, saveRecipe);
+            }
 
             return RedirectToAction(nameof(Index));
         }
+        private void SaveToRepo(Recipe recipe, CookSavedRecipes savedRecipe)
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var loggedInCook = _repo.Cook.FindByCondition(e => e.IdentityUserId == userId).SingleOrDefault();
+            recipe.CookID = loggedInCook.CookId;
 
+            _repo.CookSavedRecipes.Create(savedRecipe);
+            _repo.Save();
+        }
 
         private IList<SelectListItem> GetTags()
         {
@@ -388,12 +404,7 @@ namespace WhatsCookinGroupCapstone.Controllers
                 }
 
                 return View(reviews);
-
             }
-
-
         }
-
-
     }
 }
