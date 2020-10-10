@@ -277,25 +277,31 @@ namespace WhatsCookinGroupCapstone.Controllers
             }
             saveRecipe.CookId = foundCook.CookId;
             saveRecipe.RecipeId = foundRecipe.RecipeId;
+            var alreadySaved = _repo.CookSavedRecipes.FindByCondition(s => s.RecipeId == recipe.RecipeId).FirstOrDefault();
             try
             {
-                var alreadySaved = _repo.CookSavedRecipes.FindByCondition(s => s.RecipeId == recipe.RecipeId).FirstOrDefault();
-                if (foundCook.CookId == alreadySaved.CookId && foundRecipe.RecipeId == alreadySaved.RecipeId)
+                try
                 {
-                    return RedirectToAction(nameof(Index));
+                    if (foundCook.CookId == alreadySaved.CookId && foundRecipe.RecipeId == alreadySaved.RecipeId)
+                    {
+                        return RedirectToAction(nameof(Index));
+                    }
+                    SaveToRepo(recipe, saveRecipe);
                 }
-                SaveToRepo(recipe, saveRecipe);
+                catch
+                {
+                    if (foundCook.CookId == alreadySaved.CookId)
+                    {
+                        return RedirectToAction(nameof(Index));
+                    }
+                }  
             }
             catch
             {
-                if (foundCook.CookId == saveRecipe.CookId)
-                {
-                    return RedirectToAction(nameof(Index));
-                }
                 SaveToRepo(recipe, saveRecipe);
             }
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(CooksSaved));
         }
         private void SaveToRepo(Recipe recipe, CookSavedRecipes savedRecipe)
         {
