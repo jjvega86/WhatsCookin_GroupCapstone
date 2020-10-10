@@ -4,26 +4,26 @@
     ViewData["Title"] = "Search";
 }
 
-<h1>Select</h1>
+<h1>Search</h1>
 
 <form asp-controller="Recipes" asp-action="Search" method="get">
     <p>
-        Search: <input type="text" name="SearchString">
-        <input type="submit" value="Filter" />
+        <input type="text" name="SearchString">
+        <input type="submit" value="Find" />
     </p>
 </form>
     <p>
         <a asp-action="Create">Create A New Recipe!</a>
     </p>
-    <table class="table">
+    <table class="table container">
         <thead>
             <tr>
                 <th>
                     @Html.DisplayNameFor(model => model.RecipeName)
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.IMGUrl)
-                </th>
+                <!--<th>-->
+                   @* @Html.DisplayNameFor(model => model.IMGUrl)*@
+                <!--</th>-->
                 <th>
                     @Html.DisplayNameFor(model => model.Ingredients)
                 </th>
@@ -39,16 +39,16 @@
                 <th></th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="container">
             @foreach (var item in Model)
             {
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.RecipeName)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.IMGUrl)
-                    </td>
+                    <!--<td>-->
+                        @*@Html.DisplayFor(modelItem => item.IMGUrl)*@
+                    <!--</td>-->
                     <td>
                         @Html.DisplayFor(modelItem => item.Ingredients)
                     </td>
