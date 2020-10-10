@@ -19,6 +19,7 @@ namespace WhatsCookinGroupCapstone
         private ITagsRepository _tags;
         private ICookTagRepository _cookTag;
         private ICookSavedRecipesRepository _cookSavedRecipes;
+        private IRecipeEditsRepository _recipeEdits;
         public ICookRepository Cook
         {
             get
@@ -105,6 +106,18 @@ namespace WhatsCookinGroupCapstone
                     _cookSavedRecipes = new CookSavedRecipesRepository(_context);
                 }
                 return _cookSavedRecipes;
+            }
+        }
+
+        public IRecipeEditsRepository RecipeEdits
+        {
+            get
+            {
+                if(_recipeEdits == null)
+                {
+                    _recipeEdits = new RecipeEditsRepository(_context);
+                }
+                return _recipeEdits;
             }
         }
 

@@ -38,6 +38,8 @@ namespace WhatsCookinGroupCapstone.Controllers
             }
             else
             {
+                //This only works if recipes are seeded in the database.  
+                //Maybe come back later and make new view for if in case no recipes exist.
                 UserRandomRecipes userRandomRecipes1 = new UserRandomRecipes();
                 List<Recipe> recipeList = FindMatchingRecipes(FindRecipeTagsMatchingCookTags(FindCookTags(selectedCook)));
                 List<Recipe> finalRecipeList = RandomizeRecipes(recipeList);
@@ -342,8 +344,13 @@ namespace WhatsCookinGroupCapstone.Controllers
 
             var listOfRecipes = _repo.Recipe.FindByCondition(r => r.CookID == id).ToList();
 
+
+
+
+
             return View(listOfRecipes);
         }
+
     }
 }
 

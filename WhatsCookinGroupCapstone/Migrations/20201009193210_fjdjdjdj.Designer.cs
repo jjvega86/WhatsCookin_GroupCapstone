@@ -10,8 +10,8 @@ using WhatsCookinGroupCapstone.Data;
 namespace WhatsCookinGroupCapstone.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201009150755_init")]
-    partial class init
+    [Migration("20201009193210_fjdjdjdj")]
+    partial class fjdjdjdj
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,8 +50,8 @@ namespace WhatsCookinGroupCapstone.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d1a60a2c-f518-49f6-91f7-453411e0068d",
-                            ConcurrencyStamp = "c465563c-e2af-4b7a-96b2-25f19ac56b83",
+                            Id = "dc7cb08c-b138-4d8c-b076-18a6c5d4bbab",
+                            ConcurrencyStamp = "584966ec-5545-462b-a24c-11eafa267995",
                             Name = "Cook",
                             NormalizedName = "COOK"
                         });
@@ -336,6 +336,27 @@ namespace WhatsCookinGroupCapstone.Migrations
                     b.HasIndex("CookID");
 
                     b.ToTable("Recipe");
+                });
+
+            modelBuilder.Entity("WhatsCookinGroupCapstone.Models.RecipeEdits", b =>
+                {
+                    b.Property<int>("RecipeEditsId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CookId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RecipeID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SuggestedEdit")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("RecipeEditsId");
+
+                    b.ToTable("RecipeEdits");
                 });
 
             modelBuilder.Entity("WhatsCookinGroupCapstone.Models.RecipeTags", b =>

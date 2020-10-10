@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Runtime.ConstrainedExecution;
+using System.Runtime.InteropServices;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -393,6 +394,45 @@ namespace WhatsCookinGroupCapstone.Controllers
 
 
         }
+
+        public IActionResult GetEdits(int id)
+        {
+            //RecipeEdits recipeEdits = new RecipeEdits();
+            List<string> listOfEdits = new List<string>();
+            var recipeEdits = _repo.RecipeEdits.FindByCondition(r => r.RecipeID == id).ToList();
+         
+            return View(recipeEdits);
+        }
+
+
+        public IActionResult SubmitEdit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+
+            }
+
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var loggedInCook = _repo.Cook.FindByCondition(e => e.IdentityUserId == userId).SingleOrDefault();
+            var recipe = _repo.Recipe.FindByCondition(r => r.RecipeId == id).FirstOrDefault();
+
+            RecipeEdits suggestedEdit= new RecipeEdits();
+            suggestedEdit.RecipeID = recipe.RecipeId;
+            suggestedEdit.CookId = loggedInCook.CookId;
+
+            //return RedirectToAction(nameof(SubmitEdit));
+            return View(suggestedEdit);
+        }
+        [HttpPost]
+        public IActionResult AddEdit(RecipeEdits suggestedRecipeEdit)
+        {
+            _repo.RecipeEdits.Create(suggestedRecipeEdit);
+            _repo.Save();
+
+            return RedirectToAction("Index");
+        }
+
 
 
     }
