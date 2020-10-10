@@ -14,17 +14,19 @@
     <meta name="viewport" content="width=1.0, initial-scale=1.0">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    @*<link rel="stylesheet" href=/css/site.css>
-    <link rel="stylesheet" href=/css/StyleSheet.css>*@
+    <link rel="stylesheet" href=/css/site.css>
+    <link rel="stylesheet" href=/css/StyleSheet.css>
 
 </head>
 <body>
     <button onclick="location.href='https://localhost:44384/Recipes/Details/@Html.ViewData.Model.FeelinLucky.RecipeId'" type="button">
         Feelin' Lucky</button>
-    @*<div class="content-wrapper">
+    <div class="content-wrapper">
         <div class="recipe-items-wrapper">
+
             <div class="recipe-item-wrapper">
                 <div class="recipe-img-background" style="background-image:url(@Html.ViewData.Model.Recipes[0].IMGUrl)"></div>
+
                 <div class="img-text-wrapper">
                     @Html.ViewData.Model.Recipes[0].RecipeName
                 </div>
@@ -32,6 +34,7 @@
             </div>
             <div class="recipe-item-wrapper">
                 <div class="recipe-img-background" style="background-image:url(@Html.ViewData.Model.Recipes[1].IMGUrl)"></div>
+
                 <div class="img-text-wrapper">
                     @Html.ViewData.Model.Recipes[1].RecipeName
                 </div>
@@ -39,90 +42,39 @@
             </div>
             <div class="recipe-item-wrapper">
                 <div class="recipe-img-background" style="background-image:url(@Html.ViewData.Model.Recipes[2].IMGUrl)"></div>
+
                 <div class="img-text-wrapper">
                     @Html.ViewData.Model.Recipes[2].RecipeName
                 </div>
 
             </div>
             <div class="recipe-item-wrapper">
-                <div class="recipe-img-background" style="background-image:url(@Html.ViewData.Model.Recipes[2].IMGUrl)"></div>
+                <div class="recipe-img-background" style="background-image:url(@Html.ViewData.Model.Recipes[3].IMGUrl)"></div>
+
                 <div class="img-text-wrapper">
-                    @Html.ViewData.Model.Recipes[2].RecipeName
+                    @Html.ViewData.Model.Recipes[3].RecipeName
                 </div>
 
             </div>
             <div class="recipe-item-wrapper">
-                <div class="recipe-img-background" style="background-image:url(@Html.ViewData.Model.Recipes[0].IMGUrl)"></div>
+                <div class="recipe-img-background" style="background-image:url(@Html.ViewData.Model.Recipes[4].IMGUrl)"></div>
+
                 <div class="img-text-wrapper">
-                    @Html.ViewData.Model.Recipes[0].RecipeName
+                    @Html.ViewData.Model.Recipes[4].RecipeName
                 </div>
 
             </div>
             <div class="recipe-item-wrapper">
-                <div class="recipe-img-background" style="background-image:url(@Html.ViewData.Model.Recipes[0].IMGUrl)"></div>
+                <div class="recipe-img-background" style="background-image:url(@Html.ViewData.Model.Recipes[5].IMGUrl)"></div>
+
                 <div class="img-text-wrapper">
-                    @Html.ViewData.Model.Recipes[0].RecipeName
+                    @Html.ViewData.Model.Recipes[5].RecipeName
                 </div>
 
             </div>
-        </div>*@
-    </div>
-    <div class="container projects" style="margin-top: 4rem;">
-        <div class="row">
-            <div class="spot-1 col cell">
-                <h3>@Html.ViewData.Model.Recipes[0].RecipeName</h3>
-
-                <a href="https://localhost:44384/Recipes/Details/@Html.ViewData.Model.Recipes[0].RecipeId" target="_blank">
-                    <img src=@Html.ViewData.Model.Recipes[0].IMGUrl style="height=200px; width=200px" >
-                </a>
-
-
-            </div>
-            <div class="spot-2 col cell">
-                <h3>@Html.ViewData.Model.Recipes[1].RecipeName</h3>
-
-                <a href="https://localhost:44384/Recipes/Details/@Html.ViewData.Model.Recipes[1].RecipeId" target="_blank">
-                    <img src=@Html.ViewData.Model.Recipes[1].IMGUrl style="height=200px; width=200px">
-                </a>
-
-
-            </div>
-            <div class="spot-3 col cell">
-                <h3>@Html.ViewData.Model.Recipes[2].RecipeName</h3>
-
-                <a href="https://localhost:44384/Recipes/Details/@Html.ViewData.Model.Recipes[2].RecipeId" target="_blank">
-                    <img src=@Html.ViewData.Model.Recipes[2].IMGUrl style="height=200px; width=200px">
-                </a>
-
-            </div>
-        </div>
-        <div class="row">
-            <div class="spot-4 col cell">
-                <h3>@Html.ViewData.Model.Recipes[3].RecipeName</h3>
-
-                <a href="https://localhost:44384/Recipes/Details/@Html.ViewData.Model.Recipes[3].RecipeId" target="_blank">
-                    <img src=@Html.ViewData.Model.Recipes[3].IMGUrl style="height=200px; width=200px">
-                </a>
-
-            </div>
-            <div class="spot-5 col cell">
-                <h3>@Html.ViewData.Model.Recipes[4].RecipeName</h3>
-
-                <a href="https://localhost:44384/Recipes/Details/@Html.ViewData.Model.Recipes[4].RecipeId" target="_blank">
-                    <img src=@Html.ViewData.Model.Recipes[4].IMGUrl style="height=200px; width=200px">
-                </a>
-
-            </div>
-            <div class="spot-6 col cell">
-                <h3>@Html.ViewData.Model.Recipes[5].RecipeName</h3>
-
-                <a href="https://localhost:44384/Recipes/Details/@Html.ViewData.Model.Recipes[5].RecipeId" target="_blank">
-                    <img src=@Html.ViewData.Model.Recipes[5].IMGUrl style="height=200px; width=200px">
-                </a>
-
-            </div>
         </div>
     </div>
+   
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
