@@ -300,7 +300,7 @@ namespace WhatsCookinGroupCapstone.Controllers
         }
 
         // GET: Recipes/Review/5
-        public IActionResult Review(int id)
+        public async Task<IActionResult> Review(int id)
         {
             //validate passed in RecipeId
             bool cookValidated = ValidateReviewSubmission(id);
@@ -311,7 +311,7 @@ namespace WhatsCookinGroupCapstone.Controllers
             else
             {
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                var loggedInCook = _repo.Cook.FindByCondition(e => e.IdentityUserId == userId).SingleOrDefault();
+                var loggedInCook = await _repo.Cook.FindByCondition(e => e.IdentityUserId == userId).SingleOrDefaultAsync();
                 Reviews review = new Reviews();
                 review.RecipeID = id;
                 review.CookId = loggedInCook.CookId;
@@ -363,7 +363,7 @@ namespace WhatsCookinGroupCapstone.Controllers
         }
 
         // GET: Recipes/SeeReview/
-        public IActionResult SeeReviews(int id)
+        public async Task<IActionResult> SeeReviews(int id)
         {
             if (id == 0)
             {
@@ -373,7 +373,7 @@ namespace WhatsCookinGroupCapstone.Controllers
             {
                 List<Reviews> reviews = new List<Reviews>();
 
-                var allReviews = _repo.Reviews.FindAll().ToList();
+                var allReviews = await _repo.Reviews.FindAll().ToListAsync();
 
                 foreach(Reviews review in allReviews)
                 {
