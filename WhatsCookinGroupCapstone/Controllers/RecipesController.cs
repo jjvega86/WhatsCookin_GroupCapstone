@@ -203,11 +203,24 @@ namespace WhatsCookinGroupCapstone.Controllers
         }
 
       //  GET: All Recipes
-        public IActionResult Search()
+        public async Task<IActionResult> Search(string searchString)
         {
             var allRecipes = _repo.Recipe.FindAll();
 
-            return View(allRecipes);
+          //  var AllRecipes = from r in _repo.Recipe.FindAll()
+            //             select r;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                allRecipes = allRecipes.Where(a => a.RecipeName.Contains(searchString));
+            }
+
+            return View(await allRecipes.ToListAsync());
+        }
+        [HttpPost]
+        public string Search(string searchString, bool notUsed)
+        {
+            return "From [HttpPost]Search: filter on " + searchString;
         }
 
         public IActionResult CooksSaved()

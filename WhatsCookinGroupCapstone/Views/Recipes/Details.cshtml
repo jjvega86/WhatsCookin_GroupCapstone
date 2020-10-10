@@ -65,8 +65,12 @@
 <div>
     <a asp-action="Edit" asp-route-id="@Model.RecipeId">Edit</a> |
     <a asp-action="Index">Back to List</a>
+
     <a asp-action="SubmitEdit" asp-route-id="@Model.RecipeId">Submit a Edit</a>
     <a asp-action="ViewEdits" asp-route-id="@Model.RecipeId">View Others Edits</a>
+
+
+
     @Html.ActionLink(
     linkText: "Follow This Cook",
     actionName: "Follow",
