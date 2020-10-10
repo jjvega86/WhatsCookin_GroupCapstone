@@ -207,7 +207,7 @@ namespace WhatsCookinGroupCapstone.Controllers
         {
             // recipeList generated from FindMatchingRecipes
             // set int recipeCount parameter for GetSixRandomNumbers = to recipeList.Count-1
-            int recipeCount = 0;
+            int recipeCount = 1;
 
             // if there are less than six recipes in the list, add the first several recipes from the database until there are six in the list
 
@@ -215,7 +215,7 @@ namespace WhatsCookinGroupCapstone.Controllers
 
             while (recipeList.Count < 6)
             {
-                var results = listOfAllRecipes.Except(recipeList);
+                //this takes two lists and removes values that are present only in both lists.
                 var result = listOfAllRecipes.Concat(recipeList)
                 .GroupBy(x => x.RecipeId)
                     .Where(x => x.Count() == 1)
@@ -223,7 +223,7 @@ namespace WhatsCookinGroupCapstone.Controllers
                     .ToList();
 
 
-                recipeList.Add(listOfAllRecipes[recipeCount]);
+                recipeList.Add(result[1]);
                 recipeCount++;
             }
           
