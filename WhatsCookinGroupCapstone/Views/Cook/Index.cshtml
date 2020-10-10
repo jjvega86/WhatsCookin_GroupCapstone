@@ -4,7 +4,8 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Welcome to What's Cookin'</h1>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,19 +17,37 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href=/css/site.css>
     <link rel="stylesheet" href=/css/StyleSheet.css>
+    <link href="https://fonts.googleapis.com/css2?family=Cookie&family=Sansita+Swashed&display=swap" rel="stylesheet">
+
 
 </head>
 <body>
-    <button onclick="location.href='https://localhost:44384/Recipes/Details/@Html.ViewData.Model.FeelinLucky.RecipeId'" type="button">
-        Feelin' Lucky</button>
-    <div class="content-wrapper">
+
+    <div class="row">
+        <div class="col-8">
+            
+            <h1 class="title" style="font-family: 'Cookie', cursive; font-size: 36px" >Try One of These, Please!</h1>
+        </div>
+        <div class="col-4">
+
+            <div class="button">
+                <button onclick="location.href='https://localhost:44384/Recipes/Details/@Html.ViewData.Model.FeelinLucky.RecipeId'" type="button">
+                    Feelin' Lucky
+                </button>
+            </div>
+        </div>
+
+    </div>
+    
+    <div class="content-wrapper container">
         <div class="recipe-items-wrapper">
 
             <div class="recipe-item-wrapper">
                 <div class="recipe-img-background" style="background-image:url(@Html.ViewData.Model.Recipes[0].IMGUrl)"></div>
 
                 <div class="img-text-wrapper">
-                    @Html.ViewData.Model.Recipes[0].RecipeName
+                    <div class="recipe-name">@Html.ViewData.Model.Recipes[0].RecipeName</div>
+
                 </div>
 
             </div>
@@ -36,7 +55,8 @@
                 <div class="recipe-img-background" style="background-image:url(@Html.ViewData.Model.Recipes[1].IMGUrl)"></div>
 
                 <div class="img-text-wrapper">
-                    @Html.ViewData.Model.Recipes[1].RecipeName
+                    <div class="recipe-name">@Html.ViewData.Model.Recipes[1].RecipeName</div>
+
                 </div>
 
             </div>
@@ -44,7 +64,8 @@
                 <div class="recipe-img-background" style="background-image:url(@Html.ViewData.Model.Recipes[2].IMGUrl)"></div>
 
                 <div class="img-text-wrapper">
-                    @Html.ViewData.Model.Recipes[2].RecipeName
+                    <div class="recipe-name">@Html.ViewData.Model.Recipes[2].RecipeName</div>
+
                 </div>
 
             </div>
@@ -52,7 +73,8 @@
                 <div class="recipe-img-background" style="background-image:url(@Html.ViewData.Model.Recipes[3].IMGUrl)"></div>
 
                 <div class="img-text-wrapper">
-                    @Html.ViewData.Model.Recipes[3].RecipeName
+                    <div class="recipe-name">@Html.ViewData.Model.Recipes[3].RecipeName</div>
+
                 </div>
 
             </div>
@@ -60,7 +82,8 @@
                 <div class="recipe-img-background" style="background-image:url(@Html.ViewData.Model.Recipes[4].IMGUrl)"></div>
 
                 <div class="img-text-wrapper">
-                    @Html.ViewData.Model.Recipes[4].RecipeName
+                    <div class="recipe-name">@Html.ViewData.Model.Recipes[4].RecipeName</div>
+
                 </div>
 
             </div>
@@ -68,13 +91,15 @@
                 <div class="recipe-img-background" style="background-image:url(@Html.ViewData.Model.Recipes[5].IMGUrl)"></div>
 
                 <div class="img-text-wrapper">
-                    @Html.ViewData.Model.Recipes[5].RecipeName
+                    <div class="recipe-name">@Html.ViewData.Model.Recipes[5].RecipeName</div>
+
                 </div>
 
             </div>
+
         </div>
     </div>
-   
+
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>

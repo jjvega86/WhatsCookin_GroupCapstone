@@ -65,6 +65,15 @@ img.landscape {
     //one third minus the 20px margin box-sizing:border-box;
     // include the borders in the sizing
 }*/
+.title{
+    padding-left: 20px;
+}
+
+.button{
+
+    float: right;
+    width: 10px;
+}
 
 .recipe-items-wrapper{
     display: grid;
@@ -95,4 +104,16 @@ img.landscape {
     padding-left: 100px;
     padding-right: 100px;
 }
+
+.img-text-wrapper:hover .recipe-name{
+    font-weight: 600;
+    color: mediumblue;
+}
+
+.img-darken{
+    transition: 1s;
+    filter: brightness(10%);
+}
+
+
 
