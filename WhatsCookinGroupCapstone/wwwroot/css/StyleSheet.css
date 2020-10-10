@@ -112,6 +112,7 @@ img.landscape {
     text-align: center;
     padding-left: 100px;
     padding-right: 100px;
+
 }
 
 .img-text-wrapper .recipe-name{
@@ -123,7 +124,7 @@ img.landscape {
 
 .img-text-wrapper:hover .recipe-name {
     font-weight: 600;
-    color: lavenderblush;
+    color: aqua;
     font-size: 26px;
 }
 
@@ -136,6 +137,10 @@ img.landscape {
     height: 350px;
     width: 350px;
     
+}
+
+.recipe-name{
+    color: goldenrod;
 }
 
 
