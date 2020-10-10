@@ -3,21 +3,22 @@
 @{
     ViewData["Title"] = "Index";
 }
+<head>
+    <link rel="stylesheet" type="text/css" media="screen" runat="server" href="~/css/StyleSheet.css" />
 
-<h1>Welcome to your Recipes!!</h1>
-<h4>To add a new Recipe click "create new" down below!</h4>
+</head>
+<h1 style="font-family: 'Cookie', cursive; text-align: center; font-weight: 600; font-size: 50px;">Your Recipes!</h1>
+<h5 style="text-align: center">To add a new Recipe click <i>"Create"</i> down below!</h5>
 <p>
+    <div class="container" style="text-align:center;">
 
-    <a asp-action="Create">Create New</a> |
-    <a asp-action="Search">Search for Recipes</a>|
-    <a asp-action="CooksSaved">Saved Recipes</a>|
-    @Html.ActionLink(
-   linkText: "Cooks You Are Following",
-   actionName: "Followers",
-   controllerName: "Cook"
- 
-)
-
+        <input type="button" class="btn btn-primary" style="font-family: 'Cookie', cursive; color: white; font-size: 25px; width: 120px;" value="Create"
+               onclick="location.href='@Url.Action("Create", "Recipes")'" />
+        <input type="button" class="btn btn-primary" style="font-family: 'Cookie', cursive; color: white; font-size: 25px; width: 160px; margin: 0 30px 0 30px;" value="Saved Recipes"
+               onclick="location.href='@Url.Action("CooksSaved", "Recipes")'" />
+        <input type="button" class="btn btn-primary" style="font-family: 'Cookie', cursive; color: white; font-size: 25px; width: 120px;" value="Following"
+               onclick="location.href='@Url.Action("FOllowers", "Cook")'" />
+    </div>
 </p>
 <table class="table">
     <thead>
@@ -25,9 +26,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.RecipeName)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.IMGUrl)
-            </th>
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.Ingredients)
             </th>
@@ -48,11 +49,13 @@
         {
             <tr>
                 <td>
+                    <a asp-action="Details" asp-route-id="@item.RecipeId"  style="font-family: 'Cookie'; font-size: 20px; color: rgb(13,10,77);">
                     @Html.DisplayFor(modelItem => item.RecipeName)
+                    </a>
                 </td>
-                <td>
+                @*<td>
                     @Html.DisplayFor(modelItem => item.IMGUrl)
-                </td>
+                </td>*@
                 <td>
                     @Html.DisplayFor(modelItem => item.Ingredients)
                 </td>
@@ -67,10 +70,8 @@
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.RecipeId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.RecipeId">Details</a> |
                     <a asp-action="Delete" asp-route-id="@item.RecipeId">Delete</a> |
-                    <a asp-action="Review" asp-route-id="@item.RecipeId">Submit Review</a> |
-                    <a asp-action="SeeReviews" asp-route-id="@item.RecipeId">See Reviews</a> |
+                    <a asp-action="SeeReviews" asp-route-id="@item.RecipeId">See Your Reviews</a> |
                 </td>
             </tr>
         }

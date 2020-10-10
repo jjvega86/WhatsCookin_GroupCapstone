@@ -29,4 +29,9 @@
    /* display: flex;*/
 /*}*/
 
-
+button .mystyle {
+    font-family: font-family: 'Cookie', cursive;
+    color: white;
+    font-size: 25px;
+    width: 120px;
+}
