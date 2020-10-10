@@ -1,0 +1,47 @@
+﻿@model IEnumerable<WhatsCookinGroupCapstone.Models.RecipeEdits>
+
+@{
+    ViewData["Title"] = "GetEdits";
+}
+
+<h1>GetEdits</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            @*<th>
+                @Html.DisplayNameFor(model => model.RecipeID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CookId)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.SuggestedEdit)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.RecipeID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CookId)
+            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.SuggestedEdit)
+            </td>
+            <td>
+                @*<a asp-action="Edit" asp-route-id="@item.RecipeEditsId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.RecipeEditsId">Details</a> |*@
+                <a asp-action="Delete" asp-route-id="@item.RecipeEditsId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
