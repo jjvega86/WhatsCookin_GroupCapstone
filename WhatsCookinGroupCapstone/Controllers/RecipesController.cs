@@ -17,7 +17,7 @@ namespace WhatsCookinGroupCapstone.Controllers
 {
     public class RecipesController : Controller
     {
-        private IRepositoryWrapper _repo;
+        private readonly IRepositoryWrapper _repo;
 
         public RecipesController(IRepositoryWrapper repo)
         {
@@ -25,28 +25,28 @@ namespace WhatsCookinGroupCapstone.Controllers
         }
 
         // GET: Recipes
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             List<Recipe> myRecipeList = new List<Recipe>();
 
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var loggedInCook = _repo.Cook.FindByCondition(e => e.IdentityUserId == userId).SingleOrDefault();
+            var loggedInCook =  _repo.Cook.FindByCondition(e => e.IdentityUserId == userId).SingleOrDefault();
             var loggedInCookID = loggedInCook.CookId;
-            myRecipeList = _repo.Recipe.FindByCondition(r => r.CookID == loggedInCookID).ToList();
+            myRecipeList = await _repo.Recipe.FindByCondition(r => r.CookID == loggedInCookID).ToListAsync();
 
             return View(myRecipeList);
         }
 
         // GET: Recipes/Details/5
-        public IActionResult Details(int? id)
+        public async Task <IActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var recipe = _repo.Recipe.FindByCondition(r => r.RecipeId == id).FirstOrDefault();
+            var recipe = await _repo.Recipe.FindByCondition(r => r.RecipeId == id).FirstOrDefaultAsync();
 
             if (recipe == null)
             {
@@ -72,13 +72,13 @@ namespace WhatsCookinGroupCapstone.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Recipe recipe)
+        public async Task<IActionResult> Create(Recipe recipe)
         {
             if (ModelState.IsValid)
             {
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-                var loggedInCook = _repo.Cook.FindByCondition(e => e.IdentityUserId == userId).SingleOrDefault();
+                var loggedInCook = await _repo.Cook.FindByCondition(e => e.IdentityUserId == userId).SingleOrDefaultAsync();
                 var loggedInCookID = loggedInCook.CookId;
                 recipe.CookID = loggedInCookID;
                 recipe.CookName = loggedInCook.UserName;
@@ -86,12 +86,12 @@ namespace WhatsCookinGroupCapstone.Controllers
                 _repo.Save();
 
                 //This is where the tags are bound to the recipe by the cook.
-                var selectedRecipe = _repo.Recipe.FindByCondition(r => r.RecipeId == recipe.RecipeId).SingleOrDefault();
+                var selectedRecipe = await _repo.Recipe.FindByCondition(r => r.RecipeId == recipe.RecipeId).SingleOrDefaultAsync();
                 var selectedRecipeId = selectedRecipe.RecipeId;
 
                 foreach(string tags in recipe.SelectedTags)
                 {
-                    var selectedTags = _repo.Tags.FindByCondition(r => r.Name == tags).SingleOrDefault();
+                    var selectedTags = await _repo.Tags.FindByCondition(r => r.Name == tags).SingleOrDefaultAsync();
 
                     RecipeTags recipeTags = new RecipeTags();
                     recipeTags.RecipeId = selectedRecipeId;
@@ -100,23 +100,21 @@ namespace WhatsCookinGroupCapstone.Controllers
                     _repo.Save();
                 }
 
-
-
-
                 return RedirectToAction(nameof(Index));
             }
             return View(recipe);
         }
 
         // GET: Recipes/Edit/5
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var recipe = _repo.Recipe.FindByCondition(r => r.RecipeId == id).FirstOrDefault();
+            var recipe = await _repo.Recipe.FindByCondition(r => r.RecipeId == id).FirstOrDefaultAsync();
+
             if (recipe == null)
             {
                 return NotFound();
@@ -160,15 +158,16 @@ namespace WhatsCookinGroupCapstone.Controllers
         }
 
         // GET: Recipes/Delete/5
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var recipe = _repo.Recipe
-                .FindByCondition(m => m.RecipeId == id).FirstOrDefault();
+            var recipe = await _repo.Recipe
+                .FindByCondition(m => m.RecipeId == id).FirstOrDefaultAsync();
+
             if (recipe == null)
             {
                 return NotFound();
@@ -180,9 +179,9 @@ namespace WhatsCookinGroupCapstone.Controllers
         // POST: Recipes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var recipe =  _repo.Recipe.FindByCondition(r => r.RecipeId == id).FirstOrDefault();
+            var recipe =  await _repo.Recipe.FindByCondition(r => r.RecipeId == id).FirstOrDefaultAsync();
             //This code might cause a future problem
             _repo.Recipe.Delete(recipe);
             _repo.Save();
@@ -191,7 +190,7 @@ namespace WhatsCookinGroupCapstone.Controllers
 
         private bool RecipeExists(int id)
         {
-            var foundRecip = _repo.Recipe.FindByCondition(r => r.RecipeId == id);
+            var foundRecip = _repo.Recipe.FindByCondition(r => r.RecipeId == id).FirstOrDefault();
             if(foundRecip == null)
             {
                 return false;
@@ -203,21 +202,31 @@ namespace WhatsCookinGroupCapstone.Controllers
         }
 
       //  GET: All Recipes
-        public IActionResult Search()
+        public async Task<IActionResult> Search(string searchString)
         {
             var allRecipes = _repo.Recipe.FindAll();
 
-            return View(allRecipes);
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                allRecipes = allRecipes.Where(a => a.RecipeName.Contains(searchString));
+            }
+
+            return View(await allRecipes.ToListAsync());
+        }
+        [HttpPost]
+        public string Search(string searchString, bool notUsed)
+        {
+            return "From [HttpPost]Search: filter on " + searchString;
         }
 
-        public IActionResult CooksSaved()
+        public async Task<IActionResult> CooksSaved()
         {
             CookSavedRecipes saveRecipe = new CookSavedRecipes()
             {
                 AllRecipes = new List<Recipe>()
             };
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var foundCook = _repo.Cook.FindByCondition(r => r.IdentityUserId == userId).SingleOrDefault();
+            var foundCook = await _repo.Cook.FindByCondition(r => r.IdentityUserId == userId).SingleOrDefaultAsync();
          
             if (foundCook == null)
             {
@@ -225,58 +234,84 @@ namespace WhatsCookinGroupCapstone.Controllers
 
             }
             
-            var cookSavedRecipes = _repo.CookSavedRecipes.FindByCondition(s => s.CookId == foundCook.CookId).ToList();
+            var cookSavedRecipes = await _repo.CookSavedRecipes.FindByCondition(s => s.CookId == foundCook.CookId).ToListAsync();
            
             foreach (CookSavedRecipes savedRecipe in cookSavedRecipes)
             {
-                var recipe = _repo.Recipe.FindByCondition(r => r.RecipeId == savedRecipe.CookSavedRecipesId).SingleOrDefault();
+                var recipe = await _repo.Recipe.FindByCondition(r => r.RecipeId == savedRecipe.CookSavedRecipesId).SingleOrDefaultAsync();
+
                 saveRecipe.AllRecipes.Add(recipe);
             }
             return View(saveRecipe);
         }
 
 
-        public IActionResult Save(int? id)
+        public async Task<IActionResult> Save(int? id)
         {
             if (id == null)
             {
                 return NotFound();
 
             }
-            var recipe = _repo.Recipe.FindByCondition(r => r.RecipeId == id).FirstOrDefault();
+            var recipe = await _repo.Recipe.FindByCondition(r => r.RecipeId == id).FirstOrDefaultAsync();
+
 
             return View(recipe);
         }
 
         [HttpPost, ActionName("Save")]
         [ValidateAntiForgeryToken]
-        public IActionResult Saved(Recipe recipe)
+        public async Task<IActionResult> Saved(int id)
         {
+            var recipe = _repo.Recipe.FindByCondition(r => r.RecipeId == id).FirstOrDefault();
+
             CookSavedRecipes saveRecipe = new CookSavedRecipes();
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var foundCook = _repo.Cook.FindByCondition(r => r.IdentityUserId == userId).SingleOrDefault();
-
+            var foundCook = await _repo.Cook.FindByCondition(r => r.IdentityUserId == userId).SingleOrDefaultAsync();
+            var foundRecipe = await _repo.Recipe.FindByCondition(r => r.RecipeId == recipe.RecipeId).FirstOrDefaultAsync();
+            
             if (foundCook == null)
             {
                 return NotFound();
 
-            }           
-
+            }
             saveRecipe.CookId = foundCook.CookId;
-            saveRecipe.RecipeId = recipe.RecipeId;
-            //if cookId and RecipeId are already linked in CookSaved Recipe throw an error
+            saveRecipe.RecipeId = foundRecipe.RecipeId;
+            var alreadySaved = _repo.CookSavedRecipes.FindByCondition(s => s.RecipeId == recipe.RecipeId).FirstOrDefault();
+            try
+            {
+                try
+                {
+                    if (foundCook.CookId == alreadySaved.CookId && foundRecipe.RecipeId == alreadySaved.RecipeId)
+                    {
+                        return RedirectToAction(nameof(Index));
+                    }
+                    SaveToRepo(recipe, saveRecipe);
+                }
+                catch
+                {
+                    if (foundCook.CookId == alreadySaved.CookId)
+                    {
+                        return RedirectToAction(nameof(Index));
+                    }
+                }  
+            }
+            catch
+            {
+                SaveToRepo(recipe, saveRecipe);
+            }
 
-
-            var loggedInCook = _repo.Cook.FindByCondition(e => e.IdentityUserId == userId).SingleOrDefault();
-            var loggedInCookID = loggedInCook.CookId;
-            recipe.CookID = loggedInCookID;
-
-            _repo.CookSavedRecipes.Create(saveRecipe);
-            _repo.Save();
-
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(CooksSaved));
         }
+        private void SaveToRepo(Recipe recipe, CookSavedRecipes savedRecipe)
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var loggedInCook = _repo.Cook.FindByCondition(e => e.IdentityUserId == userId).SingleOrDefault();
+            recipe.CookID = loggedInCook.CookId;
 
+            _repo.CookSavedRecipes.Create(savedRecipe);
+            _repo.Save();
+        }
 
         private IList<SelectListItem> GetTags()
         {
@@ -292,7 +327,7 @@ namespace WhatsCookinGroupCapstone.Controllers
         }
 
         // GET: Recipes/Review/5
-        public IActionResult Review(int id)
+        public async Task<IActionResult> Review(int id)
         {
             //validate passed in RecipeId
             bool cookValidated = ValidateReviewSubmission(id);
@@ -303,7 +338,7 @@ namespace WhatsCookinGroupCapstone.Controllers
             else
             {
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                var loggedInCook = _repo.Cook.FindByCondition(e => e.IdentityUserId == userId).SingleOrDefault();
+                var loggedInCook = await _repo.Cook.FindByCondition(e => e.IdentityUserId == userId).SingleOrDefaultAsync();
                 Reviews review = new Reviews();
                 review.RecipeID = id;
                 review.CookId = loggedInCook.CookId;
@@ -355,7 +390,7 @@ namespace WhatsCookinGroupCapstone.Controllers
         }
 
         // GET: Recipes/SeeReview/
-        public IActionResult SeeReviews(int id)
+        public async Task<IActionResult> SeeReviews(int id)
         {
             if (id == 0)
             {
@@ -365,7 +400,7 @@ namespace WhatsCookinGroupCapstone.Controllers
             {
                 List<Reviews> reviews = new List<Reviews>();
 
-                var allReviews = _repo.Reviews.FindAll().ToList();
+                var allReviews = await _repo.Reviews.FindAll().ToListAsync();
 
                 foreach(Reviews review in allReviews)
                 {
@@ -376,10 +411,7 @@ namespace WhatsCookinGroupCapstone.Controllers
                 }
 
                 return View(reviews);
-
             }
-
-
         }
 
         public IActionResult GetEdits(int id)
@@ -419,8 +451,5 @@ namespace WhatsCookinGroupCapstone.Controllers
 
             return RedirectToAction("Index");
         }
-
-
-
     }
 }
