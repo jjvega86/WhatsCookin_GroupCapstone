@@ -128,11 +128,13 @@ namespace WhatsCookinGroupCapstone.Controllers
             List<int> recipeIds = new List<int>();
             foreach (int tagId in recipeTags)
             {
-                var selectedRecipe =  _repo.RecipeTags.FindByCondition(c => c.TagsId == tagId).FirstOrDefault();
+
+                var selectedRecipe = _repo.RecipeTags.FindByCondition(c => c.TagsId == tagId).FirstOrDefault();
 
                 if(selectedRecipe == null)
                 {
-                    var firstRecipe =  _repo.Recipe.FindByCondition(r => r.RecipeId == 1).SingleOrDefault();
+                    var firstRecipe = _repo.Recipe.FindByCondition(r => r.RecipeId == 1).SingleOrDefault();
+
                     recipeIds.Add(firstRecipe.RecipeId);
                   
                 }
@@ -176,12 +178,22 @@ namespace WhatsCookinGroupCapstone.Controllers
 
             // if there are less than six recipes in the list, add the first several recipes from the database until there are six in the list
 
-            var listOfAllRecipes =  _repo.Recipe.FindAll().ToList();
+
+            var listOfAllRecipes = _repo.Recipe.FindAll().ToList();
 
             while (recipeList.Count < 6)
-            {             
-                recipeList.Add(listOfAllRecipes[recipeCount]);
-                recipeCount++;              
+            {
+                //this takes two lists and removes values that are present only in both lists.
+                var result = listOfAllRecipes.Concat(recipeList)
+                .GroupBy(x => x.RecipeId)
+                    .Where(x => x.Count() == 1)
+                    .Select(x => x.FirstOrDefault())
+                    .ToList();
+
+
+                recipeList.Add(result[1]);
+                recipeCount++;
+
             }
           
             recipeCount = recipeList.Count();
@@ -297,14 +309,18 @@ namespace WhatsCookinGroupCapstone.Controllers
         private UserRandomRecipes AddFeelinLuckyToViewObject(UserRandomRecipes finalList, Recipe feelinLucky)
         {
 
-            var helperObject =  _repo.Recipe.FindByCondition(f => f.RecipeId == feelinLucky.RecipeId).SingleOrDefault();
+
+            var helperObject = _repo.Recipe.FindByCondition(f => f.RecipeId == feelinLucky.RecipeId).SingleOrDefault();
+
             finalList.FeelinLucky = helperObject;
             return finalList;
         }
 
+
         public async Task<IActionResult> FollowedCookbook(int id)
         {
             var listOfRecipes = await _repo.Recipe.FindByCondition(r => r.CookID == id).ToListAsync();
+
 
 
 
