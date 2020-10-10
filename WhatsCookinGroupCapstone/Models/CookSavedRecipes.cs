@@ -17,8 +17,5 @@ namespace WhatsCookinGroupCapstone.Models
         [NotMapped]
         public List<Recipe> AllRecipes { get; set; }
 
-      
-
-
     }
 }

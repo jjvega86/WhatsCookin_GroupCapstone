@@ -10,18 +10,21 @@
     <link rel="icon" type="image/png" href="~/lib/Favicon/favicon-16x16.png" sizes="16x16">
     <link rel="manifest" href="~/lib/Favicon/site.webmanifest">
     <link rel="mask-icon" href="~/lib/Favicon/favicon.ico" color="#5bbad5">
-    <meta name="theme-color" content="#00ffff">
+    @*<meta name="theme-color" content="#00ffff">*@
 
+    <link href="https://fonts.googleapis.com/css2?family=Cookie&family=Sansita+Swashed&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/yeti/bootstrap.min.css" integrity="sha384-mLBxp+1RMvmQmXOjBzRjqqr0dP9VHU2tb3FK6VB0fJN/AOu7/y+CAeYeWJZ4b3ii" crossorigin="anonymous">
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-    
- </head>
+
+</head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WhatsCookin</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style="font-family: 'Cookie', cursive;font-size: 50px;">What'sCookin</a>
                 <a class="navbar-brand" asp-area="" asp-controller="Recipes" asp-action="Index">Profile</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -32,7 +35,7 @@
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Cook" asp-action="Index">Home</a>
-                        </li>                   
+                        </li>
                     </ul>
                 </div>
             </div>

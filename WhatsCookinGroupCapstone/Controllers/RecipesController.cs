@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Runtime.ConstrainedExecution;
+using System.Runtime.InteropServices;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -238,6 +239,7 @@ namespace WhatsCookinGroupCapstone.Controllers
             foreach (CookSavedRecipes savedRecipe in cookSavedRecipes)
             {
                 var recipe = await _repo.Recipe.FindByCondition(r => r.RecipeId == savedRecipe.CookSavedRecipesId).SingleOrDefaultAsync();
+
                 saveRecipe.AllRecipes.Add(recipe);
             }
             return View(saveRecipe);
@@ -253,6 +255,7 @@ namespace WhatsCookinGroupCapstone.Controllers
             }
             var recipe = await _repo.Recipe.FindByCondition(r => r.RecipeId == id).FirstOrDefaultAsync();
 
+
             return View(recipe);
         }
 
@@ -260,31 +263,50 @@ namespace WhatsCookinGroupCapstone.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Saved(Recipe recipe)
         {
+            var recipe = _repo.Recipe.FindByCondition(r => r.RecipeId == id).FirstOrDefault();
+
             CookSavedRecipes saveRecipe = new CookSavedRecipes();
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var foundCook = await _repo.Cook.FindByCondition(r => r.IdentityUserId == userId).SingleOrDefaultAsync();
-
+            var foundRecipe = await _repo.Recipe.FindByCondition(r => r.RecipeId == recipe.RecipeId).FirstOrDefaultAsync();
+            
             if (foundCook == null)
             {
                 return NotFound();
 
-            }           
-
+            }
             saveRecipe.CookId = foundCook.CookId;
-            saveRecipe.RecipeId = recipe.RecipeId;
-            //if cookId and RecipeId are already linked in CookSaved Recipe throw an error
+            saveRecipe.RecipeId = foundRecipe.RecipeId;
+            try
+            {
+                var alreadySaved = await _repo.CookSavedRecipes.FindByCondition(s => s.RecipeId == recipe.RecipeId).FirstOrDefaultAsync();
+                if (foundCook.CookId == alreadySaved.CookId && foundRecipe.RecipeId == alreadySaved.RecipeId)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                SaveToRepo(recipe, saveRecipe);
+            }
+            catch
+            {
+                if (foundCook.CookId == saveRecipe.CookId)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                SaveToRepo(recipe, saveRecipe);
+            }
 
-
-            var loggedInCook = await _repo.Cook.FindByCondition(e => e.IdentityUserId == userId).SingleOrDefaultAsync();
-            var loggedInCookID = loggedInCook.CookId;
-            recipe.CookID = loggedInCookID;
-
-            _repo.CookSavedRecipes.Create(saveRecipe);
-            _repo.Save();
 
             return RedirectToAction(nameof(Index));
         }
+        private void SaveToRepo(Recipe recipe, CookSavedRecipes savedRecipe)
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var loggedInCook = _repo.Cook.FindByCondition(e => e.IdentityUserId == userId).SingleOrDefault();
+            recipe.CookID = loggedInCook.CookId;
 
+            _repo.CookSavedRecipes.Create(savedRecipe);
+            _repo.Save();
+        }
 
         private IList<SelectListItem> GetTags()
         {
@@ -384,12 +406,45 @@ namespace WhatsCookinGroupCapstone.Controllers
                 }
 
                 return View(reviews);
-
             }
+        }
 
-
+        public IActionResult GetEdits(int id)
+        {
+            //RecipeEdits recipeEdits = new RecipeEdits();
+            List<string> listOfEdits = new List<string>();
+            var recipeEdits = _repo.RecipeEdits.FindByCondition(r => r.RecipeID == id).ToList();
+         
+            return View(recipeEdits);
         }
 
 
+        public IActionResult SubmitEdit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+
+            }
+
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var loggedInCook = _repo.Cook.FindByCondition(e => e.IdentityUserId == userId).SingleOrDefault();
+            var recipe = _repo.Recipe.FindByCondition(r => r.RecipeId == id).FirstOrDefault();
+
+            RecipeEdits suggestedEdit= new RecipeEdits();
+            suggestedEdit.RecipeID = recipe.RecipeId;
+            suggestedEdit.CookId = loggedInCook.CookId;
+
+            //return RedirectToAction(nameof(SubmitEdit));
+            return View(suggestedEdit);
+        }
+        [HttpPost]
+        public IActionResult AddEdit(RecipeEdits suggestedRecipeEdit)
+        {
+            _repo.RecipeEdits.Create(suggestedRecipeEdit);
+            _repo.Save();
+
+            return RedirectToAction("Index");
+        }
     }
 }
