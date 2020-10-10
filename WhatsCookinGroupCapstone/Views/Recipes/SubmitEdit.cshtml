@@ -1,13 +1,39 @@
 ﻿@model WhatsCookinGroupCapstone.Models.RecipeEdits
 
-@{ ViewData["Title"] = "SubmitEdit";}
+@{
+    ViewData["Title"] = "SubmitEdit";
+}
 
-<h1>Suggested Edits</h1>
+<h1>AddEdit</h1>
 
-<h4>Edits</h4>
+<h4>RecipeEdits</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddEdit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="RecipeEditsId" />
 
-<form action="/action_page.php">
-    <label for="edit">Enter suggestion:</label>
-    <input type="text" id="edit" name="edit"><br><br>
-    <input type="submit" value="Submit" />
-</form>
+            <input type="hidden" asp-for="RecipeID" />
+
+            <input type="hidden" asp-for="CookId" />
+                         
+            <div class="form-group">
+                <label asp-for="SuggestedEdit" class="control-label"></label>
+                <input asp-for="SuggestedEdit" class="form-control" />
+                <span asp-validation-for="SuggestedEdit" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="AddEdit">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -387,13 +387,8 @@ namespace WhatsCookinGroupCapstone.Controllers
             //RecipeEdits recipeEdits = new RecipeEdits();
             List<string> listOfEdits = new List<string>();
             var recipeEdits = _repo.RecipeEdits.FindByCondition(r => r.RecipeID == id).ToList();
-
-            foreach (RecipeEdits edits in recipeEdits)
-            {
-                listOfEdits.Add(edits.SuggestedEdit);
-                
-            }
-            return View(listOfEdits);
+         
+            return View(recipeEdits);
         }
 
 
@@ -404,10 +399,25 @@ namespace WhatsCookinGroupCapstone.Controllers
                 return NotFound();
 
             }
-            var recipe = _repo.RecipeEdits.FindByCondition(r => r.RecipeEditsId == id).FirstOrDefault();
+
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var loggedInCook = _repo.Cook.FindByCondition(e => e.IdentityUserId == userId).SingleOrDefault();
+            var recipe = _repo.Recipe.FindByCondition(r => r.RecipeId == id).FirstOrDefault();
+
+            RecipeEdits suggestedEdit= new RecipeEdits();
+            suggestedEdit.RecipeID = recipe.RecipeId;
+            suggestedEdit.CookId = loggedInCook.CookId;
 
             //return RedirectToAction(nameof(SubmitEdit));
-            return View(recipe);
+            return View(suggestedEdit);
+        }
+        [HttpPost]
+        public IActionResult AddEdit(RecipeEdits suggestedRecipeEdit)
+        {
+            _repo.RecipeEdits.Create(suggestedRecipeEdit);
+            _repo.Save();
+
+            return RedirectToAction("Index");
         }
 
 

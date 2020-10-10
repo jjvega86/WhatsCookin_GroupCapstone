@@ -28,7 +28,7 @@ namespace WhatsCookinGroupCapstone.ActionFilters
                 else if (_claimsPrincipal.IsInRole("Cook"))
                 {
                     context.Result = new RedirectToActionResult("Index",
-                    "Recipes", null);
+                    "Cook", null);
                 }
 
 
