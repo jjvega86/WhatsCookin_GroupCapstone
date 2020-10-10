@@ -261,7 +261,7 @@ namespace WhatsCookinGroupCapstone.Controllers
 
         [HttpPost, ActionName("Save")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Saved(Recipe recipe)
+        public async Task<IActionResult> Saved(int id)
         {
             var recipe = _repo.Recipe.FindByCondition(r => r.RecipeId == id).FirstOrDefault();
 
