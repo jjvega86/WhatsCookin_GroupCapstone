@@ -66,13 +66,14 @@ img.landscape {
     // include the borders in the sizing
 }*/
 .title{
-    padding-left: 20px;
+    padding-left: 40px;
 }
 
 .button{
-
+    padding-right: 50px;
+    
     float: right;
-    width: 10px;
+    
 }
 
 .recipe-items-wrapper{
