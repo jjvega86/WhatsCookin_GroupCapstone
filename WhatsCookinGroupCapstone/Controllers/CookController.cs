@@ -163,11 +163,13 @@ namespace WhatsCookinGroupCapstone.Controllers
             List<int> recipeIds = new List<int>();
             foreach (int tagId in recipeTags)
             {
+
                 var selectedRecipe = _repo.RecipeTags.FindByCondition(c => c.TagsId == tagId).FirstOrDefault();
 
                 if(selectedRecipe == null)
                 {
                     var firstRecipe = _repo.Recipe.FindByCondition(r => r.RecipeId == 1).SingleOrDefault();
+
                     recipeIds.Add(firstRecipe.RecipeId);
                   
                 }
@@ -203,6 +205,20 @@ namespace WhatsCookinGroupCapstone.Controllers
            
             return sixRandomNumbers;
         }
+
+        private HashSet<int> GetVariousAmountsOfRandomNumbers(int recipeCount)
+        {
+            HashSet<int> randomNumbers = new HashSet<int>();
+            Random rand = new Random();
+
+            while (randomNumbers.Count < recipeCount - 1)
+            {
+                randomNumbers.Add(rand.Next(0, recipeCount));
+            }
+
+            return randomNumbers;
+
+        }
         private List<Recipe> RandomizeRecipes(List<Recipe> recipeList)
         {
             // recipeList generated from FindMatchingRecipes
@@ -210,6 +226,7 @@ namespace WhatsCookinGroupCapstone.Controllers
             int recipeCount = 1;
 
             // if there are less than six recipes in the list, add the first several recipes from the database until there are six in the list
+
 
             var listOfAllRecipes = _repo.Recipe.FindAll().ToList();
 
@@ -221,10 +238,13 @@ namespace WhatsCookinGroupCapstone.Controllers
                     .Where(x => x.Count() == 1)
                     .Select(x => x.FirstOrDefault())
                     .ToList();
+                var randomnumbernow = GetVariousAmountsOfRandomNumbers(result.Count);
+                foreach (int number in randomnumbernow)
+                {
+                    recipeList.Add(result[number]);
+                    recipeCount++;
+                }
 
-
-                recipeList.Add(result[1]);
-                recipeCount++;
             }
           
             recipeCount = recipeList.Count();
@@ -341,16 +361,22 @@ namespace WhatsCookinGroupCapstone.Controllers
         private UserRandomRecipes AddFeelinLuckyToViewObject(UserRandomRecipes finalList, Recipe feelinLucky)
         {
 
+
             var helperObject = _repo.Recipe.FindByCondition(f => f.RecipeId == feelinLucky.RecipeId).SingleOrDefault();
+
             finalList.FeelinLucky = helperObject;
             return finalList;
         }
 
-        public ActionResult FollowedCookbook(int id)
+
+
+        public async Task<IActionResult> FollowedCookbook(int id)
+
         {
             // I want to return a list of recipes that the passed in CookId has created from the Recipe database
 
             var listOfRecipes = _repo.Recipe.FindByCondition(r => r.CookID == id).ToList();
+
 
 
 

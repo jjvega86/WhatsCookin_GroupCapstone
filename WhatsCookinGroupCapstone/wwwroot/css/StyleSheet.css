@@ -29,6 +29,12 @@
    /* display: flex;*/
 /*}*/
 
+button .mystyle {
+    font-family: font-family: 'Cookie', cursive;
+    color: white;
+    font-size: 25px;
+    width: 120px;
+}
 /*.img{
     float: left;
     width: 100px;
@@ -65,22 +71,40 @@ img.landscape {
     //one third minus the 20px margin box-sizing:border-box;
     // include the borders in the sizing
 }*/
+.title{
+    padding-left: 40px;
+}
 
-.recipe-items-wrapper{
+.button{
+    padding-right: 50px;
+    
+    float: right;
+    
+}
+.content-wrapper {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
 }
-
-.recipe-item-wrapper{
+.recipe-items-wrapper {
     position: relative;
+    color: aliceblue;
+    margin: 4px;
 }
 
-.recipe-img-background{
+.recipe-item-wrapper {
+    position: relative;
+    color: tan;
+    
+    margin: 4px;
+}
+
+.recipe-img-background {
     height: 350px;
     width: 100%;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    border-radius: 4px;
 }
 
 .img-text-wrapper{
@@ -94,5 +118,37 @@ img.landscape {
     text-align: center;
     padding-left: 100px;
     padding-right: 100px;
+
 }
+
+.img-text-wrapper .recipe-name{
+    transition: 1s;
+    font-weight: 600;
+    color: transparent;
+
+}
+
+.img-text-wrapper:hover .recipe-name {
+    font-weight: 600;
+    color: navajowhite;
+    font-size: 26px;
+}
+
+.img-darken {
+    transition: 1s;
+    filter: brightness(10%);
+    
+}
+
+.anchor {
+    height: 350px;
+    width: 350px;
+    
+}
+
+.recipe-name{
+    color: goldenrod;
+}
+
+
 

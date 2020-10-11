@@ -4,69 +4,71 @@
     ViewData["Title"] = "Search";
 }
 
-<h1>Search</h1>
-
+<h1 style="font-family: 'Cookie', cursive; font-weight: 600; font-size: 50px;">Search</h1>
+<h5>To add a new Recipe click <i>"Create"</i> down below!</h5>
 <form asp-controller="Recipes" asp-action="Search" method="get">
+
     <p>
         <input type="text" name="SearchString">
         <input type="submit" value="Find" />
     </p>
 </form>
-    <p>
-        <a asp-action="Create">Create A New Recipe!</a>
-    </p>
-    <table class="table container">
-        <thead>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table container">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RecipeName)
+            </th>
+            <!--<th>-->
+            @* @Html.DisplayNameFor(model => model.IMGUrl)*@
+            <!--</th>-->
+            <th>
+                @Html.DisplayNameFor(model => model.Ingredients)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Steps)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cook.UserName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody class="container">
+        @foreach (var item in Model)
+        {
             <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.RecipeName)
-                </th>
-                <!--<th>-->
-                   @* @Html.DisplayNameFor(model => model.IMGUrl)*@
-                <!--</th>-->
-                <th>
-                    @Html.DisplayNameFor(model => model.Ingredients)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Description)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Steps)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Cook.UserName)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody class="container">
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.RecipeId" style="font-family: 'Cookie'; font-size: 20px; color: rgb(13,10,77)">
                         @Html.DisplayFor(modelItem => item.RecipeName)
-                    </td>
-                    <!--<td>-->
-                        @*@Html.DisplayFor(modelItem => item.IMGUrl)*@
-                    <!--</td>-->
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Ingredients)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Steps)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CookName)
-                    </td>
-                    <td>
-                        <a asp-action="Reviews" asp-route-id="@item.RecipeId">Reviews</a> |
-                        <a asp-action="Details" asp-route-id="@item.RecipeId">Details</a> |
-                        <a asp-action="Save" asp-route-id="@item.RecipeId">Save</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+                    </a>
+                </td>
+                <!--<td>-->
+                @*@Html.DisplayFor(modelItem => item.IMGUrl)*@
+                <!--</td>-->
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ingredients)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Steps)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CookName)
+                </td>
+                <td>
+                    <a asp-action="Reviews" asp-route-id="@item.RecipeId">Reviews</a> |
+                    <a asp-action="Save" asp-route-id="@item.RecipeId">Save</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
