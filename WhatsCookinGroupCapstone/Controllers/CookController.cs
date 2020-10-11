@@ -211,7 +211,9 @@ namespace WhatsCookinGroupCapstone.Controllers
             HashSet<int> randomNumbers = new HashSet<int>();
             Random rand = new Random();
 
+
             while (randomNumbers.Count < recipeCount)
+
             {
                 randomNumbers.Add(rand.Next(0, recipeCount));
             }
@@ -239,6 +241,13 @@ namespace WhatsCookinGroupCapstone.Controllers
                     .Where(x => x.Count() == 1)
                     .Select(x => x.FirstOrDefault())
                     .ToList();
+                var randomnumbernow = GetVariousAmountsOfRandomNumbers(result.Count);
+                foreach (int number in randomnumbernow)
+                {
+                    recipeList.Add(result[number]);
+                    recipeCount++;
+                }
+
 
                 var randomnumbernow = GetVariousAmountsOfRandomNumbers(result.Count);
                 foreach (int number in randomnumbernow)
@@ -248,6 +257,7 @@ namespace WhatsCookinGroupCapstone.Controllers
                 }
 
                 
+
 
             }
 
@@ -373,6 +383,7 @@ namespace WhatsCookinGroupCapstone.Controllers
         }
 
 
+<
         public async Task<IActionResult> FollowedCookbook(int id)
 
         {

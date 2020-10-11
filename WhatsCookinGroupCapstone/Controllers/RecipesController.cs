@@ -225,7 +225,9 @@ namespace WhatsCookinGroupCapstone.Controllers
             {
 
 
+
                 var recipe = await _repo.Recipe.FindByCondition(r => r.RecipeId == savedRecipe.RecipeId).SingleOrDefaultAsync();
+
 
 
 
@@ -257,7 +259,9 @@ namespace WhatsCookinGroupCapstone.Controllers
         [HttpPost, ActionName("Details")]
         [ValidateAntiForgeryToken]
 
+
         public async Task<IActionResult> Details(int id)
+
         {
             var recipe = _repo.Recipe.FindByCondition(r => r.RecipeId == id).FirstOrDefault();
 
