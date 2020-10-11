@@ -13,6 +13,8 @@ namespace WhatsCookinGroupCapstone.Models
         [Key]
         public int ReviewId { get; set; }
         public int Rating { get; set; }
+
+        [Display(Name = "Review")]
         public string ReviewForRecipe { get; set; }
         public bool Validation { get; set; }
 

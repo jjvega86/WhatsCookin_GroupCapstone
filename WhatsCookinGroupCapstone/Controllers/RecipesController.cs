@@ -386,7 +386,7 @@ namespace WhatsCookinGroupCapstone.Controllers
                 _repo.Reviews.Create(review);
                 _repo.Save();
                
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index");
             }
             else
             {
@@ -395,7 +395,7 @@ namespace WhatsCookinGroupCapstone.Controllers
         }
 
         // GET: Recipes/SeeReview/
-        public async Task<IActionResult> SeeReviews(int id)
+        public IActionResult SeeReviews(int id)
         {
             if (id == 0)
             {
@@ -405,7 +405,7 @@ namespace WhatsCookinGroupCapstone.Controllers
             {
                 List<Reviews> reviews = new List<Reviews>();
 
-                var allReviews = await _repo.Reviews.FindAll().ToListAsync();
+                var allReviews =  _repo.Reviews.FindAll().ToList();
 
                 foreach(Reviews review in allReviews)
                 {

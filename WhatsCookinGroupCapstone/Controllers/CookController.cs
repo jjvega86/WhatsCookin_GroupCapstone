@@ -245,15 +245,6 @@ namespace WhatsCookinGroupCapstone.Controllers
                 foreach (int number in randomnumbernow)
                 {
                     recipeList.Add(result[number]);
-                    recipeCount++;
-                }
-
-
-                var randomnumbernow = GetVariousAmountsOfRandomNumbers(result.Count);
-                foreach (int number in randomnumbernow)
-                {
-                    recipeList.Add(result[number]);
-                    //recipeCount++;
                 }
 
                 
@@ -383,7 +374,7 @@ namespace WhatsCookinGroupCapstone.Controllers
         }
 
 
-<
+
         public async Task<IActionResult> FollowedCookbook(int id)
 
         {
