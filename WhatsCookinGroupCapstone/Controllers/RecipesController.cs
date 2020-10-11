@@ -243,7 +243,10 @@ namespace WhatsCookinGroupCapstone.Controllers
             foreach (CookSavedRecipes savedRecipe in cookSavedRecipes)
             {
 
+
                 var recipe = await _repo.Recipe.FindByCondition(r => r.RecipeId == savedRecipe.RecipeId).SingleOrDefaultAsync();
+
+
 
 
                 saveRecipe.AllRecipes.Add(recipe);
@@ -288,12 +291,14 @@ namespace WhatsCookinGroupCapstone.Controllers
             }
             saveRecipe.CookId = foundCook.CookId;
             saveRecipe.RecipeId = foundRecipe.RecipeId;
+
             //If they own it redirect them
             var cookOwnsThisRecipe = _repo.CookSavedRecipes.FindByCondition(s => s.CookId == foundRecipe.CookID).FirstOrDefault();
             if(cookOwnsThisRecipe != null)
             {
                 return RedirectToAction(nameof(Index));
             }
+
             try
             {
                 var alreadySaved1 = _repo.CookSavedRecipes.FindByCondition(s => s.RecipeId == foundRecipe.RecipeId).ToList();
@@ -313,6 +318,7 @@ namespace WhatsCookinGroupCapstone.Controllers
             SaveToRepo(recipe, saveRecipe);
 
             return RedirectToAction(nameof(CooksSaved));
+
         }
         private void SaveToRepo(Recipe recipe, CookSavedRecipes savedRecipe)
         {
