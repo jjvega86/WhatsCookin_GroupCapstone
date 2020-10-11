@@ -29,12 +29,14 @@
    /* display: flex;*/
 /*}*/
 
+
 button .mystyle {
     font-family: font-family: 'Cookie', cursive;
     color: white;
     font-size: 25px;
     width: 120px;
 }
+
 /*.img{
     float: left;
     width: 100px;
@@ -130,7 +132,9 @@ img.landscape {
 
 .img-text-wrapper:hover .recipe-name {
     font-weight: 600;
+
     color: navajowhite;
+
     font-size: 26px;
 }
 
