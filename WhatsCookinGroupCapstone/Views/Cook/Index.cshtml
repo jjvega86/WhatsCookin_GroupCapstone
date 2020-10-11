@@ -24,16 +24,18 @@
 <body>
 
     <div class="row">
-        <div class="col-8">
 
-            <h1 class="title" style="font-family: 'Cookie', cursive; font-size: 36px">Try One of These, Please!</h1>
+        <div class="col-10">
+
+            <h1 class="title" style="font-family: 'Cookie', cursive; font-size: 36px">Take a look at What'sCookin!</h1>
         </div>
-        <div class="col-4">
+        <div class="col-2">
 
-            <div class="button">
-                <button onclick="location.href='https://localhost:44384/Recipes/Details/@Html.ViewData.Model.FeelinLucky.RecipeId'" type="button" class="btn btn-primary">
-                    Feelin' Lucky
-                </button>
+            <div>
+                <input type="button" style="font-family: 'Cookie', cursive; color: white; font-size: 25px; width: 130px; margin-right: 60px;" value="Feelin' Lucky"
+                       class="btn btn-primary" onclick="location.href='https://localhost:44384/Recipes/Details/@Html.ViewData.Model.FeelinLucky.RecipeId'">
+
+
             </div>
         </div>
 
@@ -49,6 +51,7 @@
             <a class="anchor" href="https://localhost:44384/Recipes/Details/@Html.ViewData.Model.Recipes[0].RecipeId"  target="_blank">
                 <div class="img-text-wrapper">
                     <div class="recipe-name">@Html.ViewData.Model.Recipes[0].RecipeName</div>
+
 
                 </div>
             </a>
@@ -66,12 +69,14 @@
                 <div class="img-text-wrapper">
                     <div class="recipe-name">@Html.ViewData.Model.Recipes[1].RecipeName</div>
 
+
                 </div>
             </a>
                 
         </div>
         <div class="recipe-items-wrapper">
             <div class="recipe-item-wrapper">
+
 
                 <div class="recipe-img-background" style="background-image:url(@Html.ViewData.Model.Recipes[2].IMGUrl)"></div>
 
@@ -93,7 +98,6 @@
 
 
 
-
             </div>
             <a class="anchor" href="https://localhost:44384/Recipes/Details/@Html.ViewData.Model.Recipes[3].RecipeId"  target="_blank">
                 <div class="img-text-wrapper">
@@ -109,17 +113,18 @@
                     <div class="recipe-img-background" style="background-image:url(@Html.ViewData.Model.Recipes[4].IMGUrl)"></div>
 
 
+
                 
             </div>
+
             <a class="anchor" href="https://localhost:44384/Recipes/Details/@Html.ViewData.Model.Recipes[4].RecipeId"  target="_blank">
                 <div class="img-text-wrapper">
                     <div class="recipe-name">@Html.ViewData.Model.Recipes[4].RecipeName</div>
 
-
                 </div>
             </a>
                 
-        </div>      
+        </div>
         <div class="recipe-items-wrapper">
             <div class="recipe-item-wrapper">
                
@@ -127,6 +132,7 @@
 
 
             </div>
+
             <a class="anchor" href="https://localhost:44384/Recipes/Details/@Html.ViewData.Model.Recipes[5].RecipeId"  target="_blank">
                 <div class="img-text-wrapper">
                     <div class="recipe-name">@Html.ViewData.Model.Recipes[5].RecipeName</div>
@@ -136,6 +142,7 @@
                 
         </div>
     </div>
+
 
         <script>
 

@@ -239,6 +239,7 @@ namespace WhatsCookinGroupCapstone.Controllers
                     .Where(x => x.Count() == 1)
                     .Select(x => x.FirstOrDefault())
                     .ToList();
+
                 var randomnumbernow = GetVariousAmountsOfRandomNumbers(result.Count);
                 foreach (int number in randomnumbernow)
                 {
@@ -247,6 +248,7 @@ namespace WhatsCookinGroupCapstone.Controllers
                 }
 
                 
+
             }
 
             var recipeCount = recipeList.Count();
@@ -377,6 +379,7 @@ namespace WhatsCookinGroupCapstone.Controllers
             // I want to return a list of recipes that the passed in CookId has created from the Recipe database
 
             var listOfRecipes = _repo.Recipe.FindByCondition(r => r.CookID == id).ToList();
+
 
 
 
