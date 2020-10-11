@@ -5,7 +5,7 @@
 }
 
 <h1 style="font-family: 'Cookie', cursive; font-weight: 600; font-size: 50px;">Search</h1>
-<h5>To add a new Recipe click <i>"Create"</i> down below!</h5>
+
 <form asp-controller="Recipes" asp-action="Search" method="get">
 
     <p>
@@ -16,10 +16,6 @@
     </p>
 </form>
 
-<p>
-    <input type="button" class="btn btn-primary" style="font-family: 'Cookie', cursive; color: white; font-size: 20px; width: 100px;" value="Create"
-           onclick="location.href='@Url.Action("Create", "Recipes")'" />
-</p>
 <table class="table container">
     <thead>
         <tr>
