@@ -38,25 +38,6 @@ namespace WhatsCookinGroupCapstone.Controllers
             return View(myRecipeList);
         }
 
-        // GET: Recipes/Details/5
-        public async Task <IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var recipe = await _repo.Recipe.FindByCondition(r => r.RecipeId == id).FirstOrDefaultAsync();
-
-            if (recipe == null)
-            {
-                return NotFound();
-            }
-
-
-            return View(recipe);
-        }
-
         // GET: Recipes/Create
         public IActionResult Create()
         {
@@ -243,7 +224,12 @@ namespace WhatsCookinGroupCapstone.Controllers
             foreach (CookSavedRecipes savedRecipe in cookSavedRecipes)
             {
 
+
+
                 var recipe = await _repo.Recipe.FindByCondition(r => r.RecipeId == savedRecipe.RecipeId).SingleOrDefaultAsync();
+
+
+
 
 
                 saveRecipe.AllRecipes.Add(recipe);
@@ -251,25 +237,30 @@ namespace WhatsCookinGroupCapstone.Controllers
             return View(saveRecipe);
         }
 
-
-        public async Task<IActionResult> Save(int? id)
+        // GET: Recipes/Details/5
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
-
             }
 
             var recipe = await _repo.Recipe.FindByCondition(r => r.RecipeId == id).FirstOrDefaultAsync();
+
+            if (recipe == null)
+            {
+                return NotFound();
+            }
 
 
             return View(recipe);
         }
 
-        [HttpPost, ActionName("Save")]
+        [HttpPost, ActionName("Details")]
         [ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> Saved(int id)
+
+        public async Task<IActionResult> Details(int id)
 
         {
             var recipe = _repo.Recipe.FindByCondition(r => r.RecipeId == id).FirstOrDefault();
@@ -288,12 +279,14 @@ namespace WhatsCookinGroupCapstone.Controllers
             }
             saveRecipe.CookId = foundCook.CookId;
             saveRecipe.RecipeId = foundRecipe.RecipeId;
+
             //If they own it redirect them
             var cookOwnsThisRecipe = _repo.CookSavedRecipes.FindByCondition(s => s.CookId == foundRecipe.CookID).FirstOrDefault();
             if(cookOwnsThisRecipe != null)
             {
                 return RedirectToAction(nameof(Index));
             }
+
             try
             {
                 var alreadySaved1 = _repo.CookSavedRecipes.FindByCondition(s => s.RecipeId == foundRecipe.RecipeId).ToList();
@@ -313,6 +306,7 @@ namespace WhatsCookinGroupCapstone.Controllers
             SaveToRepo(recipe, saveRecipe);
 
             return RedirectToAction(nameof(CooksSaved));
+
         }
         private void SaveToRepo(Recipe recipe, CookSavedRecipes savedRecipe)
         {
