@@ -9,12 +9,16 @@
 <form asp-controller="Recipes" asp-action="Search" method="get">
 
     <p>
-        <input type="text" name="SearchString">
-        <input type="submit" value="Find" />
+        <div class="form-inline">
+            <input class="form-control mr-sm-2" type="text" style=" width: 50%;" name="SearchString">
+            <input class="btn btn-primary my-sm-0" style=" font-family: 'Cookie' , cursive; color: white; font-size: 20px;" type="submit" value="Search" />
+        </div>
     </p>
 </form>
+
 <p>
-    <a asp-action="Create">Create New</a>
+    <input type="button" class="btn btn-primary" style="font-family: 'Cookie', cursive; color: white; font-size: 20px; width: 100px;" value="Create"
+           onclick="location.href='@Url.Action("Create", "Recipes")'" />
 </p>
 <table class="table container">
     <thead>
@@ -66,7 +70,7 @@
                 </td>
                 <td>
                     <a asp-action="Reviews" asp-route-id="@item.RecipeId">Reviews</a> |
-                    <a asp-action="Save" asp-route-id="@item.RecipeId">Save</a>
+                    <a asp-action="Details" asp-route-id="@item.RecipeId">Details</a>
                 </td>
             </tr>
         }
