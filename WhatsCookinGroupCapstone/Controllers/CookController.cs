@@ -211,7 +211,7 @@ namespace WhatsCookinGroupCapstone.Controllers
             HashSet<int> randomNumbers = new HashSet<int>();
             Random rand = new Random();
 
-            while (randomNumbers.Count < recipeCount-1)
+            while (randomNumbers.Count < recipeCount)
             {
                 randomNumbers.Add(rand.Next(0, recipeCount));
             }
@@ -223,7 +223,7 @@ namespace WhatsCookinGroupCapstone.Controllers
         {
             // recipeList generated from FindMatchingRecipes
             // set int recipeCount parameter for GetSixRandomNumbers = to recipeList.Count-1
-            int recipeCount = 1;
+            //int recipeCount = 1;
 
             // if there are less than six recipes in the list, add the first several recipes from the database until there are six in the list
 
@@ -243,13 +243,13 @@ namespace WhatsCookinGroupCapstone.Controllers
                 foreach (int number in randomnumbernow)
                 {
                     recipeList.Add(result[number]);
-                    recipeCount++;
+                    //recipeCount++;
                 }
 
                 
             }
 
-            recipeCount = recipeList.Count();
+            var recipeCount = recipeList.Count();
             
             var randomNumbers = GetSixRandomNumbers(recipeCount);
             List<Recipe> finalRecipeList = new List<Recipe>();
