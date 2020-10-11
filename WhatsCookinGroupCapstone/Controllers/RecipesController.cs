@@ -243,7 +243,7 @@ namespace WhatsCookinGroupCapstone.Controllers
             foreach (CookSavedRecipes savedRecipe in cookSavedRecipes)
             {
 
-                var recipe = await _repo.Recipe.FindByCondition(r => r.RecipeId == savedRecipe.CookSavedRecipesId).SingleOrDefaultAsync();
+                var recipe = await _repo.Recipe.FindByCondition(r => r.RecipeId == savedRecipe.RecipeId).SingleOrDefaultAsync();
 
 
                 saveRecipe.AllRecipes.Add(recipe);
@@ -288,33 +288,31 @@ namespace WhatsCookinGroupCapstone.Controllers
             }
             saveRecipe.CookId = foundCook.CookId;
             saveRecipe.RecipeId = foundRecipe.RecipeId;
-
-            var alreadySaved = _repo.CookSavedRecipes.FindByCondition(s => s.RecipeId == recipe.RecipeId).FirstOrDefault();
+            //If they own it redirect them
+            var cookOwnsThisRecipe = _repo.CookSavedRecipes.FindByCondition(s => s.CookId == foundRecipe.CookID).FirstOrDefault();
+            if(cookOwnsThisRecipe != null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
             try
             {
-                try
+                var alreadySaved1 = _repo.CookSavedRecipes.FindByCondition(s => s.RecipeId == foundRecipe.RecipeId).ToList();
+                foreach (CookSavedRecipes recip in alreadySaved1)
                 {
-                    if (foundCook.CookId == alreadySaved.CookId && foundRecipe.RecipeId == alreadySaved.RecipeId)
+                    if (foundCook.CookId == recip.CookId)
                     {
-                        return RedirectToAction(nameof(Index));
+                        return RedirectToAction(nameof(CooksSaved));
                     }
-                    SaveToRepo(recipe, saveRecipe);
                 }
-                catch
-                {
-                    if (foundCook.CookId == alreadySaved.CookId)
-                    {
-                        return RedirectToAction(nameof(Index));
-                    }
-                }  
             }
             catch
             {
                 SaveToRepo(recipe, saveRecipe);
             }
 
-            return RedirectToAction(nameof(CooksSaved));
+            SaveToRepo(recipe, saveRecipe);
 
+            return RedirectToAction(nameof(CooksSaved));
         }
         private void SaveToRepo(Recipe recipe, CookSavedRecipes savedRecipe)
         {

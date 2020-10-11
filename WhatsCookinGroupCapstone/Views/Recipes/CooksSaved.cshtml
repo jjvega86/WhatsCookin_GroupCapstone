@@ -16,10 +16,7 @@
                 @*@Html.DisplayNameFor(model => model.AllRecipes.RecipeName)*@
                 Recipe Name
             </th>
-            <th>
                 @*@Html.DisplayNameFor(model => model.IMGUrl)*@
-                IMG Url
-            </th>
             <th>
                 @*@Html.DisplayNameFor(model => model.Ingredients)*@
                 Ingredients
@@ -45,9 +42,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.RecipeName)
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.IMGUrl)
-            </td>
+            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.Ingredients)
             </td>
@@ -58,7 +55,6 @@
                 @Html.DisplayFor(modelItem => item.Steps)
             </td>
             <td>
-                @*needs to be cookName or else it will not display*@
                 @Html.DisplayFor(modelItem => item.CookName)
             </td>
             @*<td>
@@ -66,8 +62,8 @@
                 <a asp-action="Delete" asp-route-id="@item.RecipeId">Delete</a>
             </td>*@
             <td>
-                <a asp-action="Review" asp-route-id="@item.RecipeId">Submit Review</a> |
-                 <a asp-action="SeeReviews" asp-route-id="@item.RecipeId">See Reviews</a> 
+                @*<a asp-action="Review" asp-route-id="@item.RecipeId">Submit Review</a> |
+                 <a asp-action="SeeReviews" asp-route-id="@item.RecipeId">See Reviews</a>*@ 
             </td>
         </tr>
 }
