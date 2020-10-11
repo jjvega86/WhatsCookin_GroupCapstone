@@ -4,7 +4,7 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1 style="font-family: 'Cookie', cursive; font-weight: 600; font-size: 50px;">Create</h1>
 
 <h4>Reviews</h4>
 <hr />
@@ -46,7 +46,12 @@
 
 <div>
     <a asp-action="Index">Back to List</a>
-</div>
+    @*@Html.ActionLink(
+linkText: "Create",
+actionName: "Review",
+controllerName: "Recipes",
+htmlAttributes: null)
+</div>*@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

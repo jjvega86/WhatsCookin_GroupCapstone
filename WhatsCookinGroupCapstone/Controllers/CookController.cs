@@ -241,12 +241,12 @@ namespace WhatsCookinGroupCapstone.Controllers
                     .Where(x => x.Count() == 1)
                     .Select(x => x.FirstOrDefault())
                     .ToList();
-                var randomnumbernow = GetVariousAmountsOfRandomNumbers(result.Count);
-                foreach (int number in randomnumbernow)
-                {
-                    recipeList.Add(result[number]);
-                    recipeCount++;
-                }
+                //var randomnumbernow = GetVariousAmountsOfRandomNumbers(result.Count);
+                //foreach (int number in randomnumbernow)
+                //{
+                //    recipeList.Add(result[number]);
+                //    recipeCount++;
+                //}
 
 
                 var randomnumbernow = GetVariousAmountsOfRandomNumbers(result.Count);
@@ -255,10 +255,6 @@ namespace WhatsCookinGroupCapstone.Controllers
                     recipeList.Add(result[number]);
                     //recipeCount++;
                 }
-
-                
-
-
             }
 
             var recipeCount = recipeList.Count();
@@ -383,19 +379,13 @@ namespace WhatsCookinGroupCapstone.Controllers
         }
 
 
-<
+
         public async Task<IActionResult> FollowedCookbook(int id)
 
         {
             // I want to return a list of recipes that the passed in CookId has created from the Recipe database
 
             var listOfRecipes = _repo.Recipe.FindByCondition(r => r.CookID == id).ToList();
-
-
-
-
-
-
 
             return View(listOfRecipes);
         }
