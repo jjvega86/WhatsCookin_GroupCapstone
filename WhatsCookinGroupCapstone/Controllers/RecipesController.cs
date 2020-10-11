@@ -38,25 +38,6 @@ namespace WhatsCookinGroupCapstone.Controllers
             return View(myRecipeList);
         }
 
-        // GET: Recipes/Details/5
-        public async Task <IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var recipe = await _repo.Recipe.FindByCondition(r => r.RecipeId == id).FirstOrDefaultAsync();
-
-            if (recipe == null)
-            {
-                return NotFound();
-            }
-
-
-            return View(recipe);
-        }
-
         // GET: Recipes/Create
         public IActionResult Create()
         {
@@ -251,26 +232,29 @@ namespace WhatsCookinGroupCapstone.Controllers
             return View(saveRecipe);
         }
 
-
-        public async Task<IActionResult> Save(int? id)
+        // GET: Recipes/Details/5
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
-
             }
 
             var recipe = await _repo.Recipe.FindByCondition(r => r.RecipeId == id).FirstOrDefaultAsync();
+
+            if (recipe == null)
+            {
+                return NotFound();
+            }
 
 
             return View(recipe);
         }
 
-        [HttpPost, ActionName("Save")]
+        [HttpPost, ActionName("Details")]
         [ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> Saved(int id)
-
+        public async Task<IActionResult> Details(int id)
         {
             var recipe = _repo.Recipe.FindByCondition(r => r.RecipeId == id).FirstOrDefault();
 
