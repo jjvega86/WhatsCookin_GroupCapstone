@@ -63,6 +63,7 @@
     <a asp-action="Index">Back to List </a>|
     <a asp-action="SubmitEdit" asp-route-id="@Model.RecipeId"> Submit a Edit </a>|
     <a asp-action="GetEdits" asp-route-id="@Model.RecipeId"> View Edits </a>|
+    @*<a asp-action="CooksSaved" asp-route-id="@Model.RecipeId"> Save Recipe </a>|*@
 
     @Html.ActionLink(
     linkText: "Follow",
@@ -70,7 +71,7 @@
     controllerName: "Cook",
     routeValues: new
         {
-        id = Model.CookID
+        id = Model.RecipeId
     },
     htmlAttributes: null
 )
