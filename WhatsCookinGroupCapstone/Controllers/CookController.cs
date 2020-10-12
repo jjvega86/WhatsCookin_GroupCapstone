@@ -297,11 +297,11 @@ namespace WhatsCookinGroupCapstone.Controllers
             return getOneRandom;
         }
 
-        public ActionResult Follow(int Recipeid)
+        public ActionResult Follow(int id)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var loggedInCook = _repo.Cook.FindByCondition(r => r.IdentityUserId == userId).SingleOrDefault();
-            var selectedRecipe = _repo.Recipe.FindByCondition(r => r.RecipeId == Recipeid).SingleOrDefault();
+            var selectedRecipe = _repo.Recipe.FindByCondition(r => r.RecipeId == id).SingleOrDefault();
             var cookToFollow = _repo.Cook.FindByCondition(r => r.CookId == selectedRecipe.CookID).SingleOrDefault();
 
             Followers follower = new Followers();
