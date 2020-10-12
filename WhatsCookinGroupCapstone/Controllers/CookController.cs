@@ -241,8 +241,7 @@ namespace WhatsCookinGroupCapstone.Controllers
                     .Where(x => x.Count() == 1)
                     .Select(x => x.FirstOrDefault())
                     .ToList();
-<<<<<<< HEAD
-=======
+
                 //var randomnumbernow = GetVariousAmountsOfRandomNumbers(result.Count);
                 //foreach (int number in randomnumbernow)
                 //{
@@ -251,15 +250,12 @@ namespace WhatsCookinGroupCapstone.Controllers
                 //}
 
 
->>>>>>> c79cb08cd5917d34f4cf3e16b6b542441002b0f3
+
                 var randomnumbernow = GetVariousAmountsOfRandomNumbers(result.Count);
                 foreach (int number in randomnumbernow)
                 {
                     recipeList.Add(result[number]);
-<<<<<<< HEAD
-=======
-                    //recipeCount++;
->>>>>>> c79cb08cd5917d34f4cf3e16b6b542441002b0f3
+
                 }
             }
 
