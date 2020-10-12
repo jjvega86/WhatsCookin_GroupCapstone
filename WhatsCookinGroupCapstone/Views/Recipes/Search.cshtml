@@ -65,7 +65,8 @@
                     @Html.DisplayFor(modelItem => item.CookName)
                 </td>
                 <td>
-                    <a asp-action="Reviews" asp-route-id="@item.RecipeId">Reviews</a> |
+                    <a asp-action="SeeReviews" asp-route-id="@item.RecipeId">See All Reviews</a> |
+                    <a asp-action="Review" asp-route-id="@item.RecipeId">Add a Review!</a> |
                     <a asp-action="Details" asp-route-id="@item.RecipeId">Details</a>
                 </td>
             </tr>

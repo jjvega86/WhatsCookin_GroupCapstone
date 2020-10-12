@@ -9,7 +9,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Review">
+        <form asp-action="Review" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Rating" class="control-label"></label>
@@ -23,6 +23,7 @@
             </div>
             <input type="hidden" asp-for="Validation" />
             <input type="hidden" asp-for="RecipeID" />
+            <input type="hidden" asp-for="CookId" />
             <div class="form-group">
                 <input type="submit" value="Submit" class="btn btn-primary" />
             </div>
