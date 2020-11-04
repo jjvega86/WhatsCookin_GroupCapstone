@@ -223,15 +223,7 @@ namespace WhatsCookinGroupCapstone.Controllers
            
             foreach (CookSavedRecipes savedRecipe in cookSavedRecipes)
             {
-
-
-
                 var recipe = await _repo.Recipe.FindByCondition(r => r.RecipeId == savedRecipe.RecipeId).SingleOrDefaultAsync();
-
-
-
-
-
                 saveRecipe.AllRecipes.Add(recipe);
             }
             return View(saveRecipe);
@@ -261,7 +253,6 @@ namespace WhatsCookinGroupCapstone.Controllers
 
 
         public async Task<IActionResult> Details(int id)
-
         {
             var recipe = _repo.Recipe.FindByCondition(r => r.RecipeId == id).FirstOrDefault();
 
